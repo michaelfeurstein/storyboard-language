@@ -1,0 +1,36 @@
+#
+# Storyboard Example A - based on lists
+# Using 1 video + 3 highlights
+#
+
+# begin
+
+{
+	scene1 {
+		video null
+		title "Overview of classroom"
+	}
+
+	highlight1 {
+		scene1
+		title "classroom technology is introduced"
+		starttime 0
+		endtime 60
+	}
+
+	highlight2 {
+		scene1
+		title "camera positions are discussed for the room"
+		starttime 61
+		endtime 180
+	}
+
+	highlight3 {
+		scene1
+		title "camera position is chosen and setup"
+		starttime 181
+		endtime 240
+	}
+}
+
+# end
