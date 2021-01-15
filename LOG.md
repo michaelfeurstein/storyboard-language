@@ -7,11 +7,11 @@ Ok, also das ist der initial commit. Ein erster Versuch.
 
 Im Sinne deiner Notion eines "Roten Fadens":
 
-(a) file:storyboard_test_list - input als 'interne DSL Syntax' mit tcl-liste (siehe Frage 1), eine von 2 Syntaxvarianten.
- |
-(b) file:expression_builder.tcl - EXPRESSION BUILDER um aus language_model.tcl instanzen zu generieren. Im derzeitigen stand wird eine nackte video instanz erzeugt ohne title, length. So verstehe ich es zumindest. (siehe Frage 2) 
- |
-(c) TODO.tcl - noch unsicher wie es da weiter geht. VISITOR in xowf-Artefakte - also ein code generator? (Buch Abschnitt 1.4.3)
+1. file:storyboard_test_list - input als 'interne DSL Syntax' mit tcl-liste (siehe Frage 1), eine von 2 Syntaxvarianten.
+ 
+2. file:expression_builder.tcl - EXPRESSION BUILDER um aus language_model.tcl instanzen zu generieren. Im derzeitigen stand wird eine nackte video instanz erzeugt ohne title, length. So verstehe ich es zumindest. (siehe Frage 2) 
+
+3. TODO.tcl - noch unsicher wie es da weiter geht. VISITOR in xowf-Artefakte - also ein code generator? (Buch Abschnitt 1.4.3)
 
 Fragen:
 (1) file:model_tester.tcl:46
