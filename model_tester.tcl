@@ -35,14 +35,28 @@ puts [llength [ContentFragment info instances -closure]]
 
 # begin
 
-# Read storyboard file
-set sbfile [open "storyboard_test_list" r]
-set sbdata [read $sbfile]
-set data_list [split $sbdata]
-puts $data_list
-
 set internalBuilder [StoryboardBuilder new]
-# $internalBuilder from {$data_list}
-$internalBuilder from {video {manual title} length 54321}
+
+# Read storyboard file
+set sbfile [open "storyboard_example_A_02_yaml" r]
+set sbdata [read -nonewline $sbfile]
 close $sbfile
+
+#set data_list [split $sbdata]
+puts $sbdata
+set splitCont [split $sbdata "\n"]
+puts $splitCont
+puts [llength $splitCont]
+
+# CONTINUE HERE: proper passing of input data & clarify data content structure
+foreach ele $splitCont {
+	puts "element:[string trim $ele]"
+	#$internalBuilder from {$ele}
+}
+
+
+
+#$internalBuilder from {$sbdata}
+#$internalBuilder from {video {manual title} length 54321}
+
 # end

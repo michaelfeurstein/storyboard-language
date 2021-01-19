@@ -1,0 +1,19 @@
+#
+# Storyboard Example A - based on no concept/blank idea/lines
+# Using 1 video + 1 highlight of this video
+#
+
+# begin
+
+video
+videoID myVideoID
+videoLink videoLinkPlaceholder
+title "A Sample Video"
+length 60
+
+highlight
+videoref myVideoID
+title "A sample highlight"
+starttime 5
+endtime 50
+

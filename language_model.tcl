@@ -22,8 +22,8 @@ nx::Class create Image -superclasses ContentFragment
 #
 
 nx::Class create Video -superclasses ContentFragment {
-	:property -accessor public {title,required}
-	:property -accessor public {videoSource,required}
+	:property -accessor public {title}
+	:property -accessor public {videoSource}
 	:property -accessor public {length:integer}
 
 	# Every video per default is a highlight
