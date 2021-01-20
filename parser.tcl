@@ -7,7 +7,7 @@ package req nx
 nx::Class create StoryboardParser {
 	:property -accessor public {storyboardFile:required}
 	:property storyboardLinesList
-	:property {storyboardDict {[dict create]}}
+	:property {storyboardDict:substdefault {[dict create]}}
 
 	:public method readStoryboard {} {
 		#puts "storyboardFile [:storyboardFile get]"
@@ -44,8 +44,10 @@ nx::Class create StoryboardParser {
 		dict set :storyboardDict highlight1 videoref "myVideoID"
 		dict set :storyboardDict highlight1 title "A sample highlight"
 		dict set :storyboardDict highlight1 starttime "5"
-		dict set :storyboardDict highlight1 endtime "50"	
+		dict set :storyboardDict highlight1 endtime "50"
+
 		puts "dict size:[dict size ${:storyboardDict}]"
+		puts ${:storyboardDict}
 
 		foreach id [dict keys ${:storyboardDict}] {
     		puts "$id"
