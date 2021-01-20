@@ -3,9 +3,22 @@ package require Tcl 8.6
 package require nx
 
 source language_model.tcl
+source parser.tcl
 source expression_builder.tcl
 
-# Direct instantiation of model:
+set storyboardFile ""
+
+if { $argc != 1 } {
+  	puts "model_tester.tcl requires a storyboard as input"
+	puts "For example, tclsh model_tester.tcl storyboard_example_A_01_blank"  
+	exit
+} else {
+	set storyboardFile [lindex $argv 0]
+}
+
+puts "storyboardFile:$storyboardFile"
+
+# Direct instantiations of model:
 
 # begin
 
@@ -25,35 +38,18 @@ puts [testVideo::highlight title get]
 puts [testVideo::highlight starttime get]
 puts [testVideo::highlight endtime get]
 
-# @Stefan: in djdsl/tutorials/intro.tcl:329 (und anderswo auch) verwendest Du ? {llength [Expr info instances -closure]} 3
-# die ::proc ? definierst Du oben auf djdsl/tutorials/intro.tcl:40  
-# versuche da noch alles drum herum im code bereich 5-55 zu verstehen. ist das eine art test umgebung?
 #? {llength [ContentFragment info instances -closure]} 6
 puts [llength [ContentFragment info instances -closure]]
+
+# Setup Parser
+set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
+$internalParser readStoryboard
 
 # Internal DSL (indirect instantiation)
 
 # begin
 
-set internalBuilder [StoryboardBuilder new]
-
-# Read storyboard file
-set sbfile [open "storyboard_example_A_02_yaml" r]
-set sbdata [read -nonewline $sbfile]
-close $sbfile
-
-#set data_list [split $sbdata]
-puts $sbdata
-set splitCont [split $sbdata "\n"]
-puts $splitCont
-puts [llength $splitCont]
-
-# CONTINUE HERE: proper passing of input data & clarify data content structure
-foreach ele $splitCont {
-	puts "element:[string trim $ele]"
-	#$internalBuilder from {$ele}
-}
-
+#set internalBuilder [StoryboardBuilder new]
 
 
 #$internalBuilder from {$sbdata}

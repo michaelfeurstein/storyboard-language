@@ -1,9 +1,9 @@
 package req nx
 
-# In Anlehnung an djdsl/tutorials/intro.tcl:129 AleBuilder (sollte es nicht LeaBuilder heissen, laut Buch? war verwirrt, ist eh dasselbe oder?)
+# Based on djdsl/tutorials/intro.tcl:129 AleBuilder 
 nx::Class create StoryboardBuilder {
 
-	:forward video %self creator Video
+  	:forward video %self creator Video
 
 	:method creator {class} {
 	  	puts "hello from creator method with $class"
