@@ -3,10 +3,20 @@ package req nx
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder 
 nx::Class create StoryboardBuilder {
 
-  	:forward video %self creator Video
+	:forward video1 %self creator Video
+	:forward highlight %self creator Highlight
 
 	:method creator {class} {
-	  	puts "hello from creator method with $class"
+	  	puts "creator method with class:$class"
+		switch -glob -- $class {
+		  "Video" {
+		  		puts "matched a video class"
+			} 
+			default {
+				puts "got nothing"
+			}
+		 }
+		
 		set :opds [$class new -childof [self]]
 	} 
 

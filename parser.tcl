@@ -7,9 +7,13 @@ package req nx
 nx::Class create StoryboardParser {
 	:property -accessor public {storyboardFile:required}
 	:property storyboardLinesList
-	:property {storyboardDict:substdefault {[dict create]}}
+	:property -accessor public {storyboardDict:substdefault {[dict create]}}
 
-	:public method readStoryboard {} {
+	:method init {} {
+		:readStoryboard
+	}
+
+	:method readStoryboard {} {
 		#puts "storyboardFile [:storyboardFile get]"
 	  	#puts "storyboardFile ${:storyboardFile} or [[self] storyboardFile get] or [:storyboardFile get]"
 	  	set sbfile [open [:storyboardFile get] r]

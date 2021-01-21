@@ -43,14 +43,13 @@ puts [llength [ContentFragment info instances -closure]]
 
 # Setup Parser
 set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
-$internalParser readStoryboard
 
 # Internal DSL (indirect instantiation)
 
 # begin
 
-#set internalBuilder [StoryboardBuilder new]
-
+set internalBuilder [StoryboardBuilder new]
+$internalBuilder from [$internalParser storyboardDict get]
 
 #$internalBuilder from {$sbdata}
 #$internalBuilder from {video {manual title} length 54321}
