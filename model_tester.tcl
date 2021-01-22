@@ -39,7 +39,8 @@ puts [testVideo::highlight starttime get]
 puts [testVideo::highlight endtime get]
 
 #? {llength [ContentFragment info instances -closure]} 6
-puts [llength [ContentFragment info instances -closure]]
+puts ContentFragments:[llength [ContentFragment info instances -closure]]
+puts Highlights:[llength [Highlight info instances -closure]]
 
 # Setup Parser
 set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
@@ -51,7 +52,6 @@ set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
 set internalBuilder [StoryboardBuilder new]
 $internalBuilder from [$internalParser storyboardDict get]
 
-#$internalBuilder from {$sbdata}
-#$internalBuilder from {video {manual title} length 54321}
-
 # end
+puts ContentFragments:[llength [ContentFragment info instances -closure]]
+puts Highlights:[llength [Highlight info instances -closure]]
