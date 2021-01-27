@@ -1,12 +1,19 @@
+# Storyboard
+# Based on dict (tcl) syntax
+# Each line is basically a prepared command for a nested dict 
+
 video1 videoID myVideoID
-video1 videoLink videoLinkPlaceholder
 video1 title "A Sample Video"
+video1 videoLink videoLinkPlaceholder
 video1 length 60
+
 highlight1 videoref myVideoID
 highlight1 title "A sample highlight"
 highlight1 starttime 5
 highlight1 endtime 50
+
 highlight2 videoref myVideoID
 highlight2 title "Another highlight"
 highlight2 starttime 20
 highlight2 endtime 60
+

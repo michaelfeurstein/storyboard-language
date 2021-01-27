@@ -20,9 +20,21 @@ nx::Class create StoryboardParser {
 		set sbdata [read -nonewline $sbfile]
 		close $sbfile
 
-		#set data_list [split $sbdata]
-		#puts $sbdata
-		set :storyboardLinesList [split $sbdata "\n"]
+		set lines [split $sbdata "\n"]
+		foreach line $lines {
+			# remove comments
+		  	regsub -all -line "#.*$" $line "" line
+
+			# remove leading and trailing spaces
+			set line [string trim $line]
+
+			# remove empty lines
+			if {$line eq ""} {continue}
+
+			puts line:$line
+			lappend :storyboardLinesList $line
+		} 
+		
 		#puts "storyboardLinesList:${:storyboardLinesList}"
 		#puts "storyboardLinesList length:[llength ${:storyboardLinesList}]"
 
@@ -32,9 +44,9 @@ nx::Class create StoryboardParser {
 	:method createDictFromList {l} {
 		foreach ele $l {
 			#puts "element:[string trim $ele]"
-			# TODO create a dict based on the line elements
+			# create a dict based on the line elements
 			# this depends on the final syntax of storyboardfile
-			# for now - until syntax variant a is decided on - I create a dummy dict with a video and a highlight hardcoded here.
+			# for now - until syntax variant a is decided on - .
 			dict set :storyboardDict {*}$ele
 		}	  
 		

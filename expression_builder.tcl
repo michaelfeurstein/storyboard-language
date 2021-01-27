@@ -16,9 +16,12 @@ nx::Class create StoryboardBuilder {
 		  "Video"
 		  {
 			puts "matched a video class"
-			# schreckliches mapping aber it gets the job done. alternativen?
+			# mapping is hard coded - TODO - make this more dynamic 
+			# the order of elements in the stack will not always be this way - account for that
+			# CONTINUE HERE: maybe regsub through the stack
+			puts stack:${:stack}
 			lassign ${:stack} a videoID b videoLink c title d length
-			set :stack [$class new -childof [self] -title $title -videoSource $videoLink -length $length]
+			set :stack [$class new -childof [self] -$b $title -videoSource $videoLink -length $length]
 		  }
 		  "Highlight"
 		  {
@@ -40,7 +43,6 @@ nx::Class create StoryboardBuilder {
 	}
 
 	:public method from {storyboard} {
-	  #set i 0
 	  foreach id [dict keys $storyboard] {
 		
 		# schafft man das schöner via ternary operator?
