@@ -31,7 +31,7 @@ nx::Class create StoryboardParser {
 			# remove empty lines
 			if {$line eq ""} {continue}
 
-			puts line:$line
+			#puts line:$line
 			lappend :storyboardLinesList $line
 		} 
 		
@@ -51,10 +51,10 @@ nx::Class create StoryboardParser {
 		}	  
 		
 		puts "dict size:[dict size ${:storyboardDict}]"
-		puts ${:storyboardDict}
+		#puts ${:storyboardDict}
 
 		foreach id [dict keys ${:storyboardDict}] {
-    		puts "$id"
+    		puts keys:$id
 		}
 	
 	}
