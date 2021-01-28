@@ -1,5 +1,7 @@
 package req nx
 
+namespace eval StoryBoard {
+
 #
 # ContentFragment
 # A content fragment resembles an atomic element of its own type (video, text, image).
@@ -54,4 +56,6 @@ nx::Class create Highlight {
 	}	  
 }
 
+namespace export ContentFragment Text Image Video Highlight
+}
 

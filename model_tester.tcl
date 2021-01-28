@@ -6,6 +6,8 @@ source language_model.tcl
 source parser.tcl
 source expression_builder.tcl
 
+namespace import StoryBoard::*
+
 set storyboardFile ""
 
 if { $argc != 1 } {
