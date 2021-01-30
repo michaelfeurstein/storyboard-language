@@ -1,0 +1,23 @@
+#
+# Reference Syntax for variant A - Markup 
+# 
+# Reference
+# Github: VI-TWO https://github.com/nise/vi-two 
+# Publication: Seidel, N. (2018). Interaction Design Patterns und CSCL-Scripts für Videolernumgebungen [Dissertation, Technische Universität Dresden]. https://nbn-resolving.org/urn:nbn:de:bsz:14-qucosa-233756
+
+
+<vi2-video 		data−src="http://ww.videos.com/clip.webm">
+<vi2-chapter 	data-start=9080>
+				data-content="Summary"/>
+<vi2-comment	data-start=34.4>
+				data-author="John"
+				data-date="2015-06-28, 12:37"
+				data-content="I agree on that."/>
+<vi2-link		data-start=435
+				data-duration=20
+				data-target="#!/video/123/4556"
+				data-target-start=30
+				data-target-duration=180 />
+</vi2-video>
+
+

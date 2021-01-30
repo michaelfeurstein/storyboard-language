@@ -24,13 +24,15 @@ nx::Class create Image -superclasses ContentFragment
 #
 
 nx::Class create Video -superclasses ContentFragment {
-	:property -accessor public {title}
-	:property -accessor public {videoSource}
-	:property -accessor public {length:integer}
+	:property -accessor public {title empty}
+	:property -accessor public {videoSource empty}
+	:property -accessor public {length:integer 0}
 
 	# Every video per default is a highlight
 	# @Stefan: schaffe es hier grad nicht title starttime und endtime von self zu übergeben
-	:method init {} { Highlight create [self]::highlight -title [self]:title -starttime 0 -endtime 100} 
+	:method init {} {
+	  Highlight create [self]::highlight -title ${:title} -starttime 0 -endtime ${:length}
+	} 
 }
 
 #
@@ -47,15 +49,27 @@ nx::Class create Highlight {
 	:property -accessor public {endtime:integer}
 	:property -accessor public {title}
 	:property -accessor public {crop:boolean false}
-	
-	:variable timeRange
 
-	:public method getTimeRange {} {
-  		set :timeRange [ $endtime - $starttime]
-		return ${:timeRange}
-	}	  
+	:method init {} {
+	  TimeRange create [self]::timerange -starttime ${:starttime} -endtime ${:endtime}
+	}
 }
 
-namespace export ContentFragment Text Image Video Highlight
+nx::Class create TimeRange {
+	:property -accessor public {starttime:integer}
+	:property -accessor public {endtime:integer}
+
+	:method getTimeRange {} {
+	  return [expr {${:endtime} -${:starttime}}]
+	}
+}
+
+nx::Class create Interaction
+
+nx::Class create Annotation -superclasses Interaction {
+	
+}
+
+namespace export ContentFragment Text Image Video Highlight TimeRange
 }
 

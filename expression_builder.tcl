@@ -114,7 +114,7 @@ nx::Class create StoryboardBuilder {
 		#:creator $e
 		unset :stack
 	  }
-	  
+
 	  #foreach element [lreverse $storyboard] {
 	  #	puts "element no$i:$element"
 	  #	foreach subelement [lreverse $element] {

@@ -1,0 +1,39 @@
+# ignore for the moment
+#
+# Storyboard
+# Based on dict (tcl) syntax
+# Iteration of A
+
+video1 {
+	videoID myVideoID
+	title "A Sample Video"
+	videoLink videoLinkPlaceholder
+	length 60
+}
+
+highlight1 {
+	videoref myVideoID
+	title "A sample highlight"
+	starttime 5
+	endtime 50
+}
+
+highlight2 {
+	videoref myVideoID
+	title "Another highlight"
+	starttime 20
+	endtime 60
+}
+
+video2 {
+	title "This is the second video"
+	videoSource videoLinkPlaceholder
+	length 120
+}
+
+highlight3 {
+	starttime 10
+	endtime 20
+	title "This is another highlight"
+	crop true
+}

@@ -18,7 +18,7 @@ if { $argc != 1 } {
 	set storyboardFile [lindex $argv 0]
 }
 
-puts "storyboardFile:$storyboardFile"
+puts storyboardFile:$storyboardFile
 
 # Direct instantiations of model:
 
@@ -35,10 +35,16 @@ Video create testVideo -title {Test Video} -videoSource {http://www.youtube.com/
 
 # end
 
-puts [testVideo::highlight crop get]
-puts [testVideo::highlight title get]
-puts [testVideo::highlight starttime get]
-puts [testVideo::highlight endtime get]
+puts "--- testVideo"
+puts title:[testVideo title get]
+puts videoSource:[testVideo videoSource get]
+puts length:[testVideo length get]
+
+puts "--- testVideo::highlight"
+puts crop:[testVideo::highlight crop get]
+puts title:[testVideo::highlight title get]
+puts starttime:[testVideo::highlight starttime get]
+puts endtime:[testVideo::highlight endtime get]
 
 #? {llength [ContentFragment info instances -closure]} 6
 puts ContentFragments:[llength [ContentFragment info instances -closure]]
@@ -57,3 +63,4 @@ $internalBuilder from [$internalParser storyboardDict get]
 # end
 puts ContentFragments:[llength [ContentFragment info instances -closure]]
 puts Highlights:[llength [Highlight info instances -closure]]
+puts TimeRanges:[llength [TimeRange info instances -closure]] 
