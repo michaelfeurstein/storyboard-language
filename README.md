@@ -4,23 +4,25 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 
 ## Syntax Variants (Authoring Tools)
 
-Seidel (2018) [1] (p.232) differentiates between three authoring appproaches specifically for video-based learning (with cscl-scripts). This is in line with more generic classifications by Rabin and Burns (1996) [2] who categorize multimedia authoring tools into five approaches: script-based, card-based, icon-based, timeline-based and object-based.
+Seidel (2018) [1] (p.232) differentiates between three authoring appproaches specifically for video-based learning (with cscl-scripts). This is in line with more generic classifications by Rabin and Burns (1996) [2] who categorize multimedia authoring tools into five approaches: script-based, card-based, icon-based, timeline-based and object-based. Or Fenrich (2005), who differentiates between: authoring systems, object-based systems and programming languages.
 
 1. Markup:
 
    > "Script-based tools depend primarily on a scripting language for programming, though they may be menu-driven. They are often faster for experts than tools with graphical interfaces." (Rabin & Burns, p. 380)
    
-   An example for a script-based tool would be standard or extended HTML-Code and also Wiki Markup. Seidel calls this markup.
+   An example for a script-based tool would be standard or extended HTML-Code and also Wiki Markup. Fenrich (2005) [3] .
 
 2. Direct Authoring:
 
-   Editing in user interface showing the player with dedicated interface buttons (+) popping up related dialogs (e.g. dialog to add an annotation). Rabin and Burns (1996) [2] name two categories which together form this approach: card-based and icon-based.
+   > "Object-based systems consist of objects that are programmed to do things." (Fenrich, 2005, p.42)
+   
+   Editing in user interface showing the player with dedicated interface buttons (+) popping up related dialogs (for specific authoring tasks e.g.: dialog to add an annotation). Rabin and Burns (1996) [2] name two categories which together form this approach: card-based and icon-based. Fenrich (2005) calls this object-based. Seidel (2018) uses the term direct authoring.
 
 3. Timeline (translated: Zeitleiste)
 
-   > "In timeline-based tools, media elements and events areorganized along a time-line. This allows precise control of temporal characteristics of the application." (Rabin & Burns, 1996, p. 381)
+   > "In timeline-based tools, media elements and events are organized along a time-line. This allows precise control of temporal characteristics of the application." (Rabin & Burns, 1996, p. 381)
    
-   Classic editing via a timeline based video editing interface view (example: Mozilla Popcorn Maker).
+   Classic editing via a timeline based video editing interface view (example: Mozilla Popcorn Maker). Fenrich (2005) calls this authoring systems. Seidel (2018) uses the term "Zeitleiste".
 
 Table 1: Overview of applicability of authoring approaches for video-based learning (cscl-scripts) (Seidel, 2018, S. 234)
 |                       | Markup        | Direct Authoring  | Timeline |
@@ -63,13 +65,63 @@ Here is another markup example based on MediaWiki, or more specifically [Wikitex
 </hypervideo>
 ```
 
+#### Markup-languages (wiki) used in higher education
 
+When looking at the question "what kind of authoring tools do lecturers use in higher education", then one authoring approach is rooted in the area of markup languages, hence wiki-based markup. Some references showing the use of wiki technology in higher eduaction: Ebner et al. (2008) [4]; Andergassen et al. (2015) [5]; Raitman et al. (2005) [6]; Augar et al. (2004) [7]; Neumann (2006) [8]. Based on these examples we can generally state that the notion of using wiki markup as such is known in higher education. Therefore a proposed syntax variant for the storyboard language is inspired by markup-languages.
+
+Example from Seidel (2011) [9] "Vi-Wiki markup" showing a markup version for two sequential clips and hyperlinks:
+
+```
+<hypervideo>
+[[Video:clip 1 clip 2]]
+[[Video:clip 2 #10 | 140 clip_3 ]]
++[[Hyperlink: #clip_1] 120px 300px]
++[[Hyperlink: other page#b] #60 | 120]
+</hypervideo>
+```
+
+Example from LEARN [5]
+
+```
+[[_OMar04NRZw||-class ::xowiki::Link::youtube -width 480 -height 270 -starttime 395 -endtime 460]]
+```
+
+CONTINUE HERE: Markup variant for storyboard-language proposal
+
+```
+<storyboard>
+[[Video:myVideoID] -title "Video Title" -videoSource "http://www..." -length 120]
+[[Highlight:myHighlight] -videoref "myVideoID" -title "A samlpe Highlight" -starttime 5 -endtime 60]
+</storyboard>
+```
 
 ### Syntax Variant B (Natural Language)
+
+natural language approach for storyboard language 
+
+## End result
+
+what should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?)
+
+## References 
 
 [1] Seidel, N. (2018). Interaction Design Patterns und CSCL-Scripts für Videolernumgebungen [Dissertation, Technische Universität Dresden]. https://nbn-resolving.org/urn:nbn:de:bsz:14-qucosa-233756
 
 [2] Rabin, M. D., & Burns, M. J. (1996). Multimedia authoring tools. Conference Companion on Human Factors in Computing Systems Common Ground - CHI ’96, 380–381. https://doi.org/10.1145/257089.257384
+
+[3] Fenrich, P. (2005). Creating Instructional Multimedia Solutions: Practical Guidelines for the Real World. Informing Science.
+
+[4] Ebner, M., Kickmeier-Rust, M., & Holzinger, A. (2008). Utilizing Wiki-Systems in higher education classes: A chance for universal access? Universal Access in the Information Society, 7(4), 199. https://doi.org/10.1007/s10209-008-0115-2
+
+[5] Andergassen, M., Ernst, G., Guerra, V., Mödritscher, F., Moser, M., Neumann, G., & Renner, T. (2015). The Evolution of E-Learning Platforms from Content to Activity Based Learning. Proc. of 18th Intl. Conference on Interactive Collaborative Learning (ICL).
+
+[6] Raitman, R., Augar, N., & Zhou, W. (2005). Employing wikis for online collaboration in the e-learning environment: Case Study. Proceedings of the Third International Conference on Information Technology and Applications, 2, 142–146. https://doi.org/10.1109/ICITA.2005.127
+
+[7] Augar, N., Raitman, R., & Zhou, W. (2004). Teaching and learning online with wikis. In R. Atkinson, C. McBeath, D. Jonas-Dwyer, & R. Phillips (Hrsg.), Beyond the Comfort Zone: Proceedings of the 21st ASCILITE conference (S. 95–104).
+
+[8] Neumann, G. (2006, November). XoWiki, An Experiment for an XOTcl based Content Management Infrastructure [Talk]. OpenACS Workshop, Harvard, MA. http://nm.wu-wien.ac.at/research/publications/b616.pdf
+
+[9] Seidel, N. (2011). Enable Wikis for seamless hypervideo integration. Proceedings of the 29th Annual European Conference on Cognitive Ergonomics - ECCE ’11, 251. https://doi.org/10.1145/2074712.2074765
 
 [VI-TWO]: https://github.com/nise/vi-two 
 
