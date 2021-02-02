@@ -2,6 +2,14 @@
 
 tclsh model_tester.tcl storyboards/dict_structure_A
 
+## Structure
+
+| Syntax                | parser.tcl     |              | expression_builder.tcl     |                |
+| :---------------------|:---------------| :------------| :--------------------------|:---------------|
+| Syntax A / B          | creates dict   | --> dict --> | reads dict and instantiates| ---> instances |
+
+
+
 ## Syntax Variants (Authoring Tools)
 
 Seidel (2018) [1] (p.232) differentiates between three authoring appproaches specifically for video-based learning (with cscl-scripts). This is in line with more generic classifications by Rabin and Burns (1996) [2] who categorize multimedia authoring tools into five approaches: script-based, card-based, icon-based, timeline-based and object-based. Or Fenrich (2005), who differentiates between: authoring systems, object-based systems and programming languages.
@@ -140,7 +148,7 @@ At the end of scene one a short quiz is shown asking the user to choose the opti
 
 ## End result
 
-what should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. A running example of a video-based learning unit is this [TED-Ed Online Unit].
+What should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. A running example of a video-based learning unit is this [TED-Ed Online Unit].
 
 ## References 
 
