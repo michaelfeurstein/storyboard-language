@@ -94,7 +94,7 @@ Example from LEARN [5] showing markup using XoWiki [8] for an external video as 
 [[_OMar04NRZw||-class ::xowiki::Link::youtube -width 480 -height 270 -starttime 395 -endtime 460]]
 ```
 
-CONTINUE HERE: Markup variant for storyboard-language proposal
+Proposal: Markup variant for storyboard-language proposal
 
 ```
 <storyboard>
@@ -148,7 +148,13 @@ At the end of scene one a short quiz is shown asking the user to choose the opti
 
 ## End result
 
-What should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. A running example of a video-based learning unit is this [TED-Ed Online Unit].
+What should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. 
+
+A running example of a video-based learning unit can be found here: [TED-Ed Online Unit]
+
+A generic example of the transformed instantiations with annotations describing the elements:
+
+![Generic VBL Module Example][annotated-vbl-module]
 
 ## References 
 
@@ -184,3 +190,7 @@ What should the outcome of the storyboard be (independent from syntax variant a 
 [TED-Ed Online Unit]: https://ed.ted.com/on/wSKIdmQE
 
 [Prose-Storyboard-Language]: https://team.inria.fr/anima/prose-storyboard-language/
+
+[example-vbl-module]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/example-vbl-module.png "Generic VBL Module"
+
+[annotated-vbl-module]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/annotated-vbl-module.png "Annotated VBL Module"
