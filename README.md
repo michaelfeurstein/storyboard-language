@@ -97,9 +97,33 @@ CONTINUE HERE: Markup variant for storyboard-language proposal
 
 ### Syntax Variant B (Natural Language)
 
-natural language approach for storyboard language 
+Ronfard et al. (2013) [10] created the [Prose-Storyboard-Language], a natural language approach was used to describe camera movemenet and direction information for a movie. Syntax variant b leans towards this natural language descritpion in order to structure a video-based learning unit into highlights with assessments and other interaction elements. The motivation behind this is that markup-language my not be easy to grasp and that the creation process for video-based learning unit builds on a storyboard, which is mainly done through informal text (citation needed).
 
-THOUGHT-PATH: markup-language is not for everyone, normally in the domain of video production a storyboard is created to lay out the structure of a video. Inspired by the `Prose Storyboard Language`, a tool for annotating movie direction information the idea is to create a human readable storyboard language for the creation of video-based learning units. See [Prose-Storyboard-Language].
+Example from the [Prose-Storyboard-Language] describing the storyboard behind the Cafe scene from Back to the Future(1985) by Robert Zemeckis:
+
+```
+1
+00:00:47 --> 00:00:48
+cut to high angle CU Lou 34backleft 
+
+2
+00:00:48 --> 00:00:55
+then as Marty crosses under Lou hold to high angle MS Marty CU Lou 34backleft
+3
+00:00:55 --> 00:00:60
+cut to CU Marty 34backright MCU Lou 34left 
+4
+00:00:60 --> 00:01:07
+cut to high angle MS Marty front CU Lou 34backleft 
+
+5
+00:01:07 --> 00:01:14
+cut to CU Marty 34backright MCU Lou 34left
+
+6
+00:01:14 --> 00:01:16
+cut to high angle MS Marty front CU Lou 34backleft
+```
 
 Prototypical example:
 
