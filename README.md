@@ -80,7 +80,7 @@ Example from Seidel (2011) [9] "Vi-Wiki markup" showing a markup version for two
 </hypervideo>
 ```
 
-Example from LEARN [5]
+Example from LEARN [5] showing markup using XoWiki [8] for an external video as a video highlight:
 
 ```
 [[_OMar04NRZw||-class ::xowiki::Link::youtube -width 480 -height 270 -starttime 395 -endtime 460]]
@@ -99,9 +99,24 @@ CONTINUE HERE: Markup variant for storyboard-language proposal
 
 natural language approach for storyboard language 
 
+THOUGHT-PATH: markup-language is not for everyone, normally in the domain of video production a storyboard is created to lay out the structure of a video. Inspired by the `Prose Storyboard Language`, a tool for annotating movie direction information the idea is to create a human readable storyboard language for the creation of video-based learning units. See [Prose-Storyboard-Language].
+
+Prototypical example:
+
+```
+There are 3 scenes (videos)
+First scene: “Overview of classroom”
+Second scene: “At the optimal position”
+Third scene: “Optimal position with class attendees”
+
+We begin with an instruction at the beginning of the first scene.
+After that information is shown and talked about on the optimal camera position in the middle of the video during the first scene.
+At the end of scene one a short quiz is shown asking the user to choose the optimal position.
+```
+
 ## End result
 
-what should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?)
+what should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. A running example of a video-based learning unit is this [TED-Ed Online Unit].
 
 ## References 
 
@@ -123,6 +138,9 @@ what should the outcome of the storyboard be (independent from syntax variant a 
 
 [9] Seidel, N. (2011). Enable Wikis for seamless hypervideo integration. Proceedings of the 29th Annual European Conference on Cognitive Ergonomics - ECCE ’11, 251. https://doi.org/10.1145/2074712.2074765
 
+[10] Ronfard, R., Gandhi, V., & Boiron, L. (2013). The Prose Storyboard Language: A Tool for Annotating and Directing Movies. 2nd Workshop on Intelligent Cinematography and Editing, 9. HAL archives-ouvertes.fr. https://hal.inria.fr/hal-00814216
+
+
 [VI-TWO]: https://github.com/nise/vi-two 
 
 [VI-LAB]: https://github.com/nise/vi-lab 
@@ -130,3 +148,7 @@ what should the outcome of the storyboard be (independent from syntax variant a 
 [Custom Elements]: https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements
 
 [Wikitext]: https://en.wikipedia.org/wiki/Help:Wikitext
+
+[TED-Ed Online Unit]: https://ed.ted.com/on/wSKIdmQE
+
+[Prose-Storyboard-Language]: https://team.inria.fr/anima/prose-storyboard-language/
