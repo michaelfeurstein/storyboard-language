@@ -39,11 +39,13 @@ Table 1: Overview of applicability of authoring approaches for video-based learn
 | Efficient Editing     | high          | middle            | middle   |
 | Simple Usability      | low           | high              | middle   |
 
-### Syntax Variant A (Markup)
+### Syntax Variant A (Markup Approach)
 
 In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using Custom Elements for HTML 5 documents and extending the MediaWiki markup specification.
 
-The following is an example of the use of [Custom Elements] HTML (Seidel, 2018, p.233):
+Some examples of markup in connection with video-based learning or multimedia development:
+
+1. Markup example of the use of [Custom Elements] HTML by Seidel (2018, p.233):
 
 ```html
 <vi2-video      data−src="http://ww.videos.com/clip.webm">
@@ -61,7 +63,7 @@ The following is an example of the use of [Custom Elements] HTML (Seidel, 2018, 
 </vi2-video>
 ```
 
-Here is another markup example based on MediaWiki, or more specifically [Wikitext] (Seidel, 2018, p.233):
+2. Markup extension based on MediaWiki, specifically [Wikitext] by Seidel (2018, p.233):
 
 ```
 <hypervideo>
@@ -71,6 +73,20 @@ Here is another markup example based on MediaWiki, or more specifically [Wikitex
 [[ Video: demo.ogv anotherVideo | 200px ]]
 [[ Some Page | see here ] #10 | 20 | 26% | 26% ]
 </hypervideo>
+```
+
+3. Markup-based DSL \<e-Game\> developed in the context of video game development by Moreno-Ger et al. (2006) [11]:
+
+```
+<conversation, Foreman,
+<<speak-char, "Well José, did you measure the
+scaffold">,
+                     <<response,
+                      <<"No sir, not yet",
+<<speak-char, "And what are you waiting for, boy?">, <<speak-player, "At once, sir">, <end-conversation,<>>>>>,
+<<"Yes sir, it's ready", <<speak-char, "And...">, <<response,
+... >,
+{{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
 ```
 
 #### Markup-languages (wiki) used in higher education
@@ -103,7 +119,7 @@ Proposal: Markup variant for storyboard-language proposal
 </storyboard>
 ```
 
-### Syntax Variant B (Natural Language)
+### Syntax Variant B (Natural Language Approach)
 
 Ronfard et al. (2013) [10] created the [Prose-Storyboard-Language], a natural language approach was used to describe camera movemenet and direction information for a movie. Syntax variant b leans towards this natural language descritpion in order to structure a video-based learning unit into highlights with assessments and other interaction elements. The motivation behind this is that markup-language my not be easy to grasp and that the creation process for video-based learning unit builds on a storyboard, which is mainly done through informal text (citation needed).
 
@@ -177,6 +193,9 @@ A generic example of the transformed instantiations with annotations describing 
 [9] Seidel, N. (2011). Enable Wikis for seamless hypervideo integration. Proceedings of the 29th Annual European Conference on Cognitive Ergonomics - ECCE ’11, 251. https://doi.org/10.1145/2074712.2074765
 
 [10] Ronfard, R., Gandhi, V., & Boiron, L. (2013). The Prose Storyboard Language: A Tool for Annotating and Directing Movies. 2nd Workshop on Intelligent Cinematography and Editing, 9. HAL archives-ouvertes.fr. https://hal.inria.fr/hal-00814216
+
+[11] Moreno-Ger, P., Martínez-Ortiz, I., Sierra, J. L., & Manjón, B. F. (2006). Language-Driven Development of Videogames: The Experience. In R. Harper, M. Rauterberg, & M. Combetto (Hrsg.), Entertainment Computing—ICEC 2006 (S. 153–164). Springer. https://doi.org/10.1007/11872320_19
+
 
 
 [VI-TWO]: https://github.com/nise/vi-two 
