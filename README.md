@@ -15,7 +15,7 @@ The idea of creating a language for video editing in general is not new. There a
 
 - [MoviePy]: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
 
-     Example excerpts of a script compositing two videos into a picture-in-picture composition. Example Script can be found [here](https://zulko.github.io/moviepy/examples/ukulele_concerto.html)
+     Excerpts from a script compositing two videos into a picture-in-picture composition. Example Script can be found [here](https://zulko.github.io/moviepy/examples/ukulele_concerto.html)
 
 ```
 ukulele = VideoFileClip("../../videos/moi_ukulele.MOV", audio=False).\
@@ -37,7 +37,7 @@ final.subclip(0,5).write_videofile("../../ukulele.avi",fps=24,codec='libx264')
 
 - [AviSynth]: a *script system that allows advanced non-linear editing*
 
-    Example excerpts of an AviSynth script. Example Scripts can be found [here](http://avisynth.nl/index.php/Script_examples)
+    Excerpts from an AviSynth script. Example Scripts can be found [here](http://avisynth.nl/index.php/Script_examples)
     
 ```
 AVISource("somevideo.avi")
@@ -55,9 +55,11 @@ FadeIn(15)
 FadeOut(15)
 ```
 
-- [Functional Pearl]:Video: a user-facing DSL named Video for editing video. (Andersen et al. 2017)[11]
+- [Functional Pearl]:Video: a user-facing DSL implemented with [Racket] named Video for editing video. (Andersen et al. 2017)[11]
 
-    This functional pearl focusses on the production of video processing for a conference. It uses [Racket]. Excerpt Example:
+    This functional pearl focusses on the production of video processing for conference proceedings. 
+    
+    Excerpt froma video script. Example Scripts can be found in the publication by Andersen et al. (2017)[11]:
     
 ```
 #lang video
@@ -79,6 +81,28 @@ FadeOut(15)
 (fade-transition #:length 50)
 
 (image "splash.png" #:length 100)
+```
+
+- [SMIL]: Synchronized Multimedia Integration Language - a W3C recommended extensible markup language to author multimedia presentation (video, audio, image, text).
+
+    SMIL has been used to implement an educational digital video library. See publication by Milrad et al. (2005) [13]. Bulterman and Rutledge (2004) [14] published a book on SMIL, which has been well perceived by academia (King, 2007) [15]. However, SMIL itself seems deprecated, based on [this article](https://css-tricks.com/smil-is-dead-long-live-smil-a-guide-to-alternatives-to-smil-features/)
+    
+    Excerpts from a SMIL file: Examples can be found [here](https://www.w3.org/AudioVideo/RA-examples.html) and [here](https://homepages.cwi.nl/~media/SMIL/Tutorial/SMILTut.html)
+    
+```
+<smil><!--The SMIL file must start with a <smil> tag and end with the </smil> closing tag.-->
+   <head> <!-- SMIL file header, specify meta information in the multimedia presentation-->
+                <meta name="author" content="Jane Morales"/>
+                <meta name="title" content="Multimedia My Way"/>
+                <meta name="copyright" content="(c)1998 Jane Morales"/>
+   </head>
+   <body>
+                <seq> <!-- To play clips in sequence, use the <seq> ("sequence") SMIL tag.-->
+                  <audio src="audio/newsong.wav"/>
+                  <audio src="audio/oldsong.snd"/>
+                </seq>
+    </body>
+</smil>
 ```
 
 ## Syntax Variants (Authoring Tools)
@@ -269,7 +293,11 @@ A generic example of the transformed instantiations with annotations describing 
 
 [12] Andersen, L., Chang, S., & Felleisen, M. (2017). Super 8 languages for making movies (functional pearl). Proceedings of the ACM on Programming Languages, 1(ICFP), 30:1-30:29. https://doi.org/10.1145/3110274
 
+[13] Milrad, M., Rossmanith, P., & Scholz, M. (2005). Implementing an Educational Digital Video Library Using MPEG-4, SMIL and Web Technologies. Educational Technology & Society, 8, 120–127.
 
+[14] Bulterman, D. C. A., & Rutledge, L. (2004). SMIL 2.0: Interactive Multimedia for Web and Mobile Devices. Springer X.media.publishing. https://books.google.at/books?id=XTyWkvpLZVwC
+
+[15] King, P. (2007). Book Review: SMIL 2.0 Interactive Multimedia for Web and Mobile Devices by C. A. Dick Bulterman and Lloyd Rutledge. Journal of Functional Programming, 17(3), 423–424. https://doi.org/10.1017/S0956796807006260
 
 
 [VI-TWO]: https://github.com/nise/vi-two 
