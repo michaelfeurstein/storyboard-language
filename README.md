@@ -9,6 +9,77 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 | Syntax A / B          | creates dict   | --> dict --> | reads dict and instantiates| ---> instances |
 
 
+## A Language for Authoring Video-based Learning Units
+
+The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details:
+
+- [MoviePy]: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
+
+     Example excerpts of a script compositing two videos into a picture-in-picture composition. Example Script can be found [here](https://zulko.github.io/moviepy/examples/ukulele_concerto.html)
+
+```
+ukulele = VideoFileClip("../../videos/moi_ukulele.MOV", audio=False).\
+               subclip(60+33, 60+50).\
+               crop(486, 180, 1196, 570)
+               
+piano = (VideoFileClip("../../videos/douceamb.mp4",audio=False).
+         subclip(30,50).
+         resize((w/3,h/3)).    # one third of the total screen
+         margin( 6,color=(255,255,255)).  #white margin
+         margin( bottom=20, right=20, opacity=0). # transparent
+         set_pos(('right','bottom')) )
+
+---------%<---------
+
+final = CompositeVideoClip([ukulele,txt_mov,piano])
+final.subclip(0,5).write_videofile("../../ukulele.avi",fps=24,codec='libx264')
+```
+
+- [AviSynth]: a *script system that allows advanced non-linear editing*
+
+    Example excerpts of an AviSynth script. Example Scripts can be found [here](http://avisynth.nl/index.php/Script_examples)
+    
+```
+AVISource("somevideo.avi")
+
+# TemporalSoften is one of many noise-reducing filters
+TemporalSoften(4, 4, 8, scenechange=15, mode=2)
+
+# increase the gamma (relative brightness) of the video
+Levels(0, 1.2, 255, 0, 255)
+
+# fade-in the first 15 frames from black
+FadeIn(15)
+
+# fade-out the last 15 frames to black
+FadeOut(15)
+```
+
+- [Functional Pearl]:Video: a user-facing DSL named Video for editing video. (Andersen et al. 2017)[11]
+
+    This functional pearl focusses on the production of video processing for a conference. It uses [Racket]. Excerpt Example:
+    
+```
+#lang video
+
+(image "splash.png" #:length 100) 04
+(fade-transition #:length 50)
+
+-----%<-----
+
+; where
+(define slides
+(clip"slides05.MTS"#:start2900#:end80000))
+
+(define presentation
+(playlist(clip"vid01.mp4")
+(clip "vid02.mp4")
+#:start 3900 #:end 36850))
+
+(fade-transition #:length 50)
+
+(image "splash.png" #:length 100)
+```
 
 ## Syntax Variants (Authoring Tools)
 
@@ -196,6 +267,9 @@ A generic example of the transformed instantiations with annotations describing 
 
 [11] Moreno-Ger, P., Martínez-Ortiz, I., Sierra, J. L., & Manjón, B. F. (2006). Language-Driven Development of Videogames: The Experience. In R. Harper, M. Rauterberg, & M. Combetto (Hrsg.), Entertainment Computing—ICEC 2006 (S. 153–164). Springer. https://doi.org/10.1007/11872320_19
 
+[12] Andersen, L., Chang, S., & Felleisen, M. (2017). Super 8 languages for making movies (functional pearl). Proceedings of the ACM on Programming Languages, 1(ICFP), 30:1-30:29. https://doi.org/10.1145/3110274
+
+
 
 
 [VI-TWO]: https://github.com/nise/vi-two 
@@ -213,3 +287,11 @@ A generic example of the transformed instantiations with annotations describing 
 [example-vbl-module]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/example-vbl-module.png "Generic VBL Module"
 
 [annotated-vbl-module]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/annotated-vbl-module.png "Annotated VBL Module"
+
+[MoviePy]: https://zulko.github.io/moviepy/index.html
+
+[AviSynth]: http://avisynth.nl/index.php/Main_Page
+
+[Functional Pearl]: https://wiki.haskell.org/Research_papers/Functional_pearls
+
+[Racket]: https://racket-lang.org/sfc.html
