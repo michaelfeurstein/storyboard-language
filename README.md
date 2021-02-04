@@ -8,10 +8,13 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 | :---------------------|:---------------| :------------| :--------------------------|:---------------|
 | Syntax A / B          | creates dict   | --> dict --> | reads dict and instantiates| ---> instances |
 
+---
 
 ## A Language for Authoring Video-based Learning Units
 
-The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details:
+The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details.
+
+### Context: Video
 
 - [MoviePy]: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
 
@@ -85,7 +88,7 @@ FadeOut(15)
 
 - [SMIL]: Synchronized Multimedia Integration Language - a W3C recommended extensible markup language to author multimedia presentation (video, audio, image, text).
 
-    SMIL has been used to implement an educational digital video library. See publication by Milrad et al. (2005) [13]. Bulterman and Rutledge (2004) [14] published a book on SMIL, which has been well perceived by academia (King, 2007) [15]. However, SMIL itself seems deprecated, based on [this article](https://css-tricks.com/smil-is-dead-long-live-smil-a-guide-to-alternatives-to-smil-features/)
+    SMIL has been used to implement an educational digital video library. See publication by Milrad et al. (2005) [13]. Bulterman and Rutledge (2004) [14] published a book on SMIL, which has been well perceived by academia (King, 2007) [15]. SMIL itself seems deprecated, based on [this article](https://css-tricks.com/smil-is-dead-long-live-smil-a-guide-to-alternatives-to-smil-features/), however W3C shows a [SMIL 3.0](https://www.w3.org/TR/SMIL/).
     
     Excerpts from a SMIL file: Examples can be found [here](https://www.w3.org/AudioVideo/RA-examples.html) and [here](https://homepages.cwi.nl/~media/SMIL/Tutorial/SMILTut.html)
     
@@ -104,6 +107,67 @@ FadeOut(15)
     </body>
 </smil>
 ```
+
+- [Prose-Storyboard-Language]: Ronfard et al. (2013) [10] created the Prose-Storyboard Language, a natural language approach to describe camera movement and direction information for a movie.
+
+    Excerpts from an [srt file](https://files.inria.fr/imagine/PSLV3/BackToTheFuture_subtitles.srt) describing the storyboard behind the Cafe scene from Back to the Future (1985) by Robert Zemeckis:
+
+```
+1
+00:00:47 --> 00:00:48
+cut to high angle CU Lou 34backleft 
+
+2
+00:00:48 --> 00:00:55
+then as Marty crosses under Lou hold to high angle MS Marty CU Lou 34backleft
+3
+00:00:55 --> 00:00:60
+cut to CU Marty 34backright MCU Lou 34left 
+4
+00:00:60 --> 00:01:07
+cut to high angle MS Marty front CU Lou 34backleft 
+
+5
+00:01:07 --> 00:01:14
+cut to CU Marty 34backright MCU Lou 34left
+
+6
+00:01:14 --> 00:01:16
+cut to high angle MS Marty front CU Lou 34backleft
+```
+
+Other examples with no further details include:
+  * [VAML Video Annotation Markup Language](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2847&rep=rep1&type=pdf)
+  
+  * [Markup-based Video Editing](https://www.learntechlib.org/p/10096/), ...)
+
+The above examples are all focussed on video first. They use a:
+
+1. programming 
+
+2. markup
+
+3. natural language approach
+
+---
+
+### Context: Education
+
+In terms of an educationl context, it is harder to identify true languages, which have been designed for authoring a video-based learning unit. There are several tools providing a GUI-approach to author video-based learning units ([DIVER Project](http://diver.stanford.edu/home.html), [TED Ed Lesson Creator](https://ed.ted.com/educator), ...).
+
+The following come close to being a language-based approach:
+
+- [VI-TWO] a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts
+
+    However, there is for example work by Seidel (2018) [1] who created [VI-TWO], a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts. He builds on [Custom Elements] and [Wikitext] to author video-based learning units.
+    
+- VCML Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
+
+- L.IVE an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
+
+
+
+
 
 ## Syntax Variants (Authoring Tools)
 
@@ -299,6 +363,9 @@ A generic example of the transformed instantiations with annotations describing 
 
 [15] King, P. (2007). Book Review: SMIL 2.0 Interactive Multimedia for Web and Mobile Devices by C. A. Dick Bulterman and Lloyd Rutledge. Journal of Functional Programming, 17(3), 423–424. https://doi.org/10.1017/S0956796807006260
 
+[16] Monserrat, T.-J. K. P., Li, Y., Zhao, S., & Cao, X. (2014). L.IVE: An Integrated Interactive Video-based Learning Environment. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 3399–3402. https://doi.org/10.1145/2556288.2557368
+
+
 
 [VI-TWO]: https://github.com/nise/vi-two 
 
@@ -323,3 +390,5 @@ A generic example of the transformed instantiations with annotations describing 
 [Functional Pearl]: https://wiki.haskell.org/Research_papers/Functional_pearls
 
 [Racket]: https://racket-lang.org/sfc.html
+
+[SMIL]: https://www.w3.org/TR/SMIL/
