@@ -38,8 +38,10 @@ final = CompositeVideoClip([ukulele,txt_mov,piano])
 final.subclip(0,5).write_videofile("../../ukulele.avi",fps=24,codec='libx264')
 ```
 
-- [AviSynth]: a *script system that allows advanced non-linear editing*
+- [AviSynth]: a *nonlinear scripting language for video*
 
+    AviSynth does not provide a GUI but fully relies on a script system. However the resource seems old and unmaintained. There is however a new fork [AviSynth+](https://avs-plus.net/) aiming to modernize AviSynth to meet present day needs.
+    
     Excerpts from an AviSynth script. Example Scripts can be found [here](http://avisynth.nl/index.php/Script_examples)
     
 ```
@@ -137,25 +139,29 @@ cut to high angle MS Marty front CU Lou 34backleft
 ```
 
 Other examples with no further details include:
-  * [VAML Video Annotation Markup Language](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2847&rep=rep1&type=pdf)
+  * [VAML] (Video Annotation Markup Language)
   
-  * [Markup-based Video Editing](https://www.learntechlib.org/p/10096/), ...)
+  * [Markup-based Video Editing](https://www.learntechlib.org/p/10096/)
 
-The above examples are all focussed on video first. They use a:
+The above examples are all focussed on video first. They use one of the following approaches:
 
-1. programming 
+1. (functional) programming / scripting ([MoviePy], [AviSynth], Video DSL [11])
 
-2. markup
+2. markup ([SMIL], [Markup-based Video Editing](https://www.learntechlib.org/p/10096/), [VAML])
 
-3. natural language approach
+3. natural language ([Prose-Storyboard-Language])
 
 ---
 
 ### Context: Education
 
-In terms of an educationl context, it is harder to identify true languages, which have been designed for authoring a video-based learning unit. There are several tools providing a GUI-approach to author video-based learning units ([DIVER Project](http://diver.stanford.edu/home.html), [TED Ed Lesson Creator](https://ed.ted.com/educator), ...).
+In terms of an educationl context, it is harder to identify true languages, which have been designed for authoring a video-based learning unit. There are several tools, modules and frameworks primarily providing a GUI-approach to author video-based learning units ([DIVER Project](http://diver.stanford.edu/home.html), [TED Ed Lesson Creator](https://ed.ted.com/educator), [Vivista](https://github.com/Saticmotion/Vivista/tree/master)).
 
-The following come close to being a language-based approach:
+A general overview of domain specific languages in an educational context:
+
+- 
+
+The following come close to being a *language-based approach* and combining *video-based learning*:
 
 - [VI-TWO] a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts
 
@@ -392,3 +398,5 @@ A generic example of the transformed instantiations with annotations describing 
 [Racket]: https://racket-lang.org/sfc.html
 
 [SMIL]: https://www.w3.org/TR/SMIL/
+
+[VAML]: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2847&rep=rep1&type=pdf
