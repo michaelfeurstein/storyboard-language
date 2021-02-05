@@ -16,6 +16,8 @@ The idea of creating a language for video editing in general is not new. There a
 
 ### Context: Video
 
+5 examples with excerpts and 2 examples without details.
+
 - [MoviePy]: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
 
      Excerpts from a script compositing two videos into a picture-in-picture composition. Example Script can be found [here](https://zulko.github.io/moviepy/examples/ukulele_concerto.html)
@@ -143,7 +145,7 @@ Other examples with no further details include:
   
   * [Markup-based Video Editing](https://www.learntechlib.org/p/10096/)
 
-The above examples are all focussed on video first. They use one of the following approaches:
+The above examples (7 in total) are all focussed on video first. They use one of the following approaches:
 
 1. (functional) programming / scripting ([MoviePy], [AviSynth], Video DSL [11])
 
@@ -159,7 +161,7 @@ In terms of an educationl context, it is harder to identify true languages, whic
 
 A general overview of domain specific languages in an educational context:
 
-- [COSTLy] a language for defining CSCL-Scripts
+- **[COSTLy]** a language for defining CSCL-Scripts
 
      Papasalouros (2018) [17] initially introduced this language in a paper on *Formalizing CSCL Scripts with Logi and Constraints*. The language uses Java and Prolog to create a constraints logic programs which is run with a constraint solver. In a followup publication by Papasalouros & Chatzimichalis (2020) [18] an authoring platform has been introduced which builds on COSTLy and integrates the whole user (lecturer & instructional designer) process. It also provides a visual script editor based on [Google: Blockly] in the style of a *if this then that (ITTT)*, which enables the creator to get visual support during the script editing process. The authoring platform was evaluated towards its expressiveness (expressed 4 scripts) and its usability (students n=31).
      
@@ -216,12 +218,43 @@ A general overview of domain specific languages in an educational context:
      Bookmark ‘selected self-descriptions’ using VideoWiki
      drag tool VideoWiki
      ```
-
-The following come close to being a *language-based approach* and combining *video-based learning*:
-
 - [VI-TWO] a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts
 
-    However, there is for example work by Seidel (2018) [1] who created [VI-TWO], a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts. He builds on [Custom Elements] and [Wikitext] to author video-based learning units.
+     In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using [Custom Elements] for HTML 5 documents and extending the MediaWiki [Wikitext] markup specification.
+     
+    Excerpt from markup example with the use of [Custom Elements] HTML by Seidel (2018, p.233):
+    
+    ```html
+    <vi2-video      data−src="http://ww.videos.com/clip.webm">
+    <vi2-chapter    data-start=9080>
+                    data-content="Summary"/>
+    <vi2-comment    data-start=34.4>
+                    data-author="John"
+                    data-date="2015-06-28, 12:37"
+                    data-content="I agree on that."/>
+    <vi2-link       data-start=435
+                    data-duration=20
+                    data-target="#!/video/123/4556"
+                    data-target-start=30
+                    data-target-duration=180 />
+    </vi2-video>
+    ```
+    
+    Excerpt from markup extension based on MediaWiki, specifically [Wikitext] by Seidel (2018, p.233):
+    
+    ```
+    <hypervideo>
+    [[ Video : http : / / example .com/ video .webm myVideo | 200px ]]
+    [[ Main Page | Startseite ] #10 | 20 | 26% | 26% ]
+    [[ http://www.video−wiki−example.org/ Click me ] #80 | 120 | 50% | 50% ]
+    [[ Video: demo.ogv anotherVideo | 200px ]]
+    [[ Some Page | see here ] #10 | 20 | 26% | 26% ]
+    </hypervideo>
+    ```
+     
+     
+  
+The following come close to being a *language-based approach* and combining *video-based learning*:
     
 - VCML Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
 
@@ -262,39 +295,11 @@ Table 1: Overview of applicability of authoring approaches for video-based learn
 
 ### Syntax Variant A (Markup Approach)
 
-In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using Custom Elements for HTML 5 documents and extending the MediaWiki markup specification.
+
 
 Some examples of markup in connection with video-based learning or multimedia development:
 
-1. Markup example of the use of [Custom Elements] HTML by Seidel (2018, p.233):
 
-```html
-<vi2-video      data−src="http://ww.videos.com/clip.webm">
-<vi2-chapter    data-start=9080>
-                data-content="Summary"/>
-<vi2-comment    data-start=34.4>
-                data-author="John"
-                data-date="2015-06-28, 12:37"
-                data-content="I agree on that."/>
-<vi2-link       data-start=435
-                data-duration=20
-                data-target="#!/video/123/4556"
-                data-target-start=30
-                data-target-duration=180 />
-</vi2-video>
-```
-
-2. Markup extension based on MediaWiki, specifically [Wikitext] by Seidel (2018, p.233):
-
-```
-<hypervideo>
-[[ Video : http : / / example .com/ video .webm myVideo | 200px ]]
-[[ Main Page | Startseite ] #10 | 20 | 26% | 26% ]
-[[ http://www.video−wiki−example.org/ Click me ] #80 | 120 | 50% | 50% ]
-[[ Video: demo.ogv anotherVideo | 200px ]]
-[[ Some Page | see here ] #10 | 20 | 26% | 26% ]
-</hypervideo>
-```
 
 3. Markup-based DSL \<e-Game\> developed in the context of video game development by Moreno-Ger et al. (2006) [11]:
 
