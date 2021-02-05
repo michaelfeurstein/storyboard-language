@@ -159,7 +159,37 @@ In terms of an educationl context, it is harder to identify true languages, whic
 
 A general overview of domain specific languages in an educational context:
 
-- 
+- [COSTLy] a language for defining CSCL-Scripts
+
+    Papasalouros (2018) [17] initially introduced this language in a paper on *Formalizing CSCL Scripts with Logi and Constraints*. The language uses Java and Prolog to create a constraints logic programs which is run with a constraint solver. In a followup publication by Papasalouros & Chatzimichalis (2020) [18] an authoring platform has been introduced which builds on COSTLy and integrates the whole user (lecturer & instructional designer) process. It also provides a visual script editor based on [Google: Blockly] in the style of a *if this then that (ITTT)*, which enables the creator to get visual support during the script editing process. The authoring platform was evaluated towards its expressiveness (expressed 4 scripts) and its usability (students n=31).
+    
+    Excerpt of a generic group definition from Papasalouros & Chatzimichalis (2020) [18]:
+    
+```
+phase EG: create-partition P for S,Tasks with |Tasks| groups .
+  forall T in Tasks exists! Gr in P
+   forall St in Gr
+    ASSERT(performs(St,T))
+```
+
+   Excerpt of a textual definition of the UniverSante CSCL Script by Papasalouros & Chatzimichalis (2020) [18]:
+   
+```
+define script UniverSante:
+ phase MNT:
+  create-partition Un1 for S,Countries with |S|/|Countries|
+  groups .
+   forall Group in Un1 
+    forall Nationality in Countries exists! P in Group
+     country(P,Nationality).
+
+phase SNT:
+ create-partition Un2 for S,Countries with |Countries|
+ groups .
+  forall Nationality in Countries exists! Group in Un2
+   forall P in Group
+    country(P,Nationality).
+```
 
 The following come close to being a *language-based approach* and combining *video-based learning*:
 
@@ -371,6 +401,10 @@ A generic example of the transformed instantiations with annotations describing 
 
 [16] Monserrat, T.-J. K. P., Li, Y., Zhao, S., & Cao, X. (2014). L.IVE: An Integrated Interactive Video-based Learning Environment. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems, 3399–3402. https://doi.org/10.1145/2556288.2557368
 
+[17] Papasalouros, A. (2018). Formalizing CSCL Scripts with Logic and Constraints. In V. Pammer-Schindler, M. Pérez-Sanagustín, H. Drachsler, R. Elferink, & M. Scheffel (Hrsg.), Lifelong Technology-Enhanced Learning (S. 660–663). Springer International Publishing. https://doi.org/10.1007/978-3-319-98572-5_68
+
+[18] Papasalouros, A., & Chatzimichalis, G. (2020). An Authoring Platform for CSCL Script Definition. In P. Zaphiris & A. Ioannou (Hrsg.), Learning and Collaboration Technologies. Human and Technology Ecosystems (S. 625–640). Springer International Publishing. https://doi.org/10.1007/978-3-030-50506-6_43
+
 
 
 [VI-TWO]: https://github.com/nise/vi-two 
@@ -400,3 +434,5 @@ A generic example of the transformed instantiations with annotations describing 
 [SMIL]: https://www.w3.org/TR/SMIL/
 
 [VAML]: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2847&rep=rep1&type=pdf
+
+[COSTLy]: https://its2020.iis-international.org/wp-content/uploads/4.-54-Towards-CSCL-Scripting-By-Example.pdf
