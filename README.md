@@ -94,24 +94,24 @@ FadeOut(15)
     
     Excerpts from a SMIL file: Examples can be found [here](https://www.w3.org/AudioVideo/RA-examples.html) and [here](https://homepages.cwi.nl/~media/SMIL/Tutorial/SMILTut.html)
     
-```
-<smil><!--The SMIL file must start with a <smil> tag and end with the </smil> closing tag.-->
-   <head> <!-- SMIL file header, specify meta information in the multimedia presentation-->
+    ```
+    <smil><!--The SMIL file must start with a <smil> tag and end with the </smil> closing tag.-->
+    <head> <!-- SMIL file header, specify meta information in the multimedia presentation-->
                 <meta name="author" content="Jane Morales"/>
                 <meta name="title" content="Multimedia My Way"/>
                 <meta name="copyright" content="(c)1998 Jane Morales"/>
-   </head>
-   <body>
+    </head>
+    <body>
                 <seq> <!-- To play clips in sequence, use the <seq> ("sequence") SMIL tag.-->
                   <audio src="audio/newsong.wav"/>
                   <audio src="audio/oldsong.snd"/>
                 </seq>
     </body>
-</smil>
-```
+    </smil>
+    ```
 
 - [Prose-Storyboard-Language]: Ronfard et al. (2013) [10] created the Prose-Storyboard Language, a natural language approach to describe camera movement and direction information for a movie.
-
+    
     Excerpts from an [srt file](https://files.inria.fr/imagine/PSLV3/BackToTheFuture_subtitles.srt) describing the storyboard behind the Cafe scene from Back to the Future (1985) by Robert Zemeckis:
 
 ```
@@ -161,35 +161,61 @@ A general overview of domain specific languages in an educational context:
 
 - [COSTLy] a language for defining CSCL-Scripts
 
-    Papasalouros (2018) [17] initially introduced this language in a paper on *Formalizing CSCL Scripts with Logi and Constraints*. The language uses Java and Prolog to create a constraints logic programs which is run with a constraint solver. In a followup publication by Papasalouros & Chatzimichalis (2020) [18] an authoring platform has been introduced which builds on COSTLy and integrates the whole user (lecturer & instructional designer) process. It also provides a visual script editor based on [Google: Blockly] in the style of a *if this then that (ITTT)*, which enables the creator to get visual support during the script editing process. The authoring platform was evaluated towards its expressiveness (expressed 4 scripts) and its usability (students n=31).
+     Papasalouros (2018) [17] initially introduced this language in a paper on *Formalizing CSCL Scripts with Logi and Constraints*. The language uses Java and Prolog to create a constraints logic programs which is run with a constraint solver. In a followup publication by Papasalouros & Chatzimichalis (2020) [18] an authoring platform has been introduced which builds on COSTLy and integrates the whole user (lecturer & instructional designer) process. It also provides a visual script editor based on [Google: Blockly] in the style of a *if this then that (ITTT)*, which enables the creator to get visual support during the script editing process. The authoring platform was evaluated towards its expressiveness (expressed 4 scripts) and its usability (students n=31).
+     
+   Excerpt of a generic group definition from Papasalouros & Chatzimichalis (2020) [18]:
     
-    Excerpt of a generic group definition from Papasalouros & Chatzimichalis (2020) [18]:
-    
-```
-phase EG: create-partition P for S,Tasks with |Tasks| groups .
-  forall T in Tasks exists! Gr in P
-   forall St in Gr
-    ASSERT(performs(St,T))
-```
-
+   ```
+   phase EG: create-partition P for S,Tasks with |Tasks| groups .
+    forall T in Tasks exists! Gr in P
+     forall St in Gr
+      ASSERT(performs(St,T))
+   ```
+   
    Excerpt of a textual definition of the UniverSante CSCL Script by Papasalouros & Chatzimichalis (2020) [18]:
    
-```
-define script UniverSante:
- phase MNT:
-  create-partition Un1 for S,Countries with |S|/|Countries|
-  groups .
-   forall Group in Un1 
-    forall Nationality in Countries exists! P in Group
-     country(P,Nationality).
+   ```
+   define script UniverSante:
+    phase MNT:
+     create-partition Un1 for S,Countries with |S|/|Countries|
+     groups .
+      forall Group in Un1 
+       forall Nationality in Countries exists! P in Group
+        country(P,Nationality).
+    
+    phase SNT:
+     create-partition Un2 for S,Countries with |Countries|
+     groups .
+      forall Nationality in Countries exists! Group in Un2
+       forall P in Group
+        country(P,Nationality).
+    ```
+   
+   Visual Excerpt showing a visual definition of the Jigsaw CSCL Script using [COSTLy] and [Google: Blockly] (Papasalouros & Chatzimichalis, 2020) [18]:
+   
+   ![COSTLy visual example][costly-visual-example]
+ 
+- **LISL** a Learner Interaction Scripting Language (Mödritscher et al., 2008) [19] for building (Mashup) Personal Learning Environments (MUPPLE)
 
-phase SNT:
- create-partition Un2 for S,Countries with |Countries|
- groups .
-  forall Nationality in Countries exists! Group in Un2
-   forall P in Group
-    country(P,Nationality).
-```
+     Mödritscher et al. (2008) [19] used this language to demonstrate the use of a domain-specific language to create a mashed up learning environment consisting of different modules (or tools, so to say). The language is implemented in Tcl, precisely in XoTcl and is part of the [MUPPLE](https://sourceforge.net/projects/icamp/) package.
+     
+     Excerpt from Mödritscher et al. (2008) [19]:
+     
+     ```
+     define action Compose with url http://[...]?action=create
+     define action Browse
+     define action Bookmark
+     define object 'self-description'
+     define object ‘self-descriptions of peers’ with url http://[...]/peers
+     define object ‘selected self-descriptions’
+     define tool VideoWiki with url http://videowiki.icamp.eu
+     define tool Scuttle with url http://scuttle.icamp.eu
+     connect tool VideoWiki with tool Scuttle
+     Compose ‘self-description’ using VideoWiki
+     Browse ‘self-descriptions of peers’ using VideoWiki
+     Bookmark ‘selected self-descriptions’ using VideoWiki
+     drag tool VideoWiki
+     ```
 
 The following come close to being a *language-based approach* and combining *video-based learning*:
 
@@ -405,6 +431,9 @@ A generic example of the transformed instantiations with annotations describing 
 
 [18] Papasalouros, A., & Chatzimichalis, G. (2020). An Authoring Platform for CSCL Script Definition. In P. Zaphiris & A. Ioannou (Hrsg.), Learning and Collaboration Technologies. Human and Technology Ecosystems (S. 625–640). Springer International Publishing. https://doi.org/10.1007/978-3-030-50506-6_43
 
+[19] Mödritscher, F., Wild, F., & Sigurdarson, S. (2008). Language Design for a Personal Learning Environment Design Language. 1st International Workshop on Mashup Personal Learning Environments (MUPPLE08, 10.
+
+
 
 
 [VI-TWO]: https://github.com/nise/vi-two 
@@ -436,3 +465,5 @@ A generic example of the transformed instantiations with annotations describing 
 [VAML]: https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.119.2847&rep=rep1&type=pdf
 
 [COSTLy]: https://its2020.iis-international.org/wp-content/uploads/4.-54-Towards-CSCL-Scripting-By-Example.pdf
+
+[costly-visual-example]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/visual-jigsaw-cscl-blocky__Papasalouros_Chatzimichalis.png "A visual definition of the Jigsaw script"
