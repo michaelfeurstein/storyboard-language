@@ -18,79 +18,78 @@ The idea of creating a language for video editing in general is not new. There a
 
 5 examples with excerpts and 2 examples without details.
 
-- [MoviePy]: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
+- **[MoviePy]**: a python based language for video editing. It helps with basic functions such as cutting, concatenating, title insertions, compositing (non-linear editing), effects and video processing.
 
      Excerpts from a script compositing two videos into a picture-in-picture composition. Example Script can be found [here](https://zulko.github.io/moviepy/examples/ukulele_concerto.html)
-
-```
-ukulele = VideoFileClip("../../videos/moi_ukulele.MOV", audio=False).\
+     
+     ```
+     ukulele = VideoFileClip("../../videos/moi_ukulele.MOV", audio=False).\
                subclip(60+33, 60+50).\
                crop(486, 180, 1196, 570)
                
-piano = (VideoFileClip("../../videos/douceamb.mp4",audio=False).
-         subclip(30,50).
-         resize((w/3,h/3)).    # one third of the total screen
-         margin( 6,color=(255,255,255)).  #white margin
-         margin( bottom=20, right=20, opacity=0). # transparent
-         set_pos(('right','bottom')) )
+     piano = (VideoFileClip("../../videos/douceamb.mp4",audio=False).
+              subclip(30,50).
+              resize((w/3,h/3)).    # one third of the total screen
+              margin( 6,color=(255,255,255)).  #white margin
+              margin( bottom=20, right=20, opacity=0). # transparent
+              set_pos(('right','bottom')) )
+     ---------%<---------
 
----------%<---------
+     final = CompositeVideoClip([ukulele,txt_mov,piano])
+     final.subclip(0,5).write_videofile("../../ukulele.avi",fps=24,codec='libx264')
+     ```
 
-final = CompositeVideoClip([ukulele,txt_mov,piano])
-final.subclip(0,5).write_videofile("../../ukulele.avi",fps=24,codec='libx264')
-```
-
-- [AviSynth]: a *nonlinear scripting language for video*
+- **[AviSynth]**: a *nonlinear scripting language for video*
 
     AviSynth does not provide a GUI but fully relies on a script system. However the resource seems old and unmaintained. There is however a new fork [AviSynth+](https://avs-plus.net/) aiming to modernize AviSynth to meet present day needs.
     
     Excerpts from an AviSynth script. Example Scripts can be found [here](http://avisynth.nl/index.php/Script_examples)
     
-```
-AVISource("somevideo.avi")
+    ```
+    AVISource("somevideo.avi")
 
-# TemporalSoften is one of many noise-reducing filters
-TemporalSoften(4, 4, 8, scenechange=15, mode=2)
+    # TemporalSoften is one of many noise-reducing filters
+    TemporalSoften(4, 4, 8, scenechange=15, mode=2)
 
-# increase the gamma (relative brightness) of the video
-Levels(0, 1.2, 255, 0, 255)
+    # increase the gamma (relative brightness) of the video
+    Levels(0, 1.2, 255, 0, 255)
 
-# fade-in the first 15 frames from black
-FadeIn(15)
+    # fade-in the first 15 frames from black
+    FadeIn(15)
 
-# fade-out the last 15 frames to black
-FadeOut(15)
-```
+    # fade-out the last 15 frames to black
+    FadeOut(15)
+    ```
 
-- [Functional Pearl]:Video: a user-facing DSL implemented with [Racket] named Video for editing video. (Andersen et al. 2017)[11]
+- **[Functional Pearl]:Video DSL**: a user-facing DSL implemented with [Racket] named Video for editing video. (Andersen et al. 2017)[11]
 
     This functional pearl focusses on the production of video processing for conference proceedings. 
     
     Excerpt froma video script. Example Scripts can be found in the publication by Andersen et al. (2017)[11]:
     
-```
-#lang video
+    ```
+    #lang video
 
-(image "splash.png" #:length 100) 04
-(fade-transition #:length 50)
+    (image "splash.png" #:length 100) 04
+    (fade-transition #:length 50)
+    
+    -----%<-----
+    
+    ; where
+    (define slides
+    (clip"slides05.MTS"#:start2900#:end80000))
+    
+    (define presentation
+    (playlist(clip"vid01.mp4")
+    (clip "vid02.mp4")
+    #:start 3900 #:end 36850))
+    
+    (fade-transition #:length 50)
+    
+    (image "splash.png" #:length 100)
+    ```
 
------%<-----
-
-; where
-(define slides
-(clip"slides05.MTS"#:start2900#:end80000))
-
-(define presentation
-(playlist(clip"vid01.mp4")
-(clip "vid02.mp4")
-#:start 3900 #:end 36850))
-
-(fade-transition #:length 50)
-
-(image "splash.png" #:length 100)
-```
-
-- [SMIL]: Synchronized Multimedia Integration Language - a W3C recommended extensible markup language to author multimedia presentation (video, audio, image, text).
+- **[SMIL]**: Synchronized Multimedia Integration Language - a W3C recommended extensible markup language to author multimedia presentation (video, audio, image, text).
 
     SMIL has been used to implement an educational digital video library. See publication by Milrad et al. (2005) [13]. Bulterman and Rutledge (2004) [14] published a book on SMIL, which has been well perceived by academia (King, 2007) [15]. SMIL itself seems deprecated, based on [this article](https://css-tricks.com/smil-is-dead-long-live-smil-a-guide-to-alternatives-to-smil-features/), however W3C shows a [SMIL 3.0](https://www.w3.org/TR/SMIL/).
     
@@ -112,38 +111,38 @@ FadeOut(15)
     </smil>
     ```
 
-- [Prose-Storyboard-Language]: Ronfard et al. (2013) [10] created the Prose-Storyboard Language, a natural language approach to describe camera movement and direction information for a movie.
+- **[Prose-Storyboard-Language]**: Ronfard et al. (2013) [10] created the Prose-Storyboard Language, a natural language approach to describe camera movement and direction information for a movie.
     
     Excerpts from an [srt file](https://files.inria.fr/imagine/PSLV3/BackToTheFuture_subtitles.srt) describing the storyboard behind the Cafe scene from Back to the Future (1985) by Robert Zemeckis:
-
-```
-1
-00:00:47 --> 00:00:48
-cut to high angle CU Lou 34backleft 
-
-2
-00:00:48 --> 00:00:55
-then as Marty crosses under Lou hold to high angle MS Marty CU Lou 34backleft
-3
-00:00:55 --> 00:00:60
-cut to CU Marty 34backright MCU Lou 34left 
-4
-00:00:60 --> 00:01:07
-cut to high angle MS Marty front CU Lou 34backleft 
-
-5
-00:01:07 --> 00:01:14
-cut to CU Marty 34backright MCU Lou 34left
-
-6
-00:01:14 --> 00:01:16
-cut to high angle MS Marty front CU Lou 34backleft
-```
+    
+    ```
+    1
+    00:00:47 --> 00:00:48
+    cut to high angle CU Lou 34backleft 
+    
+    2
+    00:00:48 --> 00:00:55
+    then as Marty crosses under Lou hold to high angle MS Marty CU Lou 34backleft
+    3
+    00:00:55 --> 00:00:60
+    cut to CU Marty 34backright MCU Lou 34left 
+    4
+    00:00:60 --> 00:01:07
+    cut to high angle MS Marty front CU Lou 34backleft 
+    
+    5
+    00:01:07 --> 00:01:14
+    cut to CU Marty 34backright MCU Lou 34left
+    
+    6
+    00:01:14 --> 00:01:16
+    cut to high angle MS Marty front CU Lou 34backleft
+    ```
 
 Other examples with no further details include:
-  * [VAML] (Video Annotation Markup Language)
+  * **[VAML]** (Video Annotation Markup Language)
   
-  * [Markup-based Video Editing](https://www.learntechlib.org/p/10096/)
+  * **[Markup-based Video Editing](https://www.learntechlib.org/p/10096/)**
 
 The above examples (7 in total) are all focussed on video first. They use one of the following approaches:
 
@@ -159,7 +158,7 @@ The above examples (7 in total) are all focussed on video first. They use one of
 
 In terms of an educationl context, it is harder to identify true languages, which have been designed for authoring a video-based learning unit. There are several tools, modules and frameworks primarily providing a GUI-approach to author video-based learning units ([DIVER Project](http://diver.stanford.edu/home.html), [TED Ed Lesson Creator](https://ed.ted.com/educator), [Vivista](https://github.com/Saticmotion/Vivista/tree/master)).
 
-A general overview of domain specific languages in an educational context:
+A general overview of domain specific languages in an educational context (= *without video* focus):
 
 - **[COSTLy]** a language for defining CSCL-Scripts
 
@@ -218,7 +217,10 @@ A general overview of domain specific languages in an educational context:
      Bookmark ‘selected self-descriptions’ using VideoWiki
      drag tool VideoWiki
      ```
-- [VI-TWO] a framework for authoring interactive videos and [VI-LAB], a CSCL-system for video-based CSCL-Scripts
+     
+The following come close to being a *language-based approach* and combin *education* with *video-based learning* (= *with video* focus):
+
+- **[VI-TWO]** a framework for authoring interactive videos and **[VI-LAB]**, a CSCL-system for video-based CSCL-Scripts
 
      In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using [Custom Elements] for HTML 5 documents and extending the MediaWiki [Wikitext] markup specification.
      
@@ -254,11 +256,11 @@ A general overview of domain specific languages in an educational context:
      
      
   
-The following come close to being a *language-based approach* and combining *video-based learning*:
-    
-- VCML Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
 
-- L.IVE an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
+    
+- **VCML** Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
+
+- **L.IVE** an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
 
 
 
