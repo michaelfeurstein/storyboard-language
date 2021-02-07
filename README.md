@@ -253,6 +253,17 @@ The following come close to being a *language-based approach* and combin *educat
     [[ Some Page | see here ] #10 | 20 | 26% | 26% ]
     </hypervideo>
     ```
+    
+    Excerpt from Seidel (2011) [9] "Vi-Wiki markup" showing an actual example of a markup version for two sequential clips with hyperlinks:
+
+    ```
+    <hypervideo>
+    [[Video:clip 1 clip 2]]
+    [[Video:clip 2 #10 | 140 clip_3 ]]
+    +[[Hyperlink: #clip_1] 120px 300px]
+    +[[Hyperlink: other page#b] #60 | 120]
+    </hypervideo>
+     ```
      
      
   
@@ -321,16 +332,6 @@ scaffold">,
 
 When looking at the question "what kind of authoring tools do lecturers use in higher education", then one authoring approach is rooted in the area of markup languages, hence wiki-based markup. Some references showing the use of wiki technology in higher eduaction: Ebner et al. (2008) [4]; Andergassen et al. (2015) [5]; Raitman et al. (2005) [6]; Augar et al. (2004) [7]; Neumann (2006) [8]. Based on these examples we can generally state that the notion of using wiki markup as such is known in higher education. Therefore a proposed syntax variant for the storyboard language is inspired by markup-languages.
 
-Example from Seidel (2011) [9] "Vi-Wiki markup" showing a markup version for two sequential clips and hyperlinks:
-
-```
-<hypervideo>
-[[Video:clip 1 clip 2]]
-[[Video:clip 2 #10 | 140 clip_3 ]]
-+[[Hyperlink: #clip_1] 120px 300px]
-+[[Hyperlink: other page#b] #60 | 120]
-</hypervideo>
-```
 
 Example from LEARN [5] showing markup using XoWiki [8] for an external video as a video highlight:
 
