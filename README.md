@@ -35,9 +35,17 @@ On this basis I propose the following classification:
 
 Leaning towards any form of textual representation for authoring. This could involve markup, scripts, programming languages or reuse of given notations such as JSON or tDOM and finally self defined textual representations for authoring.
 
+Rabin and Burns (1996) [2] call this *script-based*
+
    > "Script-based tools depend primarily on a scripting language for programming, though they may be menu-driven. They are often faster for experts than tools with graphical interfaces." (Rabin & Burns, 1996, p. 380)
    
-   Markup can mean anything between HTML Code or Wiki-Markup
+Fenrich (2005) [3] calls this *programming languages*.   
+
+   > "Programming languages have an extensive command set available. However, these commands are generalized for any application. Specific routines for teaching with computers must be developed." (Fenrich, 2005, p.42)
+   
+Seidel (2018) [1] calls this *markup* and uses markup as a language approach for authoring in **[VI-TWO]**.
+
+   > "Auszeichnungen können als HTML-Code [...] oder Wiki Markup [...] hinterlegt sein." (Seidel, 2018, p. )
 
 2. Direct Authoring:
 
