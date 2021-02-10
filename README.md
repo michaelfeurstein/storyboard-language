@@ -376,36 +376,31 @@ The following come close to being a *language-based approach* and combine *educa
     </hypervideo>
      ```
      
-     
-  
-
+- **\<e-Game\>** a markup-based DSL in the context of video game development by Moreno-Ger et al. (2006) [11]
     
+    Excerpt
+
+    ```
+    <conversation, Foreman,
+    <<speak-char, "Well José, did you measure the scaffold">,
+    <<response,
+    <<"No sir, not yet",
+    <<speak-char, "And what are you waiting for, boy?">, <<speak-player, "At once, sir">, <end-conversation,<>>>>>,
+    <<"Yes sir, it's ready", <<speak-char, "And...">, <<response, ... >,
+    {{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
+    ``` 
+
 - **VCML** Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
 
 - **L.IVE** an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
 
-### Syntax Variant A (Markup Approach)
+### Syntax Proposal Variant A (Text-based:markup language approach)
 
-Some examples of markup in connection with video-based learning or multimedia development:
-
-3. Markup-based DSL \<e-Game\> developed in the context of video game development by Moreno-Ger et al. (2006) [11]:
-
-```
-<conversation, Foreman,
-<<speak-char, "Well José, did you measure the
-scaffold">,
-                     <<response,
-                      <<"No sir, not yet",
-<<speak-char, "And what are you waiting for, boy?">, <<speak-player, "At once, sir">, <end-conversation,<>>>>>,
-<<"Yes sir, it's ready", <<speak-char, "And...">, <<response,
-... >,
-{{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
-```
+Based on (a) the above considerations and (b) the fact that Seidel's work is aimed towards video-based learning and (c) the experience that most lecturers are in some form aquainted with wiki markup it makes sense to build on this and have one syntax variant be markup oriented.
 
 #### Markup-languages (wiki) used in higher education
 
 When looking at the question "what kind of authoring tools do lecturers use in higher education", then one authoring approach is rooted in the area of markup languages, hence wiki-based markup. Some references showing the use of wiki technology in higher eduaction: Ebner et al. (2008) [4]; Andergassen et al. (2015) [5]; Raitman et al. (2005) [6]; Augar et al. (2004) [7]; Neumann (2006) [8]. Based on these examples we can generally state that the notion of using wiki markup as such is known in higher education. Therefore a proposed syntax variant for the storyboard language is inspired by markup-languages.
-
 
 Example from LEARN [5] showing markup using XoWiki [8] for an external video as a video highlight:
 
@@ -413,7 +408,7 @@ Example from LEARN [5] showing markup using XoWiki [8] for an external video as 
 [[_OMar04NRZw||-class ::xowiki::Link::youtube -width 480 -height 270 -starttime 395 -endtime 460]]
 ```
 
-Proposal: Markup variant for storyboard-language proposal
+**Proposal: Markup variant for storyboard-language proposal**
 
 ```
 <storyboard>
@@ -422,37 +417,11 @@ Proposal: Markup variant for storyboard-language proposal
 </storyboard>
 ```
 
-### Syntax Variant B (Natural Language Approach)
+### Syntax Proposal Variant B (Text-based:natural language approach)
 
 Ronfard et al. (2013) [10] created the [Prose-Storyboard-Language], a natural language approach was used to describe camera movemenet and direction information for a movie. Syntax variant b leans towards this natural language descritpion in order to structure a video-based learning unit into highlights with assessments and other interaction elements. The motivation behind this is that markup-language my not be easy to grasp and that the creation process for video-based learning unit builds on a storyboard, which is mainly done through informal text (citation needed).
 
-Example from the [Prose-Storyboard-Language] describing the storyboard behind the Cafe scene from Back to the Future(1985) by Robert Zemeckis:
-
-```
-1
-00:00:47 --> 00:00:48
-cut to high angle CU Lou 34backleft 
-
-2
-00:00:48 --> 00:00:55
-then as Marty crosses under Lou hold to high angle MS Marty CU Lou 34backleft
-3
-00:00:55 --> 00:00:60
-cut to CU Marty 34backright MCU Lou 34left 
-4
-00:00:60 --> 00:01:07
-cut to high angle MS Marty front CU Lou 34backleft 
-
-5
-00:01:07 --> 00:01:14
-cut to CU Marty 34backright MCU Lou 34left
-
-6
-00:01:14 --> 00:01:16
-cut to high angle MS Marty front CU Lou 34backleft
-```
-
-Prototypical example:
+**Proposal: Natural language variant for storyboard-language proposal**
 
 ```
 There are 3 scenes (videos)
@@ -468,6 +437,8 @@ At the end of scene one a short quiz is shown asking the user to choose the opti
 ## End result
 
 What should the outcome of the storyboard be (independent from syntax variant a or b) = instantiations of all elements for a video-based learning scenario e.g.: 1 video, 3 highlights, 2 annotations and ..., which can then be transformed into a xowiki environment or unity environment (?). More generally spoken the outcome should be a usable video-based learning unit for any given environment. 
+
+TODO: illustration of model instantiation.
 
 A running example of a video-based learning unit can be found here: [TED-Ed Online Unit]
 
