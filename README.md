@@ -12,7 +12,46 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 
 ## A Language for Authoring Video-based Learning Content
 
-The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details. The following sections highlights both the context of languages for authoring video and languages for authoring educational content. The intersection of both contexts creates the foundation towards a language for authoring video-based learning content.
+The following sections dissect the three components: (1) the context of authoring in general, (2) the context of languages for authoring video and (3) languages for authoring educational content. By first looking at these elements seperately and then intersecting them, the foundation towards a language for authoring video-based learning content is created.
+
+### Context: Authoring
+
+   > "Authoring is the process of issuing, testing and revising instructions for presenting materials on a computer system. The tools available for authoring can be classified as being authoring systems, object-based systems, or programming languages" (Fenrich, p.42, 2005)
+
+Rabin and Burns (1996) [2] categorize multimedia authoring tools into five approaches: script-based, card-based, icon-based, timeline-based and object-based. **Script-based** meaning  scripting or programming languages. **Card-based** meaning tools that organize the authoring process into units of cards or pages as a form of organization and guiding the author through those pages. **Icon-based** meaning a graphical programming approach, where icons represent authoring or programming tasks. **Timeline-based** meaning authoring is organized along a timeline and control via temporal characteristics. **Object-based** meaning an object-oriented approach of treating a collection of objects and defining properties and classes of these objects.
+
+This classification of authoring in general is in line with work from Seidel (2018) [1] (p.232), who focusses on video-based learning (with cscl-scripts) and differentiates between three authoring appproaches: (1) markup, (2) direct authoring and (3) timeline authoring. **Markup** being either HTML-Code or Wiki Markup representations in the form of text. **Direct Authoring** being a form of editing during playback of the video by providing prompts, icons or cards. **Timeline authoring** being the approach of using an editing environment with a timeline, commonly known as classic GUIs of video editors. Seidel also tries to compare these approaches based on an assessment on scalability, efficiency and usability, as seen in table 1 below.
+
+Table 1: Overview of applicability of authoring approaches for video-based learning (cscl-scripts) (Seidel, 2018, S. 234)
+|                       | Markup        | Direct Authoring  | Timeline |
+| ----------------------|:-------------:| :----------------:| :-------:|
+| Scalability           | high          | low               | high     |
+| Efficient Editing     | high          | middle            | middle   |
+| Simple Usability      | low           | high              | middle   |
+
+On this basis I propose the following classification:
+
+**1. Text-based Authoring:**
+
+Leaning towards any form of textual representation for authoring. This could involve markup, scripts, programming languages or reuse of given notations such as JSON or tDOM and finally self defined textual representations for authoring.
+
+   > "Script-based tools depend primarily on a scripting language for programming, though they may be menu-driven. They are often faster for experts than tools with graphical interfaces." (Rabin & Burns, 1996, p. 380)
+   
+   Markup can mean anything between HTML Code or Wiki-Markup
+
+2. Direct Authoring:
+
+   > "Authoring systems tend to be menu-driven. You are specifically prompted for information or information is slotted into available locations" (Fenrich, 2005, p.42)
+   
+   Editing in user interface showing the player with dedicated interface buttons (+) popping up related dialogs (for specific authoring tasks e.g.: dialog to add an annotation). Rabin and Burns (1996) [2] name two categories which together form this approach: card-based and icon-based. Fenrich (2005) calls this authoring system. Seidel (2018) uses the term direct authoring.
+
+3. Timeline (translated: Zeitleiste)
+
+   > "In timeline-based tools, media elements and events are organized along a time-line. This allows precise control of temporal characteristics of the application." (Rabin & Burns, 1996, p. 381)
+   
+   Classic editing via a timeline based video editing interface view (example: Mozilla Popcorn Maker). Fenrich (2005) calls this object-based system. Seidel (2018) uses the term "Zeitleiste".
+
+
 
 ### Context: Languages for Authoring Video
 
@@ -337,46 +376,9 @@ The following come close to being a *language-based approach* and combine *educa
 
 - **L.IVE** an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
 
-
-
-
-
-## Syntax Variants (Authoring Tools)
-
-Seidel (2018) [1] (p.232) differentiates between three authoring appproaches specifically for video-based learning (with cscl-scripts). This is in line with more generic classifications by Rabin and Burns (1996) [2] who categorize multimedia authoring tools into five approaches: script-based, card-based, icon-based, timeline-based and object-based. Or Fenrich (2005), who differentiates between: authoring systems, object-based systems and programming languages.
-
-1. Markup:
-
-   > "Script-based tools depend primarily on a scripting language for programming, though they may be menu-driven. They are often faster for experts than tools with graphical interfaces." (Rabin & Burns, p. 380)
-   
-   An example for a script-based tool would be standard or extended HTML-Code and also Wiki Markup. Fenrich (2005) [3] .
-
-2. Direct Authoring:
-
-   > "Object-based systems consist of objects that are programmed to do things." (Fenrich, 2005, p.42)
-   
-   Editing in user interface showing the player with dedicated interface buttons (+) popping up related dialogs (for specific authoring tasks e.g.: dialog to add an annotation). Rabin and Burns (1996) [2] name two categories which together form this approach: card-based and icon-based. Fenrich (2005) calls this object-based. Seidel (2018) uses the term direct authoring.
-
-3. Timeline (translated: Zeitleiste)
-
-   > "In timeline-based tools, media elements and events are organized along a time-line. This allows precise control of temporal characteristics of the application." (Rabin & Burns, 1996, p. 381)
-   
-   Classic editing via a timeline based video editing interface view (example: Mozilla Popcorn Maker). Fenrich (2005) calls this authoring systems. Seidel (2018) uses the term "Zeitleiste".
-
-Table 1: Overview of applicability of authoring approaches for video-based learning (cscl-scripts) (Seidel, 2018, S. 234)
-|                       | Markup        | Direct Authoring  | Timeline |
-| ----------------------|:-------------:| :----------------:| :-------:|
-| Scalability           | high          | low               | high     |
-| Efficient Editing     | high          | middle            | middle   |
-| Simple Usability      | low           | high              | middle   |
-
 ### Syntax Variant A (Markup Approach)
 
-
-
 Some examples of markup in connection with video-based learning or multimedia development:
-
-
 
 3. Markup-based DSL \<e-Game\> developed in the context of video game development by Moreno-Ger et al. (2006) [11]:
 
@@ -464,6 +466,8 @@ A running example of a video-based learning unit can be found here: [TED-Ed Onli
 A generic example of the transformed instantiations with annotations describing the elements:
 
 ![Generic VBL Module Example][annotated-vbl-module]
+
+---
 
 ## References 
 
