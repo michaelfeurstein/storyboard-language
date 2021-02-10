@@ -47,19 +47,19 @@ Seidel (2018) [1] calls this *markup* and uses markup as a language approach for
 
    > "Auszeichnungen können als HTML-Code [...] oder Wiki Markup [...] hinterlegt sein." (Seidel, 2018, p. )
 
-2. Direct Authoring:
+**2. Model-based Authoring:**
 
    > "Authoring systems tend to be menu-driven. You are specifically prompted for information or information is slotted into available locations" (Fenrich, 2005, p.42)
    
    Editing in user interface showing the player with dedicated interface buttons (+) popping up related dialogs (for specific authoring tasks e.g.: dialog to add an annotation). Rabin and Burns (1996) [2] name two categories which together form this approach: card-based and icon-based. Fenrich (2005) calls this authoring system. Seidel (2018) uses the term direct authoring.
 
-3. Timeline (translated: Zeitleiste)
+**3. Timeline-based Authoring (translated: Zeitleiste)**
 
    > "In timeline-based tools, media elements and events are organized along a time-line. This allows precise control of temporal characteristics of the application." (Rabin & Burns, 1996, p. 381)
    
    Classic editing via a timeline based video editing interface view (example: Mozilla Popcorn Maker). Fenrich (2005) calls this object-based system. Seidel (2018) uses the term "Zeitleiste".
 
-
+For this project I focus on text-based authoring only. There are already numerous approaches available in each category. However, as the initial motivation comes from supporting the process of storytelling the first step is to design corresponding textual representations, which in a later stage may also be represented visually.
 
 ### Context: Languages for Authoring Video
 
