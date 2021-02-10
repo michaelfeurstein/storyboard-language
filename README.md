@@ -222,13 +222,63 @@ A general overview of domain specific languages (textual notation) in an educati
      drag tool VideoWiki
      ```
      
-The above examples (3 + 2 in total) are all focussed on educational content first. They use one of the following approaches:
+- **AHLR-DL** a DSL for Abstract Hybrid Learning Resources (AHLR) (Dukhanov et al., 2020) [25]
 
-1. programming / scripting / text-driven ([COSTLy], **LISL**)
+     Dukhanov et al. (2020) present a DSL for the "quick preparation of learning materials in conditions of digital transformations and rapid updates of scientific results" based on JSON.
+          
+     Excerpt from Dukhanov et al. (2020) [25]:
+     
+     ```
+     AHLR “Optimization (basics)”: { 
+     {“General”: {
+      {“Name”: “Optimization”}, {“Learning Prerequisites”: 
+     [
+      {“LP Skill Name”: “Problem Statement Analysis”, “LP Skill Level”: “Apply”},{“LP Skill Name”: “Numerical Methods’ Usage”, “LP Skill Level”: “Apply”},
+      ] //LP Array
+      }, //LP Description
+       {“Learning Outcomes”: [{“LP Skill Name”: “Problem Statement Analysis”, “LP Skill Level”: “Analyze”}, {“LP Skill Name”: “Numerical Methods’ Usage”, “LP Skill Level”: “Apply”},   
+       ] //LO Array  
+       } //LO Description 
+       }, //General 
+       {“Parents” : Nil},
+       {“Parameters” : {“Educational” : [{“Representation”}, {“Degree Level”: “Master”} //This AHLR and children are for master’s degree only
+       ]// Edu params array  
+       }// Edu params  {“SystemTech” : []}, {“Domain” : []} 
+       }, //Parameters {“Links”: {“Learning Objects”: [{“Optimum”, “OptLink”},...]}, {“Research Objects”: [...]},  {“Resources”: [...]} 
+       }, //Links {“Personal information” : {...}
+       }, // Personal Info 
+     -------%<--------
+     //Activities Array 
+     }//Activities 
+     } //AHLR “Optimization (basics)”
+     ```
+     
+- **dlCMS** a dynamic learning content management system building on a structured markup approach to author educational conten (Schluep, 2005) [26]
 
-2. markup ()
+     Schluep (2005) uses a structured markup approach building on XML to author educational content.
+     
+     Excerpt from Schluep (2005) [26]:
+     
+     ```
+     QuestionnaireContentElement ::= (Title, QustionnaireContent) 
+     Title ::= (#PCDATA) 
+     QuestionnnaireContent ::= ((SingleChoice | MultipleChoice)*)
+     
+     SingleChoice ::= (Question, Answer*, Hint?) 
+     MultipleChoice ::= (Question, Answer*, Hint?)
+     
+     Question ::= (#PCDATA) 
+     Hint ::= (#PCDATA) 
+     Answer ::= (#PCDATA)
+     ```
+     
+The above examples (3 + 5 in total) are all focussed on educational content first. They use one of the following approaches:
 
-3. graphical representation ([COSTLy])
+1. textual notation: programming / scripting ([COSTLy], **LISL**, **LDL language**, **AHLR-DL**)
+
+2. textual notation: markup (**dlCMS**)
+
+3. graphical notation: visual representation ([COSTLy], **VLab**, **KiwiDSM**, **LDL language**, **CPM language**)
 
 ### Intersection of Languages for Authoring Video & Educational Content
 
@@ -464,6 +514,12 @@ A generic example of the transformed instantiations with annotations describing 
 [23] Laforcade, P., Zendagui, B., & Barré, V. (2008). A Domain-Specific-Modeling Approach to Support Scenarios-Based Instructional Design. In P. Dillenbourg & M. Specht (Hrsg.), Times of Convergence. Technologies Across Learning Contexts (Bd. 5192, S. 185–196). Springer Berlin Heidelberg. https://doi.org/10.1007/978-3-540-87605-2_21
 
 [24] Jiménez, D., Guerrero, A.-E., Prieto-Blazquez, J., & Conesa, J. (2014). A domain-specific language for Virtual Classrooms. International Journal of Metadata Semantics and Ontologies, 9, 312–323. https://doi.org/10.1504/IJMSO.2014.065444
+
+[25] Dukhanov, A., Gorokhovatsky, L., Pershutkin, A., & Koniukhov, S. (2020). Object-Oriented Approach for Quick Preparation of Learning Materials in Conditions of Digital Transformations and Rapid Updates of Scientific Results. 2020 IEEE Frontiers in Education Conference (FIE), 1–5. https://doi.org/10.1109/FIE44824.2020.9273988
+
+[26] Schluep, S. (2005). Modularization and structured markup for web-based learning content in an academic environment (S. 214 p.) [ETH Zurich; Application/pdf]. https://doi.org/10.3929/ETHZ-A-005047102
+
+
 
 
 
