@@ -10,11 +10,11 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 
 ---
 
-## A Language for Authoring Video-based Learning Units
+## A Language for Authoring Video-based Learning Content
 
-The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details.
+The idea of creating a language for video editing in general is not new. There are multiple projects available which tackle this challenge in different ways and details. The following sections highlights both the context of languages for authoring video and languages for authoring educational content. The intersection of both contexts creates the foundation towards a language for authoring video-based learning content.
 
-### Context: Video
+### Context: Languages for Authoring Video
 
 5 examples with excerpts and 2 examples without details.
 
@@ -154,11 +154,15 @@ The above examples (7 in total) are all focussed on video first. They use one of
 
 ---
 
-### Context: Education
+### Context: Languages for Authoring Educational Content
 
-In terms of an educationl context, it is harder to identify true languages, which have been designed for authoring a video-based learning unit. There are several tools, modules and frameworks primarily providing a GUI-approach to author video-based learning units ([DIVER Project](http://diver.stanford.edu/home.html), [TED Ed Lesson Creator](https://ed.ted.com/educator), [Vivista](https://github.com/Saticmotion/Vivista/tree/master)).
+In terms of an educationl context - meaning *authoring educational content* - it is harder to identify languages in the sense of a DSL. When looking into the context of languages for authoring educational content the concepts which pop up in the foreground are model-based, namely Educational Modeling Languages (EML) (Martinez-Ortiz et al., 2007) [21] or Visual Instructional Design Languages (VIDL) (Botturi et al., 2007) [22]. All of which are rooted in Model-Driven Engineering (MDE) principles. They aim for dedicated graphical editors to author educational content. Examples are the **CPM language** (citation needed), the **[Bricole Project](https://dl.acm.org/doi/abs/10.5555/1562524.1562632)**, the **LDL language** (citation needed), which also has a textual notation (Laforcade et al., 2008) [23]. Further modeling languages include **KiwiDSM**, a DSL for the generation of LMS modules (Montenegro-Marín et al., 2012) [20] or **VLab**, a DSL for the graphical description of virtual classrooms including its transformation to the LMS Moodle (Jiménez et al., 2014) [24].
 
-A general overview of domain specific languages in an educational context (= *without video* focus):
+On top of this there are also several tools, modules and frameworks primarily providing a GUI-based approach to author video-based learning content such as the **[DIVER Project](http://diver.stanford.edu/home.html)**, the **[TED Ed Lesson Creator](https://ed.ted.com/educator)** or **[Vivista](https://github.com/Saticmotion/Vivista/tree/master)**.
+
+Based on this large body of research behind languages for authoring educational content I focus only on languages with textual notation as its main way of authoring. 
+
+A general overview of domain specific languages (textual notation) in an educational context (= *without video* focus):
 
 - **[COSTLy]** a language for defining CSCL-Scripts
 
@@ -218,9 +222,19 @@ A general overview of domain specific languages in an educational context (= *wi
      drag tool VideoWiki
      ```
      
-The following come close to being a *language-based approach* and combin *education* with *video-based learning* (= *with video* focus):
+The above examples (3 + 2 in total) are all focussed on educational content first. They use one of the following approaches:
 
-- **[VI-TWO]** a framework for authoring interactive videos and **[VI-LAB]**, a CSCL-system for video-based CSCL-Scripts
+1. programming / scripting / text-driven ([COSTLy], **LISL**)
+
+2. markup ()
+
+3. graphical representation ([COSTLy])
+
+### Intersection of Languages for Authoring Video & Educational Content
+
+The following come close to being a *language-based approach* and combine *education* with *video-based learning* (= *with video* focus):
+
+- **[VI-TWO]** a framework for authoring interactive videos for learning and **[VI-LAB]**, a CSCL-system for video-based CSCL-Scripts
 
      In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using [Custom Elements] for HTML 5 documents and extending the MediaWiki [Wikitext] markup specification.
      
@@ -440,6 +454,19 @@ A generic example of the transformed instantiations with annotations describing 
 [18] Papasalouros, A., & Chatzimichalis, G. (2020). An Authoring Platform for CSCL Script Definition. In P. Zaphiris & A. Ioannou (Hrsg.), Learning and Collaboration Technologies. Human and Technology Ecosystems (S. 625–640). Springer International Publishing. https://doi.org/10.1007/978-3-030-50506-6_43
 
 [19] Mödritscher, F., Wild, F., & Sigurdarson, S. (2008). Language Design for a Personal Learning Environment Design Language. 1st International Workshop on Mashup Personal Learning Environments (MUPPLE08, 10.
+
+[20] Montenegro-Marín, C. E., Cueva-Lovelle, J. M., Sanjuán-Martínez, O., & García-Díaz, V. (2012). Domain Specific Language for the Generation of Learning Management Systems Modules. Journal of Web Engineering, 11(1), 23–50.
+
+[21] Martinez-Ortiz, I., Moreno-Ger, P., Sierra, J. L., & Fernandez-Manjon, B. (2007). Educational Modeling Languages. In B. Fernández-Manjón, J. M. Sánchez-Pérez, J. A. Gómez-Pulido, M. A. Vega-Rodríguez, & J. Bravo-Rodríguez (Hrsg.), Computers and Education: E-Learning, From Theory to Practice (S. 27–40). Springer Netherlands. https://doi.org/10.1007/978-1-4020-4914-9_3
+
+[22] Botturi, L., Botturi, L., & Stubbs, T. (2007). Handbook of Visual Languages for Instructional Design: Theories and Practices. Information Science Reference - Imprint of: IGI Publishing.
+
+[23] Laforcade, P., Zendagui, B., & Barré, V. (2008). A Domain-Specific-Modeling Approach to Support Scenarios-Based Instructional Design. In P. Dillenbourg & M. Specht (Hrsg.), Times of Convergence. Technologies Across Learning Contexts (Bd. 5192, S. 185–196). Springer Berlin Heidelberg. https://doi.org/10.1007/978-3-540-87605-2_21
+
+[24] Jiménez, D., Guerrero, A.-E., Prieto-Blazquez, J., & Conesa, J. (2014). A domain-specific language for Virtual Classrooms. International Journal of Metadata Semantics and Ontologies, 9, 312–323. https://doi.org/10.1504/IJMSO.2014.065444
+
+
+
 
 
 
