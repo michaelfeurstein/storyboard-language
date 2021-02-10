@@ -268,7 +268,29 @@ A general overview of domain specific languages (textual notation) in an educati
      Bookmark ‘selected self-descriptions’ using VideoWiki
      drag tool VideoWiki
      ```
+    
+- **XoWiki Content Flow (xowf)** a workflow extension for XoWiki using workflow definitions to create objects (pages) with different states (Neumann, 2008) [27] 
+
+     Neumann presents a workflow defintion language (xowf) based on the *State Design Pattern*. An introduction to xwof can be found [here](http://alice.wu-wien.ac.at:8000/xowf-intro/prepare).
      
+     Excerpt from a workflow definition by Neumann (2008) [27]:
+     
+     ```
+     my set debug 1
+     my set autoname 1
+
+     Action save
+     Action publish -next_state published -proc activate {obj} {
+      $obj set_publish_status ready
+     }
+     Action unpublish -next_state initial -proc activate {obj} {
+      $obj set_publish_status production
+     }
+
+     State initial -actions {save publish}
+     State published -actions {save unpublish}
+     ```
+    
 - **AHLR-DL** a DSL for Abstract Hybrid Learning Resources (AHLR) (Dukhanov et al., 2020) [25]
 
      Dukhanov et al. (2020) present a DSL for the "quick preparation of learning materials in conditions of digital transformations and rapid updates of scientific results" based on JSON.
@@ -501,6 +523,8 @@ A generic example of the transformed instantiations with annotations describing 
 [25] Dukhanov, A., Gorokhovatsky, L., Pershutkin, A., & Koniukhov, S. (2020). Object-Oriented Approach for Quick Preparation of Learning Materials in Conditions of Digital Transformations and Rapid Updates of Scientific Results. 2020 IEEE Frontiers in Education Conference (FIE), 1–5. https://doi.org/10.1109/FIE44824.2020.9273988
 
 [26] Schluep, S. (2005). Modularization and structured markup for web-based learning content in an academic environment (S. 214 p.) [ETH Zurich; Application/pdf]. https://doi.org/10.3929/ETHZ-A-005047102
+
+[27] Gustaf Neumann: XoWiki Content Flow -- From a Wiki to a Simple Workflow System, in: Proceedings of 7th OpenACS / DotLRN Conference, Valencia, Spain, November, 2008 http://nm.wu-wien.ac.at/research/publications/b765.pdf 
 
 
 
