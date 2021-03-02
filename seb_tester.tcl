@@ -57,9 +57,15 @@ namespace eval ::se {
       # TODO: At this point, one can decide what the result or kind of
       # post-processing (e.g., lazy instantiation to reverse
       # syntax-induced declaration order) needs to be performed.
+	  #
+	  # Create the class commands here or inside define. 
       if {[info exists :result]} {
-        set r ${:result}
+        foreach el ${:result} {
+			puts el:$el
+		}
+		set r ${:result}
       } else {
+		puts "no result"
         set r ""; # TODO: anything useful as a compensation action?
       }
       return $r
@@ -68,10 +74,10 @@ namespace eval ::se {
     :public method handleUnknown {firstWord args} {
       if {[dict exists ${:sentences} $firstWord]} {
         foreach s [dict get ${:sentences} $firstWord] {
-          lassign $s regExpr script
-          lassign $regExpr r vars
+		  lassign $s regExpr script
+		  lassign $regExpr r vars
           set body [list if "\[regexp \$re \$str _ $vars\]" $script]
-          # puts BODY='$body'
+          #puts BODY='$body'
           apply [list {re str} $body ::] $r [concat $args]
         }
       } else {
@@ -130,15 +136,24 @@ namespace eval ::seb::tests {
 
   set seBuilder [Builder new]
 
-  $seBuilder define There {^is (\d+) scene \((.+)\)$} {
+  $seBuilder define There {^is a (.+) with the title {(.+)}$} {
     # In these scripts,
     # ... one can use $0 - $n to positionally access the regex matches
-    puts "number: $0" ; 
-    puts "type: $1"
+    #puts "Video: $0" ; 
+    #puts "Video title: $1"
     # ... one can access the responsible builder object implicitly
-    puts "builder (implicit): [self]"
+    #puts "builder (implicit): [self]"
     # Note: the return value of the script is discarded if 'result' object variable exists !
     # Note: There can be multiple match sentences per first word (first defined, first processed)!
+	lappend :result "Class:$0 title:$1"
+  }
+
+  $seBuilder define This {^(.+) is located at (.*)$} {
+	lappend :result "Class:$0 location:$1"
+  }
+  
+  $seBuilder define This {^(.+) is a (.*) video$} {
+	lappend :result "Class:$0 type:$1"
   }
 
   # Beware! Right now, at this stage, the string following the first
@@ -147,16 +162,19 @@ namespace eval ::seb::tests {
   # braces). One would have to polish the input script further to
   # avoid this interpretation.
   
-  $seBuilder define Scene {^(\d+) is called {(.+)}$} {
-    puts "Scene: $0"
-    puts "Scene title: $1"
-    set :result [::StoryBoard::Video new -title $1]; # to be returned by get!
+  $seBuilder define Highlight {^(\d+) is called {(.+)}$} {
+    puts "Highlight: $0"
+    puts "Highlight title: $1"
+    lappend :result [::StoryBoard::Video new -title $1]; # to be returned by get!
+	puts define:${:result}
   }
-  
+ 
   set r [$seBuilder get $sbdata]
+  puts ContentFragments:[llength [ContentFragment info instances -closure]]
 
-  ? {$r info class} ::StoryBoard::Video
-  
+  foreach el $r {
+  	? {$el info class} ::StoryBoard::Video
+	}
   cleanupTests
 }
 
