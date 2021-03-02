@@ -1,0 +1,41 @@
+# Storyboard - Prepared dict (tcl)
+# 
+# Case 02: LEARN Lernmodul
+# 1 video
+# 2 chapters cropped (cropped highlights) = AuthTask01
+# 1 text interactions (annotation) = AuthTask02
+# 3 multiple choice questions (interaction) = AuthTask03
+
+video1 videoID myVideo
+video1 title "Explainer Video: What is an information system?"
+video1 videoLink videoLinkPlaceholder
+video1 length 60
+video1 type regular
+
+highlight1 videoref myVideo
+highlight1 title "Definition Information System"
+highlight1 starttime 20
+highlight1 endtime 30
+highlight1 crop true
+
+highlight2 videoref myVideo
+highlight2 title "Beispiel Bibliothek"
+highlight2 starttime 40
+highlight2 endtime 50
+highlight2 crop true
+
+annotation1 videoref myVideo
+annotation1 title "Willkommen"
+annotation1 body "Willkommen im videobasierten Lernmodul zum Thema Wirtschaftsinformatik!"
+
+interaction1 videoref myVideo
+interaction1 type mc
+interaction1 title "Frage 1"
+interaction1 body "2\fa\fb\fc"
+
+module moduleID myVBLmodule
+module title "Videobasierte Lernaktivitaet: Was ist ein Informationssystem?"
+module playlist (annotation1, highlight1, interaction1, highlight2)
+
+
+

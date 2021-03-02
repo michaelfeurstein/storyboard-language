@@ -1,0 +1,48 @@
+# Storyboard - Prepared dict (tcl)
+# 
+# Case 01: Vivista Project 
+# 1 360-video
+# 3 chapters (highlights) = AuthTask01
+# 2 text interactions (annotation) = AuthTask02
+# 1 multiple choice question = AuthTask03
+
+video1 videoID my360Video
+video1 title "A 360 Video"
+video1 videoLink videoLinkPlaceholder
+video1 length 60
+video1 type 360
+
+highlight1 videoref my360Video
+highlight1 title "Chapter 1: Anfang"
+highlight1 starttime 0
+highlight1 endtime 20
+
+highlight2 videoref my360Video
+highlight2 title "Chapter 2: Erklärung"
+highlight2 starttime 20
+highlight2 endtime 30
+
+highlight3 videoref my360Video
+highlight3 starttime 30
+highlight3 endtime 60
+highlight3 title "Chapter 4: Ende"
+
+annotation1 videoref my360Video
+annotation1 starttime 0
+annotation1 endtime 20
+annotation1 title "Willkommen"
+annotation1 body "Willkommen im videobasierten Lernmodul zum Thema 360-Video in der Lehre!"
+annotation1 placement mainContentZone
+
+interaction1 videoref my360Video
+interaction1 starttime 0
+interaction1 endtime 20
+interaction1 title "Frage 1"
+interaction1 type multipleChoice
+interaction1 body "Answer this question in order to demonstrate the system functionalities!"
+interaction1 answer1 "Answer option 1"
+interaction1 answer2 "Answer option 2"
+interaction1 answer3 "Answer option 3"
+interaction1 answer3 correct 
+
+
