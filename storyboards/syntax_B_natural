@@ -16,9 +16,14 @@
 
 #puts hello
 
-There is a video with the title "A 360 Video"
-This video is located at "videoPathPlaceholder"
-This video is a 360 video
+There is a video with the title "A 360 Video title with a"
+There is a video with the videoSource "oneConcatenatedWord"
+There is a video with the thing "A simple title without numbers"
+There is a object with the parameter "360"
+There is a video with the type justSomethingWithoutQuotes
+There is a video with the parameter 1234
+#This video is located at "videoPathPlaceholder"
+#This video is a 360 video
 
 Highlight 1 is called "Chapter 1: Anfang"
 Highlight 1 starts at timestamp 0

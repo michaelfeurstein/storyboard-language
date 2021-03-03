@@ -136,7 +136,7 @@ namespace eval ::seb::tests {
 
   set seBuilder [Builder new]
 
-  $seBuilder define There {^is a (.+) with the title {(.+)}$} {
+  $seBuilder define There {^is a (.+) with the (.+?) {?(.+?)}?$} {
     # In these scripts,
     # ... one can use $0 - $n to positionally access the regex matches
     #puts "Video: $0" ; 
@@ -145,7 +145,8 @@ namespace eval ::seb::tests {
     #puts "builder (implicit): [self]"
     # Note: the return value of the script is discarded if 'result' object variable exists !
     # Note: There can be multiple match sentences per first word (first defined, first processed)!
-	lappend :result "Class:$0 title:$1"
+	puts "Element 0:$0 1:$1 2:$2"
+	lappend :result "Element 0:$0 1:$1 2:$2"
   }
 
   $seBuilder define This {^(.+) is located at (.*)$} {
@@ -163,10 +164,10 @@ namespace eval ::seb::tests {
   # avoid this interpretation.
   
   $seBuilder define Highlight {^(\d+) is called {(.+)}$} {
-    puts "Highlight: $0"
-    puts "Highlight title: $1"
+    #puts "Highlight: $0"
+    #puts "Highlight title: $1"
     lappend :result [::StoryBoard::Video new -title $1]; # to be returned by get!
-	puts define:${:result}
+	#puts define:${:result}
   }
  
   set r [$seBuilder get $sbdata]
