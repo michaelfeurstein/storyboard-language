@@ -3,6 +3,9 @@ package require Tcl 8.6
 package require nx
 
 source language_model.tcl
+source expression_builder.tcl
+
+namespace import StoryBoard::*
 
 namespace eval ::se {
 
@@ -31,6 +34,7 @@ namespace eval ::se {
     :variable result:object
 
     :property {sentences:substdefault {[dict create]}}
+	:property -accessor public {stackDict:substdefault {[dict create]}}
 
 
     :method getMatchVars {regExprStr} {
@@ -53,13 +57,23 @@ namespace eval ::se {
       set interp [Interp new]
       $interp register [list [self] handleUnknown] ::unknown
       set storyboardScript [:polish $storyboardScript]
-      $interp eval $storyboardScript
+      puts "Calling eval storyboardScript"
+	  $interp eval $storyboardScript
       # TODO: At this point, one can decide what the result or kind of
       # post-processing (e.g., lazy instantiation to reverse
       # syntax-induced declaration order) needs to be performed.
 	  #
 	  # Create the class commands here or inside define. 
-      if {[info exists :result]} {
+      puts "\nAfter eval storyboardScript"
+
+	  puts "stackDict size:[dict size ${:stackDict}]"
+	  puts ${:stackDict}
+	  
+	  foreach id [dict keys ${:stackDict}] {
+	  	puts keys:$id
+	  }
+	  
+	  if {[info exists :result]} {
         foreach el ${:result} {
 			puts el:$el
 		}
@@ -136,8 +150,15 @@ namespace eval ::seb::tests {
 
   set seBuilder [Builder new]
 
-  $seBuilder define There {^is a (.+) with the (.+?) {?(.+?)}?$} {
-    # In these scripts,
+  $seBuilder define There {^is a (.+) with the (.+?) (.*)$} {
+  	# old {^is a (.+) with the (.+?) {?(.+?)}?$}
+    # Matches the following:
+	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
+	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
+	#
+	# append the matches to a dict
+	
+	# In these scripts,
     # ... one can use $0 - $n to positionally access the regex matches
     #puts "Video: $0" ; 
     #puts "Video title: $1"
@@ -145,7 +166,22 @@ namespace eval ::seb::tests {
     #puts "builder (implicit): [self]"
     # Note: the return value of the script is discarded if 'result' object variable exists !
     # Note: There can be multiple match sentences per first word (first defined, first processed)!
-	puts "Element 0:$0 1:$1 2:$2"
+	#
+	# Q: is there a way to report if the regex didn't match
+	
+	if {$1 eq "type" && $2 eq "360"} {
+		set 1 is360Video
+		set 2 true
+	} elseif {$1 eq "type" && $2 eq "regular"} {
+		set 1 is360Video
+		set 2 false
+	}
+
+	puts "Creating dict with 0:$0 1:$1 2:$2"
+	# create a dict from the matches stacking it
+	set ele "$0 $1 $2"
+	puts ele:$ele
+	dict set :stackDict {*}$ele
 	lappend :result "Element 0:$0 1:$1 2:$2"
   }
 
@@ -154,6 +190,13 @@ namespace eval ::seb::tests {
   }
   
   $seBuilder define This {^(.+) is a (.*) video$} {
+	if { $1 eq 360 } {
+	  puts "it's a 360 video"
+	} else {
+	  puts "it's a regular video"
+	}
+	set ele "$0 is360Video $1"
+	dict set :stackDict {*}$ele
 	lappend :result "Class:$0 type:$1"
   }
 
@@ -171,6 +214,10 @@ namespace eval ::seb::tests {
   }
  
   set r [$seBuilder get $sbdata]
+  
+  set iBuilder [StoryboardBuilder new]
+  $iBuilder from [$seBuilder stackDict get]
+
   puts ContentFragments:[llength [ContentFragment info instances -closure]]
 
   foreach el $r {

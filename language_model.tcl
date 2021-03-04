@@ -27,12 +27,17 @@ nx::Class create Video -superclasses ContentFragment {
 	:property -accessor public {title empty}
 	:property -accessor public {videoSource empty}
 	:property -accessor public {length:integer 0}
+	:property -accessor public {is360Video:boolean false}
 
 	# Every video per default is a highlight
-	# @Stefan: schaffe es hier grad nicht title starttime und endtime von self zu übergeben
 	:method init {} {
 	  Highlight create [self]::highlight -title ${:title} -starttime 0 -endtime ${:length}
+	  if ${:is360Video} {360Video create [self]::360video}
 	} 
+}
+
+nx::Class create 360Video -superclasses Video {
+	# TODO: 360-degree properties
 }
 
 #
