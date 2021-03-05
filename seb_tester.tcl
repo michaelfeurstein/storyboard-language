@@ -152,8 +152,24 @@ namespace eval ::seb::tests {
   set seBuilder [Builder new]
   
   # Note: There can be multiple match sentences per first word (first defined, first processed)!
+  
+  # CONTINUE HERE: problem is that define 01 and define 02 are triggered. This could either be by design or I may want to keep track of what was triggered.
+  $seBuilder define There {^is a video with the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*)$} {
+	# define 01
+	#
+	#Matches the following
+	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers" and <name-of-parameter> "..." repeated.
+	puts "define 01 - Video 0:$0 1:$1 2:$2 3:$3 4:$4 5:$5 6:$6 7:$7"
+	set parameterList "-$0 $1 -$2 $3 -$4 $5 -$6 $7"
+	set creation [subst {::StoryBoard::Video new -childof [self] $parameterList}]
+	puts "creationCmd: $creation"
+    lappend :result [eval $creation]; # to be returned by get!
+  }
+
   $seBuilder define There {^is a (.+) with the (.+?) (.*)$} {
-  	# old {^is a (.+) with the (.+?) {?(.+?)}?$}
+  	# define 02
+	#
+	# old {^is a (.+) with the (.+?) {?(.+?)}?$}
     # Matches the following:
 	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
 	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
@@ -178,7 +194,7 @@ namespace eval ::seb::tests {
 		set 2 false
 	}
 
-	puts "Creating dict with 0:$0 1:$1 2:$2"
+	puts "define 02 - Creating dict with 0:$0 1:$1 2:$2"
 	# create a dict from the matches stacking it
 	set ele "$0 $1 $2"
 	puts ele:$ele
@@ -186,12 +202,6 @@ namespace eval ::seb::tests {
 	lappend :result "Element 0:$0 1:$1 2:$2"
   }
 
-  ### CONTINUE HERE: problem of regex from above matching before as the beginning is the same....
-  $seBuilder define There {^is a video with the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*)$} {
-	# Matches the following
-	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers" and <name-of-parameter> "..." repeated.
-	puts "Video 0:$0 1:$1 2:$2 3:$§ 4:$4 5:$5 6:$6 7:$7"
-  }
 
   $seBuilder define This {^(.+) is a (.*) video$} {
 	if { $1 eq 360 } {
