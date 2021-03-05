@@ -66,9 +66,9 @@ namespace eval ::se {
 	  # Create the class commands here or inside define. 
       puts "\nAfter eval storyboardScript"
 
+	  # just checking if the stackDict is filled correctly
 	  puts "stackDict size:[dict size ${:stackDict}]"
-	  puts ${:stackDict}
-	  
+	  puts stackDict:${:stackDict}
 	  foreach id [dict keys ${:stackDict}] {
 	  	puts keys:$id
 	  }
@@ -105,6 +105,7 @@ namespace eval ::se {
       dict lappend :sentences $firstWord $sentence
     }
   }
+
   namespace export Builder
 
 }
@@ -149,7 +150,8 @@ namespace eval ::seb::tests {
   }
 
   set seBuilder [Builder new]
-
+  
+  # Note: There can be multiple match sentences per first word (first defined, first processed)!
   $seBuilder define There {^is a (.+) with the (.+?) (.*)$} {
   	# old {^is a (.+) with the (.+?) {?(.+?)}?$}
     # Matches the following:
@@ -165,7 +167,6 @@ namespace eval ::seb::tests {
     # ... one can access the responsible builder object implicitly
     #puts "builder (implicit): [self]"
     # Note: the return value of the script is discarded if 'result' object variable exists !
-    # Note: There can be multiple match sentences per first word (first defined, first processed)!
 	#
 	# Q: is there a way to report if the regex didn't match
 	
@@ -185,10 +186,13 @@ namespace eval ::seb::tests {
 	lappend :result "Element 0:$0 1:$1 2:$2"
   }
 
-  $seBuilder define This {^(.+) is located at (.*)$} {
-	lappend :result "Class:$0 location:$1"
+  ### CONTINUE HERE: problem of regex from above matching before as the beginning is the same....
+  $seBuilder define There {^is a video with the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*)$} {
+	# Matches the following
+	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers" and <name-of-parameter> "..." repeated.
+	puts "Video 0:$0 1:$1 2:$2 3:$§ 4:$4 5:$5 6:$6 7:$7"
   }
-  
+
   $seBuilder define This {^(.+) is a (.*) video$} {
 	if { $1 eq 360 } {
 	  puts "it's a 360 video"
@@ -200,6 +204,13 @@ namespace eval ::seb::tests {
 	lappend :result "Class:$0 type:$1"
   }
 
+  $seBuilder define This {^(.+) is located at (.*)$} {
+	puts "Location $0 and $1"
+	set ele "$0 videoSource $1"
+	dict set :stackDict {*}$ele
+	lappend :result "Class:$0 location:$1"
+  }
+  
   # Beware! Right now, at this stage, the string following the first
   # word (e.g., Scene) will habve been processed as a Tcl command
   # (e.g., double quotes etc. will been transformed to curly

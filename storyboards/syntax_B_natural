@@ -24,6 +24,7 @@ There is a video with the videoSource "oneConcatenatedWord"
 There is a video with the length 60
 
 # A block defining further elements with gibberish parameters
+# parameters do not fit the video class
 There is a video with the thing "A simple title without numbers"
 There is a video with the otherThing justSomethingWithoutQuotes
 There is a video with the parameter 1234
@@ -38,6 +39,11 @@ There is a video with the type 360
 # Another way of formulating the last sentence
 # This video is a 360 video
 
+# Another way of formulating the videoSource parameter
+This video is located at /path/to/a/video.mp4
+
+# Defining the whole video setup in only one sentence
+There is a video with the title "One sentence title" and the videoSource "someSource" and the length 120 and the is360Video true
 
 ###
 
