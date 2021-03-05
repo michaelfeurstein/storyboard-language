@@ -14,7 +14,7 @@ nx::Class create StoryboardBuilder {
 	  	#puts slot:[$class getParameterOptions]
 	  	set configInfo [$class info lookup syntax create]
 	  	set intersectLists [:intersectLists $configInfo ${:stack}]
-		puts final:$intersectLists
+		#puts final:$intersectLists
 
 		# setup class new command with parameters
 		set creation [subst {$class new -childof [self] $intersectLists}]
@@ -47,85 +47,75 @@ nx::Class create StoryboardBuilder {
 		#  }
 		# }
 	}
-
-	# compare create parameters with dict 
-	# if they match, create pattern "-property value"
+	
+	###
+	### intersectLists
+	###
+	# input: a (a list containing create parameters e.g.: from [$class info lookup syntax create])
+	# input: b (a list which is intersected with input a e.g.: a list of parsed parameters)
+	# return: a string containing the elements found in input a and b coded with a preceeding dash (-)
+	#
+	# functionality:
+	# compares input a (create parameters) with input b (a curated dict) and returns an intersection. 
+	# if they match (input b is found in input a), the following pattern is created "-parameter value"
+	#
 	# Q: Geht das anders auch? Im NS Tutorial steht etwas von nx::Slot und nx::ObjectParameterSlot
 	:method intersectLists {a b} {
-		set r {}
-		set d "-"
-		puts a:$a
-		puts b:$b
+		set propertyList {}
+		set dash "-"
+		#puts a:$a
+		#puts b:$b
 		foreach i $a {
-		  	set e [string trim $i "?-"]
-			#puts "match:e:$e b:$b"
-			if { $e in [dict keys $b] } {
-			  puts "matched:e:$e in b:$b"
-			  lappend r $d$e [dict get $b $e]
+		  	set parameter [string trim $i "?-"]
+			if { $parameter in [dict keys $b] } {
+			  #puts "matched parameter:$parameter in b:$b"
+			  lappend propertyList $dash$parameter [dict get $b $parameter]
 			}
 		}
-		return $r
+		return $propertyList
+	}
+
+	###
+	### matchClass
+	###
+	# input: id (token)
+	# input: ns (namespace)
+	#
+	# functionality:
+	# trim id from trailing numbers
+	# compare id case insensitive to classes in given namespace (ns) e.g. ::StoryBoard::*
+	# if they match (e.g. video1 --> trimmed to video --> found in ::StoryBoard::Video) use it
+	# set return to matched class (e.g. video or Video)
+	:method matchClass {id ns} {
+	  set matchedClass ""
+	  # trim id from trailing numbers
+	  regsub -all {[0-9]+} $id {} id
+	  #puts trimmed:$id
+	  set availableClasses [info commands $ns]
+	  if {[regexp -nocase "$id" $availableClasses match]} {
+		#puts "found id:$id in commands:$availableClasses matched:$match"
+		# Note: i could also pass $match (which is e.g. Video) instead of $id (which is video) and then remove the forward method and call :creator [:matchClass ...] directly (design question)
+		set matchedClass $id
+	  } else {
+		set e ""
 	  }
+	  return $matchedClass
+	}
 
 	# DYNAMIC RECEPTION
 	:method unknown {v args} {
-	  #puts "unknown $args:$v"
 	  lappend :stack $v
 	}
 
 	:public method from {storyboard} {
 	  foreach id [dict keys $storyboard] {
-
-		# schafft man das schöner via ternary operator?
-		#if {[regexp {video|highlight} $id matched]} {
-		#	set e $matched		  
-		#} else {
-		#	set e ""
-		#}
-		#puts "from:$id matched:$e"
-
-		# CONTINUE HERE: quick & dirty / refine
-		# trim keys from trailing numbers
-		# compare keys case insensitive to classes in namespace StoryBoard
-		# if they match (e.g. video1 --> ::StoryBoard::Video) use it
-		# set e to matched command (e.g. video or Video)	
-		set oid $id
-		puts from:$id
-		set t [regsub -all {[0-9]+} $id {} id]
-		puts trimmed:$id
-		set classes [info commands ::StoryBoard::*]
-		if {[regexp -nocase "$id" $classes match]} {
-			puts "found:id:$id in classes:$classes match:$match"
-			set e $id
-		} else {
-			set e ""
-		}
-
-		#puts current:[info method]
-		#puts commands:[info commands [namespace current]]
-		#puts namespace:[namespace current]
-	
-		foreach el [dict get $storyboard $oid] {
-		  puts el:$el
+		foreach el [dict get $storyboard $id] {
+		  #puts el:$el
 		  :$el
 		}
-
-		:$e
+		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e
 		unset :stack
 	  }
-
-	  #foreach element [lreverse $storyboard] {
-	  #	puts "element no$i:$element"
-	  #	foreach subelement [lreverse $element] {
-	  #	  	puts "subelement of $element:$subelement"
-	  #	}
-	  #	set :theElement :$element
-	  #	:$element
-	  #	incr i
-	  #	}
-	  # set r [lindex ${:opds} 0]
-	  # unset :opds
-	  # return $r	
 	}
 }
