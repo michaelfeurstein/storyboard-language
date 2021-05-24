@@ -1,0 +1,66 @@
+# Notation 1
+#
+# Questionnaire
+#
+# 1 video
+# 2 chapters = AuthTask01
+# 3 interactions = AuthTask02
+# linear module structure
+
+
+#begin
+
+video v1 URL https://youtu.be/0siisFJUKh4 
+
+chapter ch1 {
+	timestamp 01:10
+	title "Definition of term Information System" 
+}
+
+chapter ch2 {
+	timestamp 02:05
+	title "An example based on the library"
+}
+
+interaction act1 {
+	title "What is an Information System?"
+	type multipleChoice
+	question "Question Text?"
+	answer "Answer 1"
+	answer "Answer 2" correct
+}
+
+interaction act2 {
+	title "Information Systems around us"
+	type textPage
+}
+
+interaction act3 {
+	title "One last thing"
+	type textPage
+	URL http://link.to.page.with.text.com
+}
+
+module myVBLmodule {
+	title "What is an Information System?"
+	playlist {act1, v1, act2, act3}
+}
+
+#end
+
+###
+### LISP like inspiration / remove when iterated
+###
+
+(define chapter1 (theVideo #:timestamp:01:10) #:title "Definition of term Information System")
+(define chapter2 (theVideo #:timestamp:02:05) #:title "An example based on the library")
+
+(define interaction1 #:type:multipleChoice #:title "What is an Information System")
+(define interaction2 #:type:textPage #:title "Information Systems around us")
+
+(define module
+      #:title “What is an Information System?”
+      (playlist (chapter1)
+                (chapter2)
+ )
+)
