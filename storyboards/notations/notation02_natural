@@ -1,0 +1,29 @@
+# Notation 2
+#
+# Questionnaire
+#
+# 1 video
+# 2 chapters = AuthTask01
+# 3 interactions = AuthTask02
+# linear module structure
+
+This Module is titled "What is an Information System?"
+There is a Video with the URL "https://youtu.be/0siisFJUKh4"
+
+Chapter 1 starts at timestamp 01:10
+Chapter 1 is titled "Definition of term Information System"
+
+Chapter 2 starts at timestamp 02:05
+Chapter 2 is titled "An example based on the library"
+
+Interaction 1 is a multiple choice question titled "What is an Information System?"
+This interaction holds the text "Question Text?"
+This interaction offers the answer "Answer 1"
+This interaction offers the answer "Answer 2" which is correct
+
+Interaction 2 is a text page titled "Information Systems around us"
+
+Interaction 3 is a text page titled "One last thing" and references the URL "http://link.to.page.with.text.com"
+
+This Module is structured: Interaction 1, Video, Interaction 2, Interaction 3
+
