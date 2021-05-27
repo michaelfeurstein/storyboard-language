@@ -7,8 +7,7 @@
 # 3 interactions = AuthTask02
 # linear module structure
 
-
-#begin
+# begin - variant A
 
 video v1 URL https://youtu.be/0siisFJUKh4 
 
@@ -26,8 +25,10 @@ interaction act1 {
 	title "What is an Information System?"
 	type multipleChoice
 	question "Question Text?"
-	answer "Answer 1"
-	answer "Answer 2" correct
+	answers {
+		"Answer 1",f
+		"Answer 2",t
+	}
 }
 
 interaction act2 {
@@ -46,7 +47,22 @@ module myVBLmodule {
 	playlist {act1, v1, act2, act3}
 }
 
-#end
+# end - variant A
+
+# begin - variant B
+
+video v1 -URL https://youtu.be/0siisFJUKh4
+
+chapter ch1 -timestamp 01:10 -title "Definition of term Information System"
+chapter ch2 -timestamp 02:05 -title "An example based on the library"
+
+interaction act1 -title "What is an Information System?" -type multipleChoice -question "Question Text?" -answers {{"Answer 1",f} {"Answer 2",t}} 
+interaction act2 -title "Information Systems around us" -type textPage
+interaction act3 -title "One last thing" -type textPage -URL http://link.to.page.with.text.com
+
+module myVBLmodule -title "What is an Information System?" -playlist {act1, v1, act2, act3}
+
+# end - variant B
 
 ###
 ### LISP like inspiration / remove when iterated
