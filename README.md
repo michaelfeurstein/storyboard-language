@@ -61,6 +61,46 @@ Seidel (2018) [1] calls this *markup* and uses markup as a language approach for
 
 For this project I focus on text-based authoring only. There are already numerous approaches available in each category. However, as the initial motivation comes from supporting the process of storytelling the first step is to design corresponding textual representations, which in a later stage may also be represented visually.
 
+### Context: Text-Based Authoring in other Domains
+
+When focusing further on a text-based approach for authoring there are some examples of text-based authoring languages from two different domains - specifically not focusing on video and/or education - being music and :
+
+- **Domain of Music - [Mascii]**: a free open-source music notation system written in shell script. However when looking at it in more detail (source code available via github: [mascii-github]) it seems to build on musescore. Still it offers a way to input musical score elements in a text form and transform them into visual musical notation.
+
+     Excerpts from a a simple mascii representation.
+
+     ```
+     {
+      tempo: 110  
+      time: 3/4
+      patch: 17, 23
+     }
+     
+     !d  [G a b] [c d e]  | D G G 
+     [!Gbd]__     A       | b G b
+     
+     e. [C B] c d e f#    |  g         G     G
+     c                    | [B [c d]] [C B] [A G]
+     ```
+     
+- **Domain of Process Modeling - [BPMN Sketch Miner]**: a tool offering a way to draw simple BPMN diagrams through describing them via stories, hence a text-based notation. BPMN Sketch Miner is "[...] a tool which combines notes taking in constrained natural language with process mining to automatically produce BPMN diagrams in real-time as [...] participants describe them with stories." (Ivanchikj et al., 2020) [28]
+
+     Excerpts from a simple text-based notation.
+     
+     ```
+     Draw simple BPMN diagrams
+     (timer quickly)
+     as you describe them with stories
+     ```
+
+- **Domain of Automotive Industry - NESSIE & SofTSpec**: NESSIE stands for "New Test Case Specification Editor" and offers a new way to create and edit test cases in the automotive industry (DOORS and DANTe being used as well). SofTSpec stands for "Support of Test Case Specification Creation" and is a toolbox offering editors (SofTSpec Editor) and extensions (Phrasex) to the automotive test case tool chain, specificall extending NESSIE. (Juhnke, 2020) [29]
+
+     Excerpt of an action description in the SofTSpec Editor
+     
+     ```
+     - Press button "Window Opener" at "rear left door" for "rear left window" in position "open"
+     ```
+
 ### Context: Languages for Authoring Video
 
 5 examples with excerpts and 2 examples without details.
@@ -528,10 +568,9 @@ A generic example of the transformed instantiations with annotations describing 
 
 [27] Gustaf Neumann: XoWiki Content Flow -- From a Wiki to a Simple Workflow System, in: Proceedings of 7th OpenACS / DotLRN Conference, Valencia, Spain, November, 2008 http://nm.wu-wien.ac.at/research/publications/b765.pdf 
 
+[28] Ivanchikj, A., Serbout, S., & Pautasso, C. (2020). From text to visual BPMN process models: Design and evaluation. Proceedings of the 23rd ACM/IEEE International Conference on Model Driven Engineering Languages and Systems, 229–239. https://doi.org/10.1145/3365438.3410990
 
-
-
-
+[29] Juhnke, K. (2020). Improving the Quality of Automotive Test Case Specifications [Dissertation]. Ulm University.
 
 
 
@@ -567,3 +606,9 @@ A generic example of the transformed instantiations with annotations describing 
 [COSTLy]: https://its2020.iis-international.org/wp-content/uploads/4.-54-Towards-CSCL-Scripting-By-Example.pdf
 
 [costly-visual-example]: https://github.com/michaelfeurstein/storyboard-language/blob/main/images/visual-jigsaw-cscl-blocky__Papasalouros_Chatzimichalis.png "A visual definition of the Jigsaw script"
+
+[mascii-github]: https://github.com/arikast/mascii-quickstart
+
+[Mascii]: https://mascii.org/
+
+[BPMN Sketch Miner]: https://www.bpmn-sketch-miner.ai/ 
