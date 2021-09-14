@@ -1,11 +1,9 @@
 # Notation 2
 #
-# Questionnaire
+# Natural-Language Notation
 #
-# 1 video
-# 2 chapters = AuthTask01
-# 3 interactions = AuthTask02
-# linear module structure
+# used in first SUS questionnaire
+#
 
 This Module is titled "What is an Information System?"
 There is a Video with the URL "https://youtu.be/0siisFJUKh4"
@@ -22,8 +20,7 @@ This interaction offers the answer "Answer 1"
 This interaction offers the answer "Answer 2" which is correct
 
 Interaction 2 is a text page titled "Information Systems around us"
+This interaction holds the text "This video provides an introduction to Information Systems"
 
-Interaction 3 is a text page titled "One last thing" and references the URL "http://link.to.page.with.text.com"
-
-This Module is structured: Interaction 1, Video, Interaction 2, Interaction 3
+This Module is structured: Interaction 1, Video, Interaction 2
 

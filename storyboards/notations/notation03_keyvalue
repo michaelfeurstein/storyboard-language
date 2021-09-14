@@ -1,11 +1,9 @@
 # Notation 3
 #
-# Questionnaire
+# Key-Value Notation
 #
-# 1 video
-# 2 chapters = AuthTask01
-# 3 interactions = AuthTask02
-# linear module structure
+# used in SUS questionnaire
+#
 
 video1 videoURL https://youtu.be/0siisFJUKh4
 
@@ -18,15 +16,11 @@ chapter2 timestamp 02:05
 interaction1 title "What is an Information System?"
 interaction1 type multipleChoice
 interaction1 question "Question Text?"
-interaction1 answers {"Answer 1",f "Answer 2",t}
+interaction1 answers {"Answer 1",wrong "Answer 2",correct}
 
 interaction2 title "Information Systems around us"
 interaction2 type textPage
 
-interaction3 title "One last thing"
-interaction3 type textPage
-interaction3 URL http://link.to.page.with.text.com
-
 module title "What is an Information System?"
-module playlist (interaction1, video1, interaction2, interaction3)
+module playlist (interaction1, video1, interaction2)
 
