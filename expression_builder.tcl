@@ -5,7 +5,7 @@ nx::Class create StoryboardBuilder {
 
 	#:forward [regexp {(video)} ${:theElement}] %self creator Video
 	:forward video %self creator Video
-	:forward highlight %self creator Highlight
+	:forward timestamp %self creator Timestamp
 
 	:method creator {class} {
 	  	#puts "creator method with class:$class"
@@ -13,6 +13,7 @@ nx::Class create StoryboardBuilder {
 	  	# intersect create info of class with stack
 	  	#puts slot:[$class getParameterOptions]
 	  	set configInfo [$class info lookup syntax create]
+		puts info:[$class info lookup syntax create]
 	  	set intersectLists [:intersectLists $configInfo ${:stack}]
 		#puts final:$intersectLists
 

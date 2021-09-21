@@ -18,37 +18,44 @@ if { $argc != 1 } {
 	set storyboardFile [lindex $argv 0]
 }
 
-puts storyboardFile:$storyboardFile
+#puts storyboardFile:$storyboardFile
 
-# Direct instantiations of model:
-
+puts "\n--- Direct instantiations from model_tester.tcl\n"
 # begin
 
-Text new
-Image new
-Video new
+# Create a testVideo and add 2 timestamps 
+Video create testVideo -URL {http://www.link.com}
+testVideo createTimestamp -time 0123 -title "first"
+testVideo createTimestamp -time 4567 -title "second"
 
-Text create testText
-Image create testImage
+# Create a timestamp which is associated with the video above
+Timestamp create anotherTimestamp -time 4321 -title "third" -video [testVideo]
 
-Video create testVideo -title {Test Video} -videoSource {http://www.youtube.com/12345} -length 12345
+# Create a timestamp with no video association and add association later
+Timestamp create soloTimestamp -time 8910 -title "fourth"
+testVideo addTimestamp -ts [soloTimestamp]
+
+# a module
+#Module create testModule -title "My first module" -structure {element1, element2, element3}
 
 # end
 
-puts "--- testVideo"
-puts title:[testVideo title get]
-puts videoSource:[testVideo videoSource get]
-puts length:[testVideo length get]
+puts "[testVideo info class]::[testVideo info name] URL:[testVideo URL get]"
+puts "children:[testVideo info children]"
+foreach x [testVideo info children] {
+	puts "found timestamp title:[$x title get] with time:[$x time get] "
+	
+}
 
-puts "--- testVideo::highlight"
-puts crop:[testVideo::highlight crop get]
-puts title:[testVideo::highlight title get]
-puts starttime:[testVideo::highlight starttime get]
-puts endtime:[testVideo::highlight endtime get]
 
 #? {llength [ContentFragment info instances -closure]} 6
-puts ContentFragments:[llength [ContentFragment info instances -closure]]
-puts Highlights:[llength [Highlight info instances -closure]]
+puts Videos:[llength [Video info instances -closure]]
+puts Timestamp:[llength [Timestamp info instances -closure]]
+puts Module:[llength [Module info instances -closure]]
+
+[testVideo] destroy
+
+puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 
 # Setup Parser
 set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
@@ -60,7 +67,6 @@ set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
 set internalBuilder [StoryboardBuilder new]
 $internalBuilder from [$internalParser storyboardDict get]
 
+puts Videos:[llength [Video info instances -closure]]
+puts Timestamp:[llength [Timestamp info instances -closure]]
 # end
-puts ContentFragments:[llength [ContentFragment info instances -closure]]
-puts Highlights:[llength [Highlight info instances -closure]]
-puts TimeRanges:[llength [TimeRange info instances -closure]] 
