@@ -1,9 +1,12 @@
 package req nx
 
+namespace eval StoryBoard {
+
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder 
 nx::Class create StoryboardBuilder {
 
-	#:forward [regexp {(video)} ${:theElement}] %self creator Video
+	:variable creationStack ""
+
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
 
@@ -13,14 +16,29 @@ nx::Class create StoryboardBuilder {
 	  	# intersect create info of class with stack
 	  	#puts slot:[$class getParameterOptions]
 	  	set configInfo [$class info lookup syntax create]
-		puts info:[$class info lookup syntax create]
+		#puts info:[$class info lookup syntax create]
 	  	set intersectLists [:intersectLists $configInfo ${:stack}]
 		#puts final:$intersectLists
 
 		# setup class new command with parameters
-		set creation [subst {$class new -childof [self] $intersectLists}]
+		#set creation [subst {$class new -childof [self] $intersectLists}]
+		#set creation [subst {$class create ${:className} $intersectLists}]
+		set creation [subst {$class new -id ${:className} $intersectLists}]
 		puts creationCmd:$creation
-		set :stack [eval $creation]
+
+		try {
+			set :stack [eval $creation]
+		} on error {msg} {
+			puts "Error: $msg"
+			lappend :creationStack $creation
+		}
+
+		#if [catch {set :stack [eval $creation]} errMsg] {
+		#	puts "Error while creating ${:className}: $errMsg"
+		#	# put creation command on a stack and try again later (at the end or after each iteration?)
+		#	lappend :creationStack $creation
+		#}
+		#puts stack:${:stack}
 
 		#switch -glob -- $class {
 		#  "Video"
@@ -87,6 +105,8 @@ nx::Class create StoryboardBuilder {
 	# compare id case insensitive to classes in given namespace (ns) e.g. ::StoryBoard::*
 	# if they match (e.g. video1 --> trimmed to video --> found in ::StoryBoard::Video) use it
 	# set return to matched class (e.g. video or Video)
+	#
+	# TODO: also match other variants e.g. videoIntro, videopart, videoIOT425
 	:method matchClass {id ns} {
 	  set matchedClass ""
 	  # trim id from trailing numbers
@@ -104,19 +124,40 @@ nx::Class create StoryboardBuilder {
 	}
 
 	# DYNAMIC RECEPTION
-	:method unknown {v args} {
-	  lappend :stack $v
-	}
+	#:method unknown {v args} {
+	#  lappend :stack $v
+	#}
 
 	:public method from {storyboard} {
 	  foreach id [dict keys $storyboard] {
 		foreach el [dict get $storyboard $id] {
-		  #puts el:$el
-		  :$el
+		  # fill the stack with all elements (el) of key (id)
+		  #:$el
+		  lappend :stack $el
 		}
+		#puts "calling:$id with stack:${:stack}"
+		set :className $id
 		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e
 		unset :stack
+		unset :className
+	  }
+
+	  if {[llength ${:creationStack}] > 0} {
+	  	puts creationStack:${:creationStack}
+		foreach cmd ${:creationStack} {
+			puts "retrying $cmd"
+			try {
+				eval $cmd
+			} on error {msg} {
+				puts "Error: $msg"
+			}
+		}
+	  } else {
+		puts "No creation stack to retry"
 	  }
 	}
+}
+
+namespace export StoryboardBuilder 
 }
