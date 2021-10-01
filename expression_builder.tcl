@@ -47,49 +47,46 @@ nx::Class create StoryboardBuilder {
 	#
 	###
 	:method tryCmdStack {cmd} {
-	  # CONTINUE HERE: simplify and make handling of creationStack and backlogStack more clear.
-	  	#set cmd [list $command]
 	  	puts "\nstacksize:[llength $cmd]"
+	  	puts "Stack passed:$cmd"
 		if {[llength $cmd] > 0} {
-		  	puts "Stack passed:$cmd"
 			foreach c $cmd { 
-				puts "trying $c"
 				try {
 					set :stack [eval $c]
-				  	#eval $c
 				} on 5 {msg options} {
-				 	puts "trapped msg:$msg options:$options"
-					puts [dict get $options customOptions timestamp]
-					foreach key [dict keys $options] {
-						set value [dict get $options $key]
-						puts "$key --> $value"
-						#puts "[dict size $value]" 
-					}
-			   } on error {msg} {
-					puts "class:[$msg info class] instance:[$msg id get] stacksize:[llength $cmd]" 
-					puts "c: $c"
-					if {${:retryFlag}} {
-						puts "retrying a second time, don't destroy, remove from stack"
-						:removeCmdFromStack $c :creationBacklogStack
-						if {[llength ${:creationBacklogStack}] == 0} {
-					  		set :retryFlag 0
-						}
-					} elseif {${:retryFlag} == 0} {
-						puts destroying:$msg
-						$msg destroy
-				  		puts "putting it on backlog - try again later, raising retryFlag"
-						lappend :creationBacklogStack $c
-						:removeCmdFromStack $c :creationStack
-					}
-					puts creationStack:${:creationStack}
-					puts creationBacklogStack:${:creationBacklogStack}
-				} on ok {msg} {
-					puts "STATUS:OK msg:$msg"
+					puts "return msg: $msg"
+					lappend :creationBacklogStack $c
 					:removeCmdFromStack $c :creationStack
-					:removeCmdFromStack $c :creationBacklogStack
-					if {[llength ${:creationBacklogStack}] == 0} {
-					  set :retryFlag 0
-					}
+
+				 	# the following is just to check what I can pass through with return
+				#  	puts "returned msg:$msg options:$options"
+				#	if {[dict exists $options customOptions]} {
+				#		puts "dict customOptions exists: [dict get $options customOptions]"
+				#		foreach key [dict keys [dict get $options customOptions]] {
+				#			puts "keys $key --> [dict get [dict get $options customOptions] $key]"
+				#		}
+				#	}
+			   	} on error {msg} {
+					puts "STATUS:ERROR --> class:[$msg info class] instance:[$msg id get] stacksize:[llength $cmd]" 
+				#	puts "c: $c"
+				#	if {${:retryFlag}} {
+				#		puts "retrying a second time, don't destroy, remove from stack"
+				#		:removeCmdFromStack $c :creationBacklogStack
+				#		if {[llength ${:creationBacklogStack}] == 0} {
+				#	  		set :retryFlag 0
+				#		}
+				#	} elseif {${:retryFlag} == 0} {
+				#		puts destroying:$msg
+				#		$msg destroy
+				#  		puts "putting it on backlog - try again later, raising retryFlag"
+				#		lappend :creationBacklogStack $c
+				#		:removeCmdFromStack $c :creationStack
+				#	}
+				#	puts creationStack:${:creationStack}
+				#	puts creationBacklogStack:${:creationBacklogStack}
+				} on ok {msg} {
+					puts "STATUS:OK --> msg:$msg stack:${:stack}"
+					:removeCmdFromStack $c :creationStack
 				}
 		  	}
 		} else {
@@ -123,11 +120,16 @@ nx::Class create StoryboardBuilder {
 	}
 
 	:method handleBacklogStack {backlog} {
+	  	# CONTINUE HERE: maybe think of structuring the backlog as a dict with structure 
+	  	# dict set backlog call1 command $c
+	  	# dict set backlog call1 instance ${value from customOptions dict = [self], which is the instance of $c} 
+	  	# dict set backlog call1 error ${value from customOptions dict = timestamp7}
+	  	# dict set backlog call1 errorClass ${value from customOptions dict = ::Timestamp}		
 		# explicitly handle the backlog
 	  	puts backlog_:$backlog
-		int count = 0
-		int maxTries = 3
-		while{[llength $backlog] > 0} {
+		set count 0
+		set maxTries 3
+		while {[llength $backlog] > 0} {
     		try {
     			# try cmd from backlog stack
 			} on 5 {msg options} {

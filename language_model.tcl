@@ -56,11 +56,10 @@ nx::Class create Video -mixins Helper {
 			  	puts timestamp:[[self] timestamp get]
 				:addTimestamp -ts $y
 			} else {
-			  	puts "timestamp ${:timestamp} not found. Setting it empty. Raising error"
 				#[self] timestamp set empty
-				dict set returnOptions customOptions "timestamp" "${:timestamp}"
-				dict set returnOptions customOptions "instance" [self]
-				return -code 5 -options $returnOptions "custom message"
+				dict set returnOptions customOptions "${:timestampClass}" "${:timestamp}"
+				dict set returnOptions customOptions "destroy" [self]
+				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
 			}
 		}
 	}
