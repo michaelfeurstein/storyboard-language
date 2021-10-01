@@ -61,8 +61,7 @@ nx::Class create StoryboardBuilder {
 					puts "c: $c"
 					if {${:retryFlag}} {
 						puts "retrying a second time, don't destroy, remove from stack"
-						set idx [lsearch ${:creationBacklogStack} $c]
-						set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
+						:removeCmdFromStack $c :creationBacklogStack
 						if {[llength ${:creationBacklogStack}] == 0} {
 					  		set :retryFlag 0
 						}
@@ -71,20 +70,14 @@ nx::Class create StoryboardBuilder {
 						$msg destroy
 				  		puts "putting it on backlog - try again later, raising retryFlag"
 						lappend :creationBacklogStack $c
-						set idx [lsearch ${:creationStack} $c]
-						set :creationStack [lreplace ${:creationStack} $idx $idx]
+						:removeCmdFromStack $c :creationStack
 					}
 					puts creationStack:${:creationStack}
 					puts creationBacklogStack:${:creationBacklogStack}
-					#:removeCmdFromStack $c :creationStack
 				} on ok {msg} {
 					puts "STATUS:OK msg:$msg"
-			  		set idx [lsearch ${:creationStack} $c]
-					set :creationStack [lreplace ${:creationStack} $idx $idx]
-					puts creationStack:${:creationStack}
-					set idx [lsearch ${:creationBacklogStack} $c]
-					set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
-					puts creationBacklogStack:${:creationBacklogStack}
+					:removeCmdFromStack $c :creationStack
+					:removeCmdFromStack $c :creationBacklogStack
 					if {[llength ${:creationBacklogStack}] == 0} {
 					  set :retryFlag 0
 					}
@@ -95,15 +88,29 @@ nx::Class create StoryboardBuilder {
 		}
 	}
 
+	###
+	### removeCmdFromStack
+	###
+	#
+	# input: c (the command to remove = list element)
+	# input: s (the stack to operate on = the list)
+	#
+	# functionality:
+	# removes element c from stack s
+	#
+	# original code:
+	# set idx [lsearch ${:creationBacklogStack} $c]
+	# set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
+	# puts creationBacklogStack:${:creationBacklogStack}
+	#
+	###
 	:method removeCmdFromStack {c s} {
-	  	puts "c:$c and s:$s"
 		set d "$"
-		set lscmd [subst {lsearch $d{$s} $c}]
-		puts lscmd:$lscmd
-	  	$lscmd
-		#set idx [lsearch ${:$s} $c]
-		set :$s [lreplace ${:$s} $idx $idx]
-		puts $s:${:$s}
+	  	set idx [eval [subst {lsearch $d{$s} {$c}}]]
+		if {$idx ne -1} {
+			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
+			set $s [eval [subst {lreplace $d{$s} {$idx} {$idx}}]]
+		}
 	}
 
 	:method handleBacklog {backlog} {
