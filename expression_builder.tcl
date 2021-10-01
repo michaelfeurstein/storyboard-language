@@ -47,6 +47,7 @@ nx::Class create StoryboardBuilder {
 	#
 	###
 	:method tryCmdStack {cmd} {
+	  # CONTINUE HERE: simplify and make handling of creationStack and backlogStack more clear.
 	  	#set cmd [list $command]
 	  	puts "\nstacksize:[llength $cmd]"
 		if {[llength $cmd] > 0} {
@@ -55,8 +56,16 @@ nx::Class create StoryboardBuilder {
 				puts "trying $c"
 				try {
 					set :stack [eval $c]
-				  	#[eval $c]
-				} on error {msg} {
+				  	#eval $c
+				} on 5 {msg options} {
+				 	puts "trapped msg:$msg options:$options"
+					puts [dict get $options customOptions timestamp]
+					foreach key [dict keys $options] {
+						set value [dict get $options $key]
+						puts "$key --> $value"
+						#puts "[dict size $value]" 
+					}
+			   } on error {msg} {
 					puts "class:[$msg info class] instance:[$msg id get] stacksize:[llength $cmd]" 
 					puts "c: $c"
 					if {${:retryFlag}} {
@@ -113,13 +122,21 @@ nx::Class create StoryboardBuilder {
 		}
 	}
 
-	:method handleBacklog {backlog} {
+	:method handleBacklogStack {backlog} {
 		# explicitly handle the backlog
 	  	puts backlog_:$backlog
-		while {[llength $backlog] > 0} {
-			
+		int count = 0
+		int maxTries = 3
+		while{[llength $backlog] > 0} {
+    		try {
+    			# try cmd from backlog stack
+			} on 5 {msg options} {
+			  	
+        		# if (++count == maxTries) throw e;
+    		} on ok {} {
+				# on success remove cmd from backlog stack
+			}
 		}
-
 	}
 
 	###
@@ -202,9 +219,9 @@ nx::Class create StoryboardBuilder {
 	  }
 	
 	  # after running through the storyboard handle backlog 
-	  puts "\nReached end of storboard - trying again with creationBacklogStack"
+	  puts "\nReached end of storyboard - trying again with creationBacklogStack"
 	  set :retryFlag 1
-	  :tryCmdStack ${:creationBacklogStack}
+	  :handleBacklogStack ${:creationBacklogStack}
 	}
 }
 
