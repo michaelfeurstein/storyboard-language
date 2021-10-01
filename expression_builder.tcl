@@ -5,7 +5,9 @@ namespace eval StoryBoard {
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder 
 nx::Class create StoryboardBuilder {
 
+  	:variable retryFlag 0
 	:variable creationStack ""
+	:variable creationBacklogStack ""
 
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
@@ -16,57 +18,103 @@ nx::Class create StoryboardBuilder {
 	  	# intersect create info of class with stack
 	  	#puts slot:[$class getParameterOptions]
 	  	set configInfo [$class info lookup syntax create]
-		#puts info:[$class info lookup syntax create]
 	  	set intersectLists [:intersectLists $configInfo ${:stack}]
-		#puts final:$intersectLists
 
 		# setup class new command with parameters
 		#set creation [subst {$class new -childof [self] $intersectLists}]
 		#set creation [subst {$class create ${:className} $intersectLists}]
 		set creation [subst {$class new -id ${:className} $intersectLists}]
 		puts creationCmd:$creation
-
-		try {
-			set :stack [eval $creation]
-		} on error {msg} {
-			puts "Error: $msg"
-			lappend :creationStack $creation
-		}
+		lappend :creationStack $creation
+		:tryCmdStack ${:creationStack}
 
 		#if [catch {set :stack [eval $creation]} errMsg] {
 		#	puts "Error while creating ${:className}: $errMsg"
 		#	# put creation command on a stack and try again later (at the end or after each iteration?)
 		#	lappend :creationStack $creation
 		#}
-		#puts stack:${:stack}
-
-		#switch -glob -- $class {
-		#  "Video"
-		#  {
-		#	puts "matched a video class"
-		#	#puts stacklength[llength ${:stack}]:${:stack}
-		#	#puts dict:[dict keys ${:stack}]
-		#	#puts [info class constructor nx::$class]
-		#  	#set configInfo [[$class new] info lookup syntax configure]
-		#	#puts configInfo:$configInfo	
-		#	
-		#	# use list to assign parameters
-		#	#lassign ${:stack} a videoID b videoLink c title d length
-		#	#set :stack [$class new -childof [self] $intersectLists]
-		#  }
-		#  "Highlight"
-		#  {
-		#	puts "matched a highlight class"
-		#	lassign ${:stack} a videoref b title c starttime d endtime
-		#	set :stack [$class new -childof [self] -starttime $starttime -endtime $endtime -title $title]
-		#  } 
-		#  default
-		#  {
-		#	puts "matched nothing"
-		#  }
-		# }
+		#puts stack:${:stack}	
 	}
-	
+
+	###
+	### tryCmd
+	###
+	# input: cmd (a single creationCmd or a creationStack)
+	#
+	# functionality:
+	# execute cmd or list of commands from creationStack
+	# if an error is raised add command to creationBacklogStack
+	#
+	###
+	:method tryCmdStack {cmd} {
+	  	#set cmd [list $command]
+	  	puts "\nstacksize:[llength $cmd]"
+		if {[llength $cmd] > 0} {
+		  	puts "Stack passed:$cmd"
+			foreach c $cmd { 
+				puts "trying $c"
+				try {
+					set :stack [eval $c]
+				  	#[eval $c]
+				} on error {msg} {
+					puts "class:[$msg info class] instance:[$msg id get] stacksize:[llength $cmd]" 
+					puts "c: $c"
+					if {${:retryFlag}} {
+						puts "retrying a second time, don't destroy, remove from stack"
+						set idx [lsearch ${:creationBacklogStack} $c]
+						set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
+						if {[llength ${:creationBacklogStack}] == 0} {
+					  		set :retryFlag 0
+						}
+					} elseif {${:retryFlag} == 0} {
+						puts destroying:$msg
+						$msg destroy
+				  		puts "putting it on backlog - try again later, raising retryFlag"
+						lappend :creationBacklogStack $c
+						set idx [lsearch ${:creationStack} $c]
+						set :creationStack [lreplace ${:creationStack} $idx $idx]
+					}
+					puts creationStack:${:creationStack}
+					puts creationBacklogStack:${:creationBacklogStack}
+					#:removeCmdFromStack $c :creationStack
+				} on ok {msg} {
+					puts "STATUS:OK msg:$msg"
+			  		set idx [lsearch ${:creationStack} $c]
+					set :creationStack [lreplace ${:creationStack} $idx $idx]
+					puts creationStack:${:creationStack}
+					set idx [lsearch ${:creationBacklogStack} $c]
+					set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
+					puts creationBacklogStack:${:creationBacklogStack}
+					if {[llength ${:creationBacklogStack}] == 0} {
+					  set :retryFlag 0
+					}
+				}
+		  	}
+		} else {
+			puts "nothing to try/retry cmd:$cmd"
+		}
+	}
+
+	:method removeCmdFromStack {c s} {
+	  	puts "c:$c and s:$s"
+		set d "$"
+		set lscmd [subst {lsearch $d{$s} $c}]
+		puts lscmd:$lscmd
+	  	$lscmd
+		#set idx [lsearch ${:$s} $c]
+		set :$s [lreplace ${:$s} $idx $idx]
+		puts $s:${:$s}
+	}
+
+	:method handleBacklog {backlog} {
+		# explicitly handle the backlog
+	  	puts backlog_:$backlog
+		while {[llength $backlog] > 0} {
+			
+		}
+
+	}
+
 	###
 	### intersectLists
 	###
@@ -79,6 +127,8 @@ nx::Class create StoryboardBuilder {
 	# if they match (input b is found in input a), the following pattern is created "-parameter value"
 	#
 	# Q: Geht das anders auch? Im NS Tutorial steht etwas von nx::Slot und nx::ObjectParameterSlot
+	#
+	###
 	:method intersectLists {a b} {
 		set propertyList {}
 		set dash "-"
@@ -129,6 +179,7 @@ nx::Class create StoryboardBuilder {
 	#}
 
 	:public method from {storyboard} {
+	  # run through the storyboard
 	  foreach id [dict keys $storyboard] {
 		foreach el [dict get $storyboard $id] {
 		  # fill the stack with all elements (el) of key (id)
@@ -142,20 +193,11 @@ nx::Class create StoryboardBuilder {
 		unset :stack
 		unset :className
 	  }
-
-	  if {[llength ${:creationStack}] > 0} {
-	  	puts creationStack:${:creationStack}
-		foreach cmd ${:creationStack} {
-			puts "retrying $cmd"
-			try {
-				eval $cmd
-			} on error {msg} {
-				puts "Error: $msg"
-			}
-		}
-	  } else {
-		puts "No creation stack to retry"
-	  }
+	
+	  # after running through the storyboard handle backlog 
+	  puts "\nReached end of storboard - trying again with creationBacklogStack"
+	  set :retryFlag 1
+	  :tryCmdStack ${:creationBacklogStack}
 	}
 }
 

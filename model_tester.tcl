@@ -85,5 +85,8 @@ foreach x [Video info instances -closure] {
 puts Timestamp:[llength [Timestamp info instances -closure]]
 foreach x [Timestamp info instances -closure] {
 	puts "found class $x with id:[$x id get]"
+	foreach el [$x info parent] {
+		puts parent:$el
+	}
 }
 # end
