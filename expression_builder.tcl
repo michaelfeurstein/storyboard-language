@@ -26,7 +26,7 @@ nx::Class create StoryboardBuilder {
 		set creation [subst {$class new -id ${:className} $intersectLists}]
 		puts "\ncreationCmd: $creation"
 		lappend :creationStack $creation
-		:tryCmdStack ${:creationStack}
+		:tryCmdStack
 
 		#if [catch {set :stack [eval $creation]} errMsg] {
 		#	puts "Error while creating ${:className}: $errMsg"
@@ -39,18 +39,17 @@ nx::Class create StoryboardBuilder {
 	###
 	### tryCmd
 	###
-	# input: cmd (a single creationCmd or a creationStack)
 	#
 	# functionality:
-	# execute cmd or list of commands from creationStack
-	# if an error is raised add command to creationBacklogStack
+	# execute cmd or list of commands from :creationStack
+	# if an error is raised add command to :creationBacklogStack
 	#
 	###
-	:method tryCmdStack {cmd} {
-		puts "Stack size: [llength $cmd]"
-		puts "Stack passed: $cmd"
-		if {[llength $cmd] > 0} {
-			foreach c $cmd { 
+	:method tryCmdStack {} {
+		puts "Stack size: [llength ${:creationStack}]"
+		puts "Stack: ${:creationStack}"
+		if {[llength ${:creationStack}] > 0} {
+			foreach c ${:creationStack} {
 				try {
 					set :stack [eval $c]
 				} on 5 {msg options} {
@@ -76,7 +75,7 @@ nx::Class create StoryboardBuilder {
 				}
 		  	}
 		} else {
-			puts "empty cmd:$cmd"
+			puts "empty cmd:${:creationStack}"
 		}
 	}
 
@@ -105,17 +104,18 @@ nx::Class create StoryboardBuilder {
 		}
 	}
 
-	:method handleBacklogStack {backlog} {
+	:method handleBacklogStack {} {
 	  	# CONTINUE HERE: maybe think of structuring the backlog as a dict with structure 
 	  	# dict set backlog call1 command $c
 	  	# dict set backlog call1 instance ${value from customOptions dict = [self], which is the instance of $c} 
 	  	# dict set backlog call1 error ${value from customOptions dict = timestamp7}
 	  	# dict set backlog call1 errorClass ${value from customOptions dict = ::Timestamp}		
 		# explicitly handle the backlog
-	  	puts backlog_:$backlog
+	  	puts "Stack size: [llength ${:creationBacklogStack}]"
+		puts "Backlog stack: ${:creationBacklogStack}"
 		set count 0
-		set maxTries 3
-		while {[llength $backlog] > 0} {
+		set maxTries [llength ${:creationBacklogStack}]
+		while {[llength ${:creationBacklogStack}] > 0} {
     		try {
     			# try cmd from backlog stack
 			} on 5 {msg options} {
@@ -123,6 +123,7 @@ nx::Class create StoryboardBuilder {
         		# if (++count == maxTries) throw e;
     		} on ok {} {
 				# on success remove cmd from backlog stack
+				:removeCmdFromStack $c :creationBacklogStack
 			}
 		}
 	}
@@ -208,8 +209,7 @@ nx::Class create StoryboardBuilder {
 	
 	  # after running through the storyboard handle backlog 
 	  puts "\nReached end of storyboard - trying again with creationBacklogStack"
-	  set :retryFlag 1
-	  :handleBacklogStack ${:creationBacklogStack}
+	  :handleBacklogStack
 	}
 }
 
