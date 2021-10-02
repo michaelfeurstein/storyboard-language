@@ -48,7 +48,7 @@ nx::Class create StoryboardBuilder {
 	:method tryCmdStack {} {
 		puts "Stack size: [llength ${:creationStack}]"
 		puts "Stack: ${:creationStack}"
-		if {[llength ${:creationStack}] > 0} {
+		while {[llength ${:creationStack}] > 0} {
 			foreach c ${:creationStack} {
 				try {
 					set :stack [eval $c]
@@ -74,9 +74,9 @@ nx::Class create StoryboardBuilder {
 					:removeCmdFromStack $c :creationStack
 				}
 		  	}
-		} else {
-			puts "empty cmd:${:creationStack}"
 		}
+
+		puts "creationStack empty: ${:creationStack}"
 	}
 
 	###
