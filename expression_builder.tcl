@@ -24,7 +24,7 @@ nx::Class create StoryboardBuilder {
 		#set creation [subst {$class new -childof [self] $intersectLists}]
 		#set creation [subst {$class create ${:className} $intersectLists}]
 		set creation [subst {$class new -id ${:className} $intersectLists}]
-		puts creationCmd:$creation
+		puts "\ncreationCmd: $creation"
 		lappend :creationStack $creation
 		:tryCmdStack ${:creationStack}
 
@@ -47,8 +47,8 @@ nx::Class create StoryboardBuilder {
 	#
 	###
 	:method tryCmdStack {cmd} {
-	  	puts "\nstacksize:[llength $cmd]"
-	  	puts "Stack passed:$cmd"
+		puts "Stack size: [llength $cmd]"
+		puts "Stack passed: $cmd"
 		if {[llength $cmd] > 0} {
 			foreach c $cmd { 
 				try {
@@ -67,30 +67,16 @@ nx::Class create StoryboardBuilder {
 				#		}
 				#	}
 			   	} on error {msg} {
-					puts "STATUS:ERROR --> class:[$msg info class] instance:[$msg id get] stacksize:[llength $cmd]" 
-				#	puts "c: $c"
-				#	if {${:retryFlag}} {
-				#		puts "retrying a second time, don't destroy, remove from stack"
-				#		:removeCmdFromStack $c :creationBacklogStack
-				#		if {[llength ${:creationBacklogStack}] == 0} {
-				#	  		set :retryFlag 0
-				#		}
-				#	} elseif {${:retryFlag} == 0} {
-				#		puts destroying:$msg
-				#		$msg destroy
-				#  		puts "putting it on backlog - try again later, raising retryFlag"
-				#		lappend :creationBacklogStack $c
-				#		:removeCmdFromStack $c :creationStack
-				#	}
-				#	puts creationStack:${:creationStack}
-				#	puts creationBacklogStack:${:creationBacklogStack}
+					puts "unknown error: $msg"
+					:removeCmdFromStack $c :creationStack
+					lappend :creationBacklogStack $c
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg stack:${:stack}"
 					:removeCmdFromStack $c :creationStack
 				}
 		  	}
 		} else {
-			puts "nothing to try/retry cmd:$cmd"
+			puts "empty cmd:$cmd"
 		}
 	}
 
