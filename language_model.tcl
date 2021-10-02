@@ -108,7 +108,7 @@ nx::Class create Timestamp {
 				$y :addTimestamp -ts [self]
 			} else {
 			  	puts "video ${:video} not found. Raising error"
-				error [self]
+				return -code 5 -options $returnOptions "::Video:${:video} not found"
 			}
 		} elseif {${:video} eq "empty"} {
 		  	puts "A timestamp cannot be created without a video" 

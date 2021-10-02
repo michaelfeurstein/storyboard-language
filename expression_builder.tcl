@@ -116,16 +116,27 @@ nx::Class create StoryboardBuilder {
 		set count 0
 		set maxTries [llength ${:creationBacklogStack}]
 		while {[llength ${:creationBacklogStack}] > 0} {
-    		try {
-    			# try cmd from backlog stack
-			} on 5 {msg options} {
-			  	
-        		# if (++count == maxTries) throw e;
-    		} on ok {} {
-				# on success remove cmd from backlog stack
-				:removeCmdFromStack $c :creationBacklogStack
+			foreach c ${:creationBacklogStack} {
+				try {
+					# try cmd from backlog stack
+					eval $c
+				} on 5 {msg options} {
+					puts "return msg: $msg"
+					# do something
+					:removeCmdFromStack $c :creationBacklogStack
+					# if (++count == maxTries) throw e;
+				} on error {msg} {
+					puts "unknown error: $msg"
+					# do something
+					:removeCmdFromStack $c :creationBacklogStack
+				} on ok {} {
+					# on success remove cmd from backlog stack
+					:removeCmdFromStack $c :creationBacklogStack
+				}
 			}
 		}
+
+		puts "creationBacklogStack empty: ${:creationBacklogStack}"
 	}
 
 	###
