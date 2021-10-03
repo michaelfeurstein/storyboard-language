@@ -15,11 +15,11 @@ nx::Class create Helper {
   	#  - in case there are no matching instances found return code 0 is returned
   	#    this could also mean that there are instances available but not the one with instance id
   	#
-  	:method isInstanceAvailable {class id} {
+	:public object method isInstanceAvailable {class id} {
 	  	set instlist [$class info instances -closure]
 	  	if {[llength $instlist] > 0} {
 			foreach x $instlist {
-				puts "[current callingclass]:[[current object] id get] is looking for $class:$id"
+				puts "[current callingclass] is looking for $class:$id"
 				if {$id eq [$x id get]} {
 					# class instance with id found
 					return $x
@@ -49,7 +49,60 @@ nx::Class create Video -mixins Helper {
 
 	#:require method autoname
 
+	:public object method new {args} {
+		set idxID [lsearch $args -id]
+		incr idxID
+		set videoID [lindex $args $idxID]
+		puts videoID:$videoID
+		foreach i [:info instances] {
+			puts "i:$i"
+		}
+		set v [Helper isInstanceAvailable ::Video $videoID]
+		if {$v ne 0} {
+			puts "video instance $videoID already instantiated: v:$v [$v id get] self:[self]"
+			# handle case where there is already an instance with id
+			# either destroy, merge or extend one and destroy the other
+			# there should not be two instances of Video with the id video1
+			# destroy is not the only options / CONTINUE HERE
+			$v destroy
+		} else {
+			# no instance there yet, go ahead
+			puts "video instance $videoID not there yet"
+		}
+		next
+	}
+
+	# creat vs. new ?
+	#
+	#:public object method create {args} {
+	#	set idxID [lsearch $args -id]
+	#	incr idxID
+	#	set videoID [lindex $args $idxID]
+	#	puts videoID:$videoID
+	#	foreach i [:info instances] {
+	#		puts "i:$i"
+	#	}
+	#	set v [Helper isInstanceAvailable ::Video $videoID]
+	#  	if {$v ne 0} {
+	#		puts "video instance $videoID already instantiated: v:$v [$v id get] self:[self]"
+	#		# handle case where there is already an instance with id
+	#		# either destroy, merge or extend one and destroy the other
+	#		# there should not be two instances of Video with the id video1
+	#		$v destroy
+	#	} else {
+	#	  	# no instance there yet, go ahead
+	#		puts "video instance $videoID not there yet"
+	#	}
+	#	next
+	#}
+
 	:method init {} {
+		# check if we already have a video instance with id
+		puts learn:[Video info instances -closure [self]]
+		#set v [Helper isInstanceAvailable ::Video ${:id}]
+		#if {$v ne 0} {
+		#	puts "video instance ${:id} already instantiated: v:$v [$v id get] self:[self] [[self] id get]"	
+		#}
 		if {${:timestamp} ne "empty"} {
 		  	set y [:isInstanceAvailable ${:timestampClass} ${:timestamp}]
 		  	if {$y ne 0} {
@@ -62,6 +115,7 @@ nx::Class create Video -mixins Helper {
 				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
 			}
 		}
+		next
 	}
 
 	:method createTimestamp {args} {
