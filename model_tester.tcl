@@ -23,6 +23,8 @@ if { $argc != 1 } {
 puts "\n--- Direct instantiations from model_tester.tcl\n"
 # begin
 
+Video new -id video1
+
 # Create a testVideo and add 2 timestamps 
 #Video create testVideo -URL {http://www.link.com}
 #testVideo createTimestamp -time 0123 -title "first"
