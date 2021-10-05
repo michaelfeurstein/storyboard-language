@@ -48,14 +48,6 @@ nx::Class create StoryboardParser {
 			# this depends on the final syntax of storyboardfile
 			# for now - until syntax variant a is decided on - .
 			dict set :storyboardDict {*}$ele
-		}	  
-		
-		puts "dict size:[dict size ${:storyboardDict}]"
-		#puts ${:storyboardDict}
-
-		foreach id [dict keys ${:storyboardDict}] {
-    		puts keys:$id
 		}
-	
 	}
 }

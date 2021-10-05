@@ -8,6 +8,7 @@ nx::Class create StoryboardBuilder {
   	:variable retryFlag 0
 	:variable creationStack ""
 	:variable creationBacklogStack ""
+	:variable storyboardKeyStack ""
 
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
@@ -53,22 +54,58 @@ nx::Class create StoryboardBuilder {
 				try {
 					set :stack [eval $c]
 				} on 5 {msg options} {
-					puts "return msg: $msg"
-					lappend :creationBacklogStack $c
-					:removeCmdFromStack $c :creationStack
+					puts "STATUS:5 --> msg: $msg with stack: ${:stack} and command: $c"
 
-				 	# the following is just to check what I can pass through with return
-				#  	puts "returned msg:$msg options:$options"
-				#	if {[dict exists $options customOptions]} {
-				#		puts "dict customOptions exists: [dict get $options customOptions]"
-				#		foreach key [dict keys [dict get $options customOptions]] {
-				#			puts "keys $key --> [dict get [dict get $options customOptions] $key]"
-				#		}
-				#	}
+					# is  
+					puts "options: $options"
+					if {[dict exists $options customOptions]} {
+						puts "dict customOptions exists: [dict get $options customOptions]"
+						set caller [dict get [dict get $options customOptions] "caller"]
+						set notFound [dict get [dict get $options customOptions] "not found"]
+						puts "caller: $caller"
+						puts "notFound: $notFound"
+						
+						# is notFound in storyboard key list
+						set idx [lsearch ${:storyboardKeyStack} $notFound]
+						if {$idx ne "-1"} {
+							# case 1 e.g. timestamp1 was referenced early but is in storyboard
+						  	$caller destroy
+							:removeCmdFromStack $c :creationStack
+							lappend :creationBacklogStack $c
+						} else {
+							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
+						  	puts "not in storyboard"
+						  	set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
+							
+							#### - question start
+							# i want to setup this command "$caller timestamp set empty"
+							# $caller being the object which threw the return code (e.g.: video instance with id video1)
+							puts "caller info: [$caller info class]:[$caller id get]"
+							puts "caller: $caller"
+							puts "makeEmpty: $makeEmpty"
+
+							# this works
+							$caller timestamp set something
+							puts "$caller timestamp is: [$caller timestamp get]"
+							
+							# however, i prefer it more generic within expression builder
+							# tried subst $caller $makeEmpty
+							# tried eval [subst $caller $makeEmpty]
+							# tried $caller $makeEmpty
+							# tried subst $caller [list $makeEmpty]
+							set command [subst $caller $makeEmpty]
+							eval $command; # throws bad option must be -nobackslashes, -nocommands etc.
+							puts "$caller timestamp is: [$caller timestamp get]"
+							
+							#### - question end
+						}
+						puts "keys $key --> [dict get [dict get $options customOptions] $key]"
+						}
+				
+					
 			   	} on error {msg} {
-					puts "unknown error: $msg"
-					:removeCmdFromStack $c :creationStack
-					lappend :creationBacklogStack $c
+					puts "STATUS:ERROR: $msg"
+					error $msg
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg stack:${:stack}"
 					:removeCmdFromStack $c :creationStack
@@ -111,6 +148,10 @@ nx::Class create StoryboardBuilder {
 	  	# dict set backlog call1 error ${value from customOptions dict = timestamp7}
 	  	# dict set backlog call1 errorClass ${value from customOptions dict = ::Timestamp}		
 		# explicitly handle the backlog
+	  	# 
+	  	# logic
+	  	# try cmd
+	  	# check if instance is already there
 	  	puts "Stack size: [llength ${:creationBacklogStack}]"
 		puts "Backlog stack: ${:creationBacklogStack}"
 		set count 0
@@ -119,11 +160,12 @@ nx::Class create StoryboardBuilder {
 			foreach c ${:creationBacklogStack} {
 				try {
 					# try cmd from backlog stack
-					eval $c
+					set :stack [eval $c]
 				} on 5 {msg options} {
 					puts "return msg: $msg"
-					# do something
-					:removeCmdFromStack $c :creationBacklogStack
+					# do something if error
+					# keep on stack
+					# try ${:stack} destroy
 					# if (++count == maxTries) throw e;
 				} on error {msg} {
 					puts "unknown error: $msg"
@@ -203,6 +245,11 @@ nx::Class create StoryboardBuilder {
 	#}
 
 	:public method from {storyboard} {
+	  # run through the storyboard keys
+	  foreach id [dict keys $storyboard] {
+		lappend :storyboardKeyStack $id
+	  }
+
 	  # run through the storyboard
 	  foreach id [dict keys $storyboard] {
 		foreach el [dict get $storyboard $id] {
@@ -214,13 +261,14 @@ nx::Class create StoryboardBuilder {
 		set :className $id
 		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e
-		unset :stack
-		unset :className
 	  }
 	
 	  # after running through the storyboard handle backlog 
 	  puts "\nReached end of storyboard - trying again with creationBacklogStack"
 	  :handleBacklogStack
+
+	  unset :stack
+	  unset :className
 	}
 }
 

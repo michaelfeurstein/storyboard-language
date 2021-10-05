@@ -18,17 +18,20 @@ nx::Class create Helper {
 	:public object method isInstanceAvailable {class id} {
 	  	set instlist [$class info instances -closure]
 	  	if {[llength $instlist] > 0} {
-			foreach x $instlist {
-				puts "[current callingclass] is looking for $class:$id"
-				if {$id eq [$x id get]} {
+			puts "(@[current method]) $class instances available"
+			foreach i $instlist {
+				puts "(@[current method]) [current] is looking for $class:$id comparing to [$i info class]:[$i id get]"
+				if {$id eq [$i id get]} {
 					# class instance with id found
-					return $x
+					puts "(@[current method]) found instance [$i info class] with id: [$i id get]"
+					return $i
 				}
 			}
 			# no matching instance of class with id found
 			return 0
 		} else {
-		  	# no instances of class available
+			# no instance of this class available
+			puts "(@[current method]) video instances of $class not available"
 		    return 0
 		}
 	}	
@@ -53,66 +56,37 @@ nx::Class create Video -mixins Helper {
 		set idxID [lsearch $args -id]
 		incr idxID
 		set videoID [lindex $args $idxID]
-		puts videoID:$videoID
-		foreach i [:info instances] {
-			puts "i:$i"
-		}
-		set v [Helper isInstanceAvailable ::Video $videoID]
-		if {$v ne 0} {
-			puts "video instance $videoID already instantiated: v:$v [$v id get] self:[self]"
-			# handle case where there is already an instance with id
-			# either destroy, merge or extend one and destroy the other
-			# there should not be two instances of Video with the id video1
-			# destroy is not the only options / CONTINUE HERE
-			$v destroy
-		} else {
-			# no instance there yet, go ahead
-			puts "video instance $videoID not there yet"
+		puts "(@[current method]) videoID: $videoID"
+
+		set vi [Helper isInstanceAvailable ::Video $videoID]
+		puts "(@[current method]) vi: $vi"
+
+		if {$vi ne 0} {
+			error "A video instance with id: [$vi id get] already exists: review your storyboard"
 		}
 		next
 	}
 
-	# creat vs. new ?
-	#
-	#:public object method create {args} {
-	#	set idxID [lsearch $args -id]
-	#	incr idxID
-	#	set videoID [lindex $args $idxID]
-	#	puts videoID:$videoID
-	#	foreach i [:info instances] {
-	#		puts "i:$i"
-	#	}
-	#	set v [Helper isInstanceAvailable ::Video $videoID]
-	#  	if {$v ne 0} {
-	#		puts "video instance $videoID already instantiated: v:$v [$v id get] self:[self]"
-	#		# handle case where there is already an instance with id
-	#		# either destroy, merge or extend one and destroy the other
-	#		# there should not be two instances of Video with the id video1
-	#		$v destroy
-	#	} else {
-	#	  	# no instance there yet, go ahead
-	#		puts "video instance $videoID not there yet"
-	#	}
-	#	next
-	#}
-
 	:method init {} {
 		# check if we already have a video instance with id
-		puts learn:[Video info instances -closure [self]]
 		#set v [Helper isInstanceAvailable ::Video ${:id}]
 		#if {$v ne 0} {
 		#	puts "video instance ${:id} already instantiated: v:$v [$v id get] self:[self] [[self] id get]"	
 		#}
 		if {${:timestamp} ne "empty"} {
-		  	set y [:isInstanceAvailable ${:timestampClass} ${:timestamp}]
-		  	if {$y ne 0} {
-			  	puts timestamp:[[self] timestamp get]
-				:addTimestamp -ts $y
+		  	set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
+		  	puts "(@[current method]) ti: $ti"
+			if {$ti ne 0} {
+			  	puts "(@[current method]) timestamp:[[self] timestamp get]"
+				:addTimestamp -ts $ti
 			} else {
-				#[self] timestamp set empty
-				dict set returnOptions customOptions "${:timestampClass}" "${:timestamp}"
-				dict set returnOptions customOptions "destroy" [self]
+				# case 1: timestamp not found, destroy video / but we don't always want to destroy it
+			#	puts "(@[current method]) video instances: [Video info instances -closure] is this self [self]"
+				dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
+			  	dict set returnOptions customOptions "not found" "${:timestamp}"
+				dict set returnOptions customOptions "caller" [self]
 				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
+			#	return -code 5 "${:timestampClass}:${:timestamp} not found"
 			}
 		}
 		next
