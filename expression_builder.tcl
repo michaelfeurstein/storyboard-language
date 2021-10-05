@@ -17,14 +17,11 @@ nx::Class create StoryboardBuilder {
 	  	#puts "creator method with class:$class"
 	
 	  	# intersect create info of class with stack
-	  	#puts slot:[$class getParameterOptions]
 	  	set configInfo [$class info lookup syntax create]
 	  	set intersectLists [:intersectLists $configInfo ${:stack}]
 
 		# setup class new command with parameters
-		#set creation [subst {$class new -childof [self] $intersectLists}]
-		#set creation [subst {$class create ${:className} $intersectLists}]
-		set creation [subst {$class new -id ${:className} $intersectLists}]
+		set creation [list $class new -id ${:className} {*}$intersectLists]
 		puts "\ncreationCmd: $creation"
 		lappend :creationStack $creation
 		:tryCmdStack
@@ -52,12 +49,9 @@ nx::Class create StoryboardBuilder {
 		while {[llength ${:creationStack}] > 0} {
 			foreach c ${:creationStack} {
 				try {
-					set :stack [eval $c]
+					set :stack [{*}$c]
 				} on 5 {msg options} {
-					puts "STATUS:5 --> msg: $msg with stack: ${:stack} and command: $c"
-
-					# is  
-					puts "options: $options"
+					puts "STATUS:5 --> msg: $msg with command: $c"
 					if {[dict exists $options customOptions]} {
 						puts "dict customOptions exists: [dict get $options customOptions]"
 						set caller [dict get [dict get $options customOptions] "caller"]
@@ -65,44 +59,26 @@ nx::Class create StoryboardBuilder {
 						puts "caller: $caller"
 						puts "notFound: $notFound"
 						
-						# is notFound in storyboard key list
+						# is notFound (e.g. timestamp7) in storyboard key list
 						set idx [lsearch ${:storyboardKeyStack} $notFound]
 						if {$idx ne "-1"} {
 							# case 1 e.g. timestamp1 was referenced early but is in storyboard
+						  	puts "case 1"
 						  	$caller destroy
 							:removeCmdFromStack $c :creationStack
 							lappend :creationBacklogStack $c
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
-						  	puts "not in storyboard"
+							puts "case 2"
 						  	set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
-							
-							#### - question start
-							# i want to setup this command "$caller timestamp set empty"
-							# $caller being the object which threw the return code (e.g.: video instance with id video1)
-							puts "caller info: [$caller info class]:[$caller id get]"
-							puts "caller: $caller"
-							puts "makeEmpty: $makeEmpty"
+							puts "$caller timestamp is: [$caller timestamp get]"
+							set command [list $caller {*}$makeEmpty]
+							{*}$command
+							puts "$caller timestamp is: [$caller timestamp get]"	
+							:removeCmdFromStack $c :creationStack
+						}
+					}
 
-							# this works
-							$caller timestamp set something
-							puts "$caller timestamp is: [$caller timestamp get]"
-							
-							# however, i prefer it more generic within expression builder
-							# tried subst $caller $makeEmpty
-							# tried eval [subst $caller $makeEmpty]
-							# tried $caller $makeEmpty
-							# tried subst $caller [list $makeEmpty]
-							set command [subst $caller $makeEmpty]
-							eval $command; # throws bad option must be -nobackslashes, -nocommands etc.
-							puts "$caller timestamp is: [$caller timestamp get]"
-							
-							#### - question end
-						}
-						puts "keys $key --> [dict get [dict get $options customOptions] $key]"
-						}
-				
-					
 			   	} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
@@ -112,8 +88,6 @@ nx::Class create StoryboardBuilder {
 				}
 		  	}
 		}
-
-		puts "creationStack empty: ${:creationStack}"
 	}
 
 	###
