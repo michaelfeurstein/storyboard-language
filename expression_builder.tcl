@@ -68,6 +68,8 @@ nx::Class create StoryboardBuilder {
 						  	$caller destroy
 							:removeCmdFromStack $c :creationStack
 							lappend :creationBacklogStack $c
+							puts "creationStack: ${:creationStack}"
+							puts "creationBacklogStack: ${:creationBacklogStack}"
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 							puts "case 2"
@@ -153,16 +155,6 @@ nx::Class create StoryboardBuilder {
 	}
 
 	:method handleBacklogStack {} {
-	  	# CONTINUE HERE: maybe think of structuring the backlog as a dict with structure 
-	  	# dict set backlog call1 command $c
-	  	# dict set backlog call1 instance ${value from customOptions dict = [self], which is the instance of $c} 
-	  	# dict set backlog call1 error ${value from customOptions dict = timestamp7}
-	  	# dict set backlog call1 errorClass ${value from customOptions dict = ::Timestamp}		
-		# explicitly handle the backlog
-	  	# 
-	  	# logic
-	  	# try cmd
-	  	# check if instance is already there
 	  	puts "Stack size: [llength ${:creationBacklogStack}]"
 		puts "Backlog stack: ${:creationBacklogStack}"
 		set count 0
@@ -178,10 +170,12 @@ nx::Class create StoryboardBuilder {
 					# keep on stack
 					# try ${:stack} destroy
 					# if (++count == maxTries) throw e;
-				} on error {msg} {
-					puts "unknown error: $msg"
-					# do something
+				} on 6 {msg options} {
+				  	puts "(@[current method]) STATUS:6 --> msg: $msg with command: $c"
 					:removeCmdFromStack $c :creationBacklogStack
+				} on error {msg} {
+					puts "STATUS:ERROR: $msg"
+					error $msg
 				} on ok {} {
 					# on success remove cmd from backlog stack
 					:removeCmdFromStack $c :creationBacklogStack

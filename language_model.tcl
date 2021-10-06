@@ -69,7 +69,6 @@ nx::Class create Video {
 		# handle -timestamp parameter
 		if {${:timestamp} ne "empty"} {
 			set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
-			puts "(@[current method]) ti: $ti"
 			if {$ti ne 0} {
 				puts "(@[current method]) timestamp:[[self] timestamp get]"
 				:addTimestamp -ts $ti
@@ -96,8 +95,11 @@ nx::Class create Video {
 		-ts:object,type=Timestamp
 	} {
 	  # puts "adding timestamp $ts"
-	  :createTimestamp -id [$ts id get] -time [$ts time get] -title [$ts title get]
+	  set a [$ts id get]
+	  set b [$ts time get]
+	  set c [$ts title get]
 	  $ts destroy
+	  :createTimestamp -id $a -time $b -title $c
 	}
 
 	:public method addTimestampList {
