@@ -31,7 +31,7 @@ nx::Class create Helper {
 			return 0
 		} else {
 			# no instance of this class available
-			puts "(@[current method]) video instances of $class not available"
+			puts "(@[current method]) instances of $class not available"
 		    return 0
 		}
 	}
@@ -56,13 +56,11 @@ nx::Class create Video {
 		set idxID [lsearch $args -id]
 		incr idxID
 		set videoID [lindex $args $idxID]
-		puts "(@[current method]) videoID: $videoID"
 
 		set vi [Helper isInstanceAvailable ::Video $videoID]
-		puts "(@[current method]) vi: $vi"
 
 		if {$vi ne 0} {
-			error "A video instance with id: [$vi id get] already exists: review your storyboard"
+			error "A video instance with id: [$vi id get] already exists: please review your storyboard"
 		}
 		next
 	}
@@ -124,6 +122,20 @@ nx::Class create Timestamp {
 	:property -accessor public {title empty}
 	:property -accessor public {video empty}
 
+
+	:public object method new {args} {
+		set idxID [lsearch $args -id]
+		incr idxID
+		set timestampID [lindex $args $idxID]
+
+		set ti [Helper isInstanceAvailable ::Timestamp $timestampID]
+
+		if {$ti ne 0} {
+			error "A timestamp instance with id: [$ti id get] already exists: please review your storyboard"
+		}
+		next
+	}
+
 	:method init {} {
 		if {${:video} ne "empty"} {
 			set y [Helper isInstanceAvailable ::Video ${:video}]
@@ -135,7 +147,11 @@ nx::Class create Timestamp {
 				return -code 5 -options $returnOptions "::Video:${:video} not found"
 			}
 		} elseif {${:video} eq "empty"} {
-			puts "A timestamp cannot be created without a video"
+			puts "A timestamp cannot be created without a video - checking storyboard"
+			#dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
+			dict set returnOptions customOptions "key" "timestamp"
+			dict set returnOptions customOptions "caller" [self]
+			return -code 6 -options $returnOptions "Timestamp requires a video reference. Checking ..."
 		}
 
 

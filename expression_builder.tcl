@@ -9,6 +9,7 @@ nx::Class create StoryboardBuilder {
 	:variable creationStack ""
 	:variable creationBacklogStack ""
 	:variable storyboardKeyStack ""
+	:variable storyboardRevDict ""
 
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
@@ -79,7 +80,43 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 
-			   	} on error {msg} {
+			   	} on 6 {msg options} {
+				  	puts "STATUS:6 --> msg: $msg with command: $c"
+					if {[dict exists $options customOptions]} {
+						puts "dict customOptions exists: [dict get $options customOptions]"
+						set key [dict get [dict get $options customOptions] "key"]
+						set caller [dict get [dict get $options customOptions] "caller"]
+						puts "caller: $caller"
+						puts "trying to find a reference of [$caller id get] with key:$key in storyboard"
+						set found 0
+
+						# TODO refine for future list of timestamps
+	  					foreach e [dict keys ${:storyboardRevDict}] {
+						  	set idxe [lsearch $e $key]
+						  	if {[lindex $e $idxe] eq $key} {
+								set ne [incr idxe]
+								if {[lindex $e $ne] eq [$caller id get]} {
+								  	# found element / go ahead and create the timestamp
+									#puts "found [lindex $e $ne] is [$caller id get]"
+								  	set found 1
+									continue
+								}
+							}
+						}
+
+						if {$found} {
+							# found
+						  	puts "it was found"
+							:removeCmdFromStack $c :creationStack
+							# TODO still mark its parent video when the video is instantiated
+						} else {
+							# not found
+						  	puts "it was not found"
+							$caller destroy
+							:removeCmdFromStack $c :creationStack
+						}
+					}
+				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
 				} on ok {msg} {
@@ -88,7 +125,7 @@ nx::Class create StoryboardBuilder {
 				}
 		  	}
 		}
-	}
+	  }
 
 	###
 	### removeCmdFromStack
@@ -170,7 +207,7 @@ nx::Class create StoryboardBuilder {
 	#
 	###
 	:method intersectLists {a b} {
-		set propertyList {}
+		set propertyList ""
 		set dash "-"
 		#puts a:$a
 		#puts b:$b
@@ -219,10 +256,12 @@ nx::Class create StoryboardBuilder {
 	#}
 
 	:public method from {storyboard} {
-	  # run through the storyboard keys
+	  # run through the storyboard keys and store the keys in dedicated stack
 	  foreach id [dict keys $storyboard] {
 		lappend :storyboardKeyStack $id
 	  }
+
+	  set :storyboardRevDict [lreverse $storyboard]
 
 	  # run through the storyboard
 	  foreach id [dict keys $storyboard] {
@@ -235,6 +274,8 @@ nx::Class create StoryboardBuilder {
 		set :className $id
 		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e
+		set :stack ""
+		set :className ""
 	  }
 	
 	  # after running through the storyboard handle backlog 
