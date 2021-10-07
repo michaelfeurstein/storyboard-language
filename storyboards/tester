@@ -1,39 +1,37 @@
+# storyboard tester
+# -----------------
+# document variations that should work
+
+# 01 # - works
+# creates video1
+
 video1 URL http://www.myvideo.com
-video1 timestamp timestamp1
+
+# 02 # - works
+# creates video2
+# timestamp1 is not valid, because no reference to video
+
+video2 URL http://www.anothervideo.com
 
 timestamp1 time 0123
-timestamp1 title "first timestamp"
+timestamp1 title "first"
+
+# 03 # - works
+# creates video3, puts it on backlog as timestamp not there yet
+# creates timestamp, after checking for reference in storyboard (this is where the timestamp comes into existence before the video)
+# backlog creates video3 again, this time with timestamp (this is where the idea comes from adding a timestamp instance to the video instance)
+
+video3 URL http://www.third.com
+video3 timestamp timestamp2
 
 timestamp2 time 4567
 timestamp2 title "second"
 
-#timestamp3 time 8910
-#timestamp3 title "third timestamp"
+## 04 # - works
+video4 URL http://www.four.com
 
-
-#timestamp4 time 1112
-#timestamp4 title "fourth timestamp"
-
-#video2 URL http://www.anothervideo.com
-
-# variation 1 - add single ts via video -- DONE
-# variation 2 - add ts via video reference in ts -- WORKS
-#timestamp2 video video1
-
-video2 URL http://www.mysecondvideo.com
-video2 timestamp timestamp7
-
-#video3 URL http://www.third.com
-#video3 timestamp timestamp8
-
-# variation 3 - add list of ts via video
-
-
-#timestamp5 time 1314
-#timestamp5 title "fifth timestamp"
-
-#video2 URL http://www.mysecondvideo.com
-#video2 timestamps (timestamp3, timestamp4, timestamp5)
-
+timestamp3 time 6789
+timestamp3 title "third"
+timestamp3 video video4
 
 

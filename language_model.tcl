@@ -18,9 +18,9 @@ nx::Class create Helper {
 	:public object method isInstanceAvailable {class id} {
 		set instlist [$class info instances -closure]
 		if {[llength $instlist] > 0} {
-			puts "(@[current method]) $class instances available"
+			#puts "(@[current method]) $class instances available"
 			foreach i $instlist {
-				puts "(@[current method]) [current] is looking for $class:$id comparing to [$i info class]:[$i id get]"
+				#puts "(@[current method]) [current] is looking for $class:$id comparing to [$i info class]:[$i id get]"
 				if {$id eq [$i id get]} {
 					# class instance with id found
 					puts "(@[current method]) found instance [$i info class] with id: [$i id get]"
@@ -28,6 +28,7 @@ nx::Class create Helper {
 				}
 			}
 			# no matching instance of class with id found
+			puts "(@[current method]) no matching instance $id of $class found"
 			return 0
 		} else {
 			# no instance of this class available
@@ -43,25 +44,22 @@ nx::Class create Helper {
 #
 
 nx::Class create Video {
-	# TODO make the id not callable via DSL
 	:property -accessor public {id empty}
 	:property -accessor public {URL empty}
 	:property -accessor public {timestamp empty}
 	:property {timestampClass ::Timestamp}
 	:property {prefix timestamp}
 
-	#:require method autoname
-
 	:public object method new {args} {
 		set idxID [lsearch $args -id]
 		incr idxID
 		set videoID [lindex $args $idxID]
 
-		set vi [Helper isInstanceAvailable ::Video $videoID]
+		#set vi [Helper isInstanceAvailable ::Video $videoID]
 
-		if {$vi ne 0} {
-			error "A video instance with id: [$vi id get] already exists: please review your storyboard"
-		}
+		#if {$vi ne 0} {
+		#	error "A video instance with id: [$vi id get] already exists: please review your storyboard"
+		#}
 		next
 	}
 
@@ -70,24 +68,20 @@ nx::Class create Video {
 		if {${:timestamp} ne "empty"} {
 			set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
 			if {$ti ne 0} {
-				puts "(@[current method]) timestamp:[[self] timestamp get]"
+				#puts "(@[current method]) timestamp:[[self] timestamp get]"
 				:addTimestamp -ts $ti
 			} else {
-				# case 1: timestamp not found, destroy video / but we don't always want to destroy it
-			#	puts "(@[current method]) video instances: [Video info instances -closure] is this self [self]"
+				# case 1: timestamp not found - return code 5 - handle details in expression builder
 				dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
 				dict set returnOptions customOptions "not found" "${:timestamp}"
 				dict set returnOptions customOptions "caller" [self]
 				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
-			#	return -code 5 "${:timestampClass}:${:timestamp} not found"
 			}
 		}
 		next
 	}
 
 	:method createTimestamp {args} {
-		#${:timestampClass} create [:]::[:autoname ${:prefix}] {*}$args
-		# puts "is [:] the same as [self]"
 		${:timestampClass} new -childof [current] {*}$args
 	}
 
@@ -99,7 +93,7 @@ nx::Class create Video {
 	  set b [$ts time get]
 	  set c [$ts title get]
 	  $ts destroy
-	  :createTimestamp -id $a -time $b -title $c
+	  :createTimestamp -id $a -time $b -title $c -video [self]
 	}
 
 	:public method addTimestampList {
@@ -130,60 +124,30 @@ nx::Class create Timestamp {
 		incr idxID
 		set timestampID [lindex $args $idxID]
 
-		set ti [Helper isInstanceAvailable ::Timestamp $timestampID]
+		#set ti [Helper isInstanceAvailable ::Timestamp $timestampID]
 
-		if {$ti ne 0} {
-			error "A timestamp instance with id: [$ti id get] already exists: please review your storyboard"
-		}
+		#if {$ti ne 0} {
+		#	error "A timestamp instance with id: [$ti id get] already exists: please review your storyboard"
+		#}
 		next
 	}
 
 	:method init {} {
-		if {${:video} ne "empty"} {
-			set y [Helper isInstanceAvailable ::Video ${:video}]
-			if {$y ne 0} {
-				puts video:[[self] video get]
-				$y :addTimestamp -ts [self]
-			} else {
-				puts "video ${:video} not found. Raising error"
-				return -code 5 -options $returnOptions "::Video:${:video} not found"
+		#puts "Current: [current callingclass] [current callingobject] [current class]:[current methodpath]"
+		if {[current callingclass] ne "::StoryBoard::Video"} {
+			if {${:video} ne "empty"} {
+				set y [Helper isInstanceAvailable ::Video ${:video}]
+				if {$y ne 0} {
+					$y addTimestamp -ts [self]
+				} else {
+					return -code 6 "::Video:${:video} not found"
+				}
+			} elseif {${:video} eq "empty"} {
+				dict set returnOptions customOptions "key" "timestamp"
+				dict set returnOptions customOptions "caller" [self]
+				return -code 6 -options $returnOptions "Timestamp requires a video reference. Checking storyboard."
 			}
-		} elseif {${:video} eq "empty"} {
-			puts "A timestamp cannot be created without a video - checking storyboard"
-			#dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
-			dict set returnOptions customOptions "key" "timestamp"
-			dict set returnOptions customOptions "caller" [self]
-			return -code 6 -options $returnOptions "Timestamp requires a video reference. Checking ..."
 		}
-
-
-
-#		if {${:video} ne "empty"} {
-#			# check if video is available
-#			set success 0
-#			set vlist [Video info instances -closure]
-#			if {[llength $vlist] > 0} {
-#				foreach x $vlist {
-#					if {${:video} eq [$x id get]} {
-#						# create timestamp again within video container
-#						#${:video} createTimestamp -time ${:time} -title ${:title}
-#						puts "x:$x self:[[self] id get]"
-#						$x addTimestamp -ts [self]
-#						set success 1
-#						break
-#					} else {
-#						puts "video ${:video} not found"
-#					}
-#				}
-#				if {!$success} {
-#					[self] destroy
-#					error "no matching video found, deleting timestamp"
-#				}
-#			} else {
-#				[self] destroy
-#				error "no video available"
-#			}
-#		}
 	}
 }
 

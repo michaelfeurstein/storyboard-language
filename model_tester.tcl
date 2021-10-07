@@ -23,7 +23,7 @@ if { $argc != 1 } {
 puts "\n--- Direct instantiations from model_tester.tcl\n"
 # begin
 
-Video new -id video1
+#Video new -id video1
 
 # Create a testVideo and add 2 timestamps 
 #Video create testVideo -URL {http://www.link.com}
@@ -70,12 +70,13 @@ puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 # Setup Parser
 set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
 
-# Internal DSL (indirect instantiation)
-
-# begin
-
+# Setup Expression Builder
 set internalBuilder [StoryboardBuilder new]
+puts "internalBuilder $internalBuilder"
+
+# Call method from with a storyboard
 $internalBuilder from [$internalParser storyboardDict get]
+
 
 puts Videos:[llength [Video info instances -closure]]
 foreach x [Video info instances -closure] {
@@ -91,4 +92,3 @@ foreach x [Timestamp info instances -closure] {
 		puts parent:$el
 	}
 }
-# end

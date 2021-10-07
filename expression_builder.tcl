@@ -2,10 +2,10 @@ package req nx
 
 namespace eval StoryBoard {
 
-# Based on djdsl/tutorials/intro.tcl:129 AleBuilder 
+# Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
 
-  	:variable retryFlag 0
+	:variable retryFlag 0
 	:variable creationStack ""
 	:variable creationBacklogStack ""
 	:variable storyboardKeyStack ""
@@ -15,11 +15,11 @@ nx::Class create StoryboardBuilder {
 	:forward timestamp %self creator Timestamp
 
 	:method creator {class} {
-	  	#puts "creator method with class:$class"
-	
-	  	# intersect create info of class with stack
-	  	set configInfo [$class info lookup syntax create]
-	  	set intersectLists [:intersectLists $configInfo ${:stack}]
+		#puts "creator method with class:$class"
+
+		# intersect create info of class with stack
+		set configInfo [$class info lookup syntax create]
+		set intersectLists [:intersectLists $configInfo ${:stack}]
 
 		# setup class new command with parameters
 		set creation [list $class new -id ${:className} {*}$intersectLists]
@@ -32,7 +32,7 @@ nx::Class create StoryboardBuilder {
 		#	# put creation command on a stack and try again later (at the end or after each iteration?)
 		#	lappend :creationStack $creation
 		#}
-		#puts stack:${:stack}	
+		#puts stack:${:stack}
 	}
 
 	###
@@ -52,55 +52,45 @@ nx::Class create StoryboardBuilder {
 				try {
 					set :stack [{*}$c]
 				} on 5 {msg options} {
-					puts "STATUS:5 --> msg: $msg with command: $c"
+					puts "STATUS:5 --> from VIDEO instance msg: $msg "
 					if {[dict exists $options customOptions]} {
-						puts "dict customOptions exists: [dict get $options customOptions]"
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set notFound [dict get [dict get $options customOptions] "not found"]
-						puts "caller: $caller"
-						puts "notFound: $notFound"
-						
+
 						# is notFound (e.g. timestamp7) in storyboard key list
 						set idx [lsearch ${:storyboardKeyStack} $notFound]
 						if {$idx ne "-1"} {
 							# case 1 e.g. timestamp1 was referenced early but is in storyboard
-						  	puts "case 1"
-						  	$caller destroy
+							$caller destroy
 							:removeCmdFromStack $c :creationStack
 							lappend :creationBacklogStack $c
-							puts "creationStack: ${:creationStack}"
-							puts "creationBacklogStack: ${:creationBacklogStack}"
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 							puts "case 2"
-						  	set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
-							puts "$caller timestamp is: [$caller timestamp get]"
+							set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
 							set command [list $caller {*}$makeEmpty]
 							{*}$command
-							puts "$caller timestamp is: [$caller timestamp get]"	
 							:removeCmdFromStack $c :creationStack
 						}
 					}
 
-			   	} on 6 {msg options} {
-				  	puts "STATUS:6 --> msg: $msg with command: $c"
+				} on 6 {msg options} {
+					puts "STATUS:6 --> from TIMESTAMP instance msg: $msg"
 					if {[dict exists $options customOptions]} {
-						puts "dict customOptions exists: [dict get $options customOptions]"
 						set key [dict get [dict get $options customOptions] "key"]
 						set caller [dict get [dict get $options customOptions] "caller"]
-						puts "caller: $caller"
-						puts "trying to find a reference of [$caller id get] with key:$key in storyboard"
 						set found 0
 
+						# Find timestamp reference in storyboard
 						# TODO refine for future list of timestamps
-	  					foreach e [dict keys ${:storyboardRevDict}] {
-						  	set idxe [lsearch $e $key]
-						  	if {[lindex $e $idxe] eq $key} {
+						foreach e [dict keys ${:storyboardRevDict}] {
+							set idxe [lsearch $e $key]
+							if {[lindex $e $idxe] eq $key} {
 								set ne [incr idxe]
 								if {[lindex $e $ne] eq [$caller id get]} {
-								  	# found element / go ahead and create the timestamp
+									# found element / go ahead and create the timestamp
 									#puts "found [lindex $e $ne] is [$caller id get]"
-								  	set found 1
+									set found 1
 									continue
 								}
 							}
@@ -108,14 +98,14 @@ nx::Class create StoryboardBuilder {
 
 						if {$found} {
 							# found
-						  	puts "it was found"
+							$caller destroy
+							lappend :creationBacklogStack $c
 							:removeCmdFromStack $c :creationStack
-							# TODO still mark its parent video when the video is instantiated
 						} else {
 							# not found
-						  	puts "it was not found"
 							$caller destroy
 							:removeCmdFromStack $c :creationStack
+							puts "STATUS:DELETED"
 						}
 					}
 				} on error {msg} {
@@ -125,7 +115,7 @@ nx::Class create StoryboardBuilder {
 					puts "STATUS:OK --> msg:$msg stack:${:stack}"
 					:removeCmdFromStack $c :creationStack
 				}
-		  	}
+			}
 		}
 	  }
 
@@ -147,7 +137,7 @@ nx::Class create StoryboardBuilder {
 	###
 	:method removeCmdFromStack {c s} {
 		set d "$"
-	  	set idx [eval [subst {lsearch $d{$s} {$c}}]]
+		set idx [eval [subst {lsearch $d{$s} {$c}}]]
 		if {$idx ne -1} {
 			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
 			set $s [eval [subst {lreplace $d{$s} {$idx} {$idx}}]]
@@ -155,35 +145,47 @@ nx::Class create StoryboardBuilder {
 	}
 
 	:method handleBacklogStack {} {
-	  	puts "Stack size: [llength ${:creationBacklogStack}]"
+		puts "Stack size: [llength ${:creationBacklogStack}]"
 		puts "Backlog stack: ${:creationBacklogStack}"
-		set count 0
-		set maxTries [llength ${:creationBacklogStack}]
+		#set count 0
+		#set maxTries [llength ${:creationBacklogStack}]
 		while {[llength ${:creationBacklogStack}] > 0} {
 			foreach c ${:creationBacklogStack} {
+				#puts "trying c: $c"
 				try {
 					# try cmd from backlog stack
-					set :stack [eval $c]
+					set :stack [{*}$c]
 				} on 5 {msg options} {
-					puts "return msg: $msg"
+					puts "(@[current method]) STATUS:5 --> from VIDEO instance msg: $msg"
+					set caller [dict get [dict get $options customOptions] "caller"]
+					set notFound [dict get [dict get $options customOptions] "not found"]
+					set idx [lsearch ${:storyboardKeyStack} $notFound]
+					if {$idx ne "-1"} {
+						# case 1 e.g. timestamp1 was referenced early but is in storyboard
+						$caller destroy
+						:removeCmdFromStack $c :creationBacklogStack; # remove from backlog
+						lappend :creationBacklogStack $c; # and put it at the end of backlog
+					} else {
+						$caller destroy
+						:removeCmdFromStack $c :creationBacklogStack
+					}
 					# do something if error
 					# keep on stack
 					# try ${:stack} destroy
 					# if (++count == maxTries) throw e;
 				} on 6 {msg options} {
-				  	puts "(@[current method]) STATUS:6 --> msg: $msg with command: $c"
+					puts "(@[current method]) STATUS:6 --> msg: $msg"
 					:removeCmdFromStack $c :creationBacklogStack
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
 				} on ok {} {
+					puts "(@[current method]) STATUS:OK"
 					# on success remove cmd from backlog stack
 					:removeCmdFromStack $c :creationBacklogStack
 				}
 			}
 		}
-
-		puts "creationBacklogStack empty: ${:creationBacklogStack}"
 	}
 
 	###
@@ -194,7 +196,7 @@ nx::Class create StoryboardBuilder {
 	# return: a string containing the elements found in input a and b coded with a preceeding dash (-)
 	#
 	# functionality:
-	# compares input a (create parameters) with input b (a curated dict) and returns an intersection. 
+	# compares input a (create parameters) with input b (a curated dict) and returns an intersection.
 	# if they match (input b is found in input a), the following pattern is created "-parameter value"
 	#
 	# Q: Geht das anders auch? Im NS Tutorial steht etwas von nx::Slot und nx::ObjectParameterSlot
@@ -206,7 +208,7 @@ nx::Class create StoryboardBuilder {
 		#puts a:$a
 		#puts b:$b
 		foreach i $a {
-		  	set parameter [string trim $i "?-"]
+			set parameter [string trim $i "?-"]
 			if { $parameter in [dict keys $b] } {
 			  #puts "matched parameter:$parameter in b:$b"
 			  lappend propertyList $dash$parameter [dict get $b $parameter]
@@ -250,11 +252,12 @@ nx::Class create StoryboardBuilder {
 	#}
 
 	:public method from {storyboard} {
-	  # run through the storyboard keys and store the keys in dedicated stack
+	  # storyboardKeyStack stores all objects to be created
 	  foreach id [dict keys $storyboard] {
 		lappend :storyboardKeyStack $id
 	  }
 
+	  # storyboardRevDict allows for easier searching of object attributes
 	  set :storyboardRevDict [lreverse $storyboard]
 
 	  # run through the storyboard
@@ -271,8 +274,8 @@ nx::Class create StoryboardBuilder {
 		set :stack ""
 		set :className ""
 	  }
-	
-	  # after running through the storyboard handle backlog 
+
+	  # after running through the storyboard handle backlog
 	  puts "\nReached end of storyboard - trying again with creationBacklogStack"
 	  :handleBacklogStack
 
@@ -281,5 +284,5 @@ nx::Class create StoryboardBuilder {
 	}
 }
 
-namespace export StoryboardBuilder 
+namespace export StoryboardBuilder
 }
