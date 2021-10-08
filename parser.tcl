@@ -31,6 +31,10 @@ nx::Class create StoryboardParser {
 			# remove empty lines
 			if {$line eq ""} {continue}
 
+			# substitute all (*) with {*}
+			set line [string map {\( "{" \) "}"} $line]
+			set line [string map {, ""} $line]
+
 			#puts line:$line
 			lappend :storyboardLinesList $line
 		} 
