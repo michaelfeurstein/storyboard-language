@@ -27,11 +27,19 @@ video3 timestamp timestamp2
 timestamp2 time 4567
 timestamp2 title "second"
 
+# 03.a # 
+
+video3a URL http://www.3a.com
+
+timestamp3a time 8769
+timestamp3a title "Three a"
+
+video3a timestamp timestamp3a
+
 ## 04 # - works
 video4 URL http://www.four.com
 
 timestamp3 time 6789
 timestamp3 title "third"
 timestamp3 video video4
-
 

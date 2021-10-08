@@ -224,25 +224,32 @@ nx::Class create StoryboardBuilder {
 	# input: ns (namespace)
 	#
 	# functionality:
-	# trim id from trailing numbers
-	# compare id case insensitive to classes in given namespace (ns) e.g. ::StoryBoard::*
-	# if they match (e.g. video1 --> trimmed to video --> found in ::StoryBoard::Video) use it
-	# set return to matched class (e.g. video or Video)
+	# match any variant of e.g. video1, videoIntro, videopart, video3a to video
+	# get available classes in ns
+	# tail each class (::StoryBoard::Video --> Video)
+	# compare id case insensitive to tailed class
+	# if they match (e.g. id:video1 --> tailed namespace:Video --> matches video) use it
+	# set return to matched class (e.g. video)
 	#
-	# TODO: also match other variants e.g. videoIntro, videopart, videoIOT425
+	###
 	:method matchClass {id ns} {
 	  set matchedClass ""
-	  # trim id from trailing numbers
-	  regsub -all {[0-9]+} $id {} id
-	  #puts trimmed:$id
 	  set availableClasses [info commands $ns]
-	  if {[regexp -nocase "$id" $availableClasses match]} {
-		#puts "found id:$id in commands:$availableClasses matched:$match"
-		# Note: i could also pass $match (which is e.g. Video) instead of $id (which is video) and then remove the forward method and call :creator [:matchClass ...] directly (design question)
-		set matchedClass $id
-	  } else {
-		set e ""
+	  #puts availableClasses:$availableClasses
+
+	  foreach ns $availableClasses {
+	  	set tail [namespace tail $ns]
+		if {[regexp -nocase "^$tail" $id match]} {
+			#puts "found $match1 in $id"
+			set matchedClass $match
+			break
+		}
 	  }
+
+	  if {$matchedClass eq ""} {
+		error "ERROR: matchClass could not match $id in $ns"
+	  }
+
 	  return $matchedClass
 	}
 
