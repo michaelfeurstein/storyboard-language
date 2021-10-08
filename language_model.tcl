@@ -92,6 +92,9 @@ nx::Class create Video {
 	  set a [$ts id get]
 	  set b [$ts time get]
 	  set c [$ts title get]
+	  if {${:timestamp} eq "empty"} {
+		[self] timestamp set $a
+	  }
 	  $ts destroy
 	  :createTimestamp -id $a -time $b -title $c -video [self]
 	}

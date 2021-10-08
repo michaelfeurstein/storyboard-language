@@ -27,7 +27,7 @@ video3 timestamp timestamp2
 timestamp2 time 4567
 timestamp2 title "second"
 
-# 03.a # 
+# 03.a # - works 
 
 video3a URL http://www.3a.com
 
@@ -43,3 +43,18 @@ timestamp3 time 6789
 timestamp3 title "third"
 timestamp3 video video4
 
+## 05 # - works 
+
+timestamp4 time 444
+timestamp4 title "Four"
+
+video5 URL http://www.five.com
+video5 timestamp timestamp4
+
+## 06 # - this will currently still loop 
+
+#timestamp5 time 444
+#timestamp5 title "Four"
+#timestamp5 video video6
+
+#video6 URL http://www.six.com
