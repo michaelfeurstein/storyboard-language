@@ -66,6 +66,16 @@ nx::Class create Video {
 	:method init {} {
 		# handle -timestamp parameter
 		if {${:timestamp} ne "empty"} {
+		  	puts "find out if timestamp is a list or not"
+			# handle list
+			puts "timestamp length: [llength ${:timestamp}]"
+			puts "timestamp: ${:timestamp}"
+			foreach i ${:timestamp} {
+			  	# CONTINUE HERE: either handle seperate or with single handler below. Hoever return breaks the foreach.
+				puts i:$i
+			}
+
+			# handle single timestamp
 			set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
 			if {$ti ne 0} {
 				#puts "(@[current method]) timestamp:[[self] timestamp get]"
@@ -94,6 +104,10 @@ nx::Class create Video {
 	  set c [$ts title get]
 	  if {${:timestamp} eq "empty"} {
 		[self] timestamp set $a
+	  } else {
+	  	set l "{${:timestamp} $a}"
+		puts l:$l
+		[self] timestamp set $l	
 	  }
 	  $ts destroy
 	  :createTimestamp -id $a -time $b -title $c -video [self]
