@@ -64,6 +64,7 @@ nx::Class create StoryboardBuilder {
 							$caller destroy
 							:removeCmdFromStack $c :creationStack
 							lappend :creationBacklogStack $c
+							puts "STATUS:BACKLOG"
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 							puts "case 2"
@@ -101,6 +102,7 @@ nx::Class create StoryboardBuilder {
 							$caller destroy
 							lappend :creationBacklogStack $c
 							:removeCmdFromStack $c :creationStack
+							puts "STATUS:BACKLOG"
 						} else {
 							# not found
 							$caller destroy
