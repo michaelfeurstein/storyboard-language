@@ -105,9 +105,8 @@ nx::Class create Video {
 	  if {${:timestamp} eq "empty"} {
 		[self] timestamp set $a
 	  } else {
-	  	set l "{${:timestamp} $a}"
-		puts l:$l
-		[self] timestamp set $l	
+		lappend :timestamp $a
+		[self] timestamp set ${:timestamp}
 	  }
 	  $ts destroy
 	  :createTimestamp -id $a -time $b -title $c -video [self]
