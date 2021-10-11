@@ -65,17 +65,9 @@ nx::Class create Video {
 
 	:method init {} {
 		# handle -timestamp parameter
-		if {${:timestamp} ne "empty"} {
-		  	puts "find out if timestamp is a list or not"
-			# handle list
-			puts "timestamp length: [llength ${:timestamp}]"
-			puts "timestamp: ${:timestamp}"
-			foreach i ${:timestamp} {
-			  	# CONTINUE HERE: either handle seperate or with single handler below. Hoever return breaks the foreach.
-				puts i:$i
-			}
-
+		if {${:timestamp} ne "empty" && [llength ${:timestamp}] eq 1} {
 			# handle single timestamp
+			puts "handling single timestamp ${:timestamp}, llength: [llength ${:timestamp}]"
 			set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
 			if {$ti ne 0} {
 				#puts "(@[current method]) timestamp:[[self] timestamp get]"
@@ -87,6 +79,12 @@ nx::Class create Video {
 				dict set returnOptions customOptions "caller" [self]
 				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
 			}
+		} elseif {${:timestamp} ne "empty" && [llength ${:timestamp}] > 1} {
+			# handle a list of timestamps
+			puts "handling list of timestamp ${:timestamp}, llength: [llength ${:timestamp}]"
+			dict set returnOptions customOptions "tslist" "${:timestamp}"
+			dict set returnOptions customOptions "caller" [self]
+			return -code 7 -options $returnOptions "process list of timestamps: ${:timestamp}"
 		}
 		next
 	}

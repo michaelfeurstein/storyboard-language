@@ -110,6 +110,18 @@ nx::Class create StoryboardBuilder {
 							puts "STATUS:DELETED"
 						}
 					}
+				} on 7 {msg options} {
+				  	puts "STATUS:7 --> from VIDEO with TIMESTAMP LIST msg: $msg"
+				  	if {[dict exists $options customOptions]} {
+						set caller [dict get [dict get $options customOptions] "caller"]
+						set tslist [dict get [dict get $options customOptions] "tslist"]
+	
+						# CONTINUE HERE
+						# add timestamp{$n} video [$caller id get] into $storyboard
+						foreach i $tslist {
+							puts exprBi:$i
+						}
+					  }
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
