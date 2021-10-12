@@ -120,6 +120,7 @@ nx::Class create StoryboardBuilder {
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set tslist [dict get [dict get $options customOptions] "tslist"]
 	
+						# (1) Check Storyboard
 						# add timestamp{$n} video [$caller id get] into $storyboard
 						foreach i $tslist {
 							# is i (e.g. timestamp7) in storyboard key list
@@ -152,9 +153,34 @@ nx::Class create StoryboardBuilder {
 								#puts stb:${:storyboardDict}
 							} else {
 								# case 2 e.g. timestamp7 is NOT in storyboard
-								
 							}
 						};# - foreach ends here
+
+						# Check Backlog
+						# add -video videoX to reference timestamp in tslist
+						if {[llength ${:creationBacklogStack}] > 0} {
+							puts "checking backlog"
+							foreach i ${:creationBacklogStack} {
+								set idxID [lsearch $i "-id"]
+								if {$idxID ne "-1"} {
+									incr idxID -2
+									if {[lindex $i $idxID] eq "Timestamp"} {
+										incr idxID 3
+										puts [lindex $i $idxID];# -> timestamp2
+										set idxSE [lsearch $tslist [lindex $i $idxID]]
+										if {$idxSE ne "-1"} {
+											# found a timestamp from tslist on backlog
+											:removeCmdFromStack $i :creationBacklogStack
+											lappend i "-video" [$caller id get]
+											puts i_new:$i
+											lappend :creationBacklogStack $i
+										}
+									}
+								}
+							}
+
+						}
+
 						
 						# we don't need the command with the timestamp list anymore, remove this parameter completely
 						# the correct timestamps will be added through the backlog
@@ -223,9 +249,11 @@ nx::Class create StoryboardBuilder {
 					set idx [lsearch ${:storyboardKeyStack} $notFound]
 					if {$idx ne "-1"} {
 						# case 1 e.g. timestamp1 was referenced early but is in storyboard
+						puts "case 1"
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack; # remove from backlog
 						lappend :creationBacklogStack $c; # and put it at the end of backlog
+						puts ${:creationBacklogStack}
 					} else {
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack
