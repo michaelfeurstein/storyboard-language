@@ -154,7 +154,9 @@ nx::Class create Timestamp {
 				if {$y ne 0} {
 					$y addTimestamp -ts [self]
 				} else {
-					return -code 6 "::Video:${:video} not found"
+					dict set returnOptions customOptions "key" "timestamp"
+					dict set returnOptions customOptions "caller" [self]
+					return -code 6 -options $returnOptions "::Video:${:video} not found"
 				}
 			} elseif {${:video} eq "empty"} {
 				dict set returnOptions customOptions "key" "timestamp"

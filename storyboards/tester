@@ -16,17 +16,17 @@
 #timestamp1 time 0123
 #timestamp1 title "first"
 #
-## 03 # - works
-## creates video3, puts it on backlog as timestamp not there yet
-## creates timestamp, after checking for reference in storyboard (this is where the timestamp comes into existence before the video)
-## backlog creates video3 again, this time with timestamp (this is where the idea comes from adding a timestamp instance to the video instance)
-#
-#video3 URL http://www.third.com
-#video3 timestamp timestamp2
-#
-#timestamp2 time 4567
-#timestamp2 title "second"
-#
+# 03 # - works
+# creates video3, puts it on backlog as timestamp not there yet
+# creates timestamp, after checking for reference in storyboard (this is where the timestamp comes into existence before the video)
+# backlog creates video3 again, this time with timestamp (this is where the idea comes from adding a timestamp instance to the video instance)
+
+video3 URL http://www.third.com
+video3 timestamp timestamp2
+
+timestamp2 time 4567
+timestamp2 title "second"
+
 ## 03.a # - works 
 #
 #video3a URL http://www.3a.com
@@ -59,24 +59,24 @@
 
 #video6 URL http://www.six.com
 
-## 07.pre # before doing 07
+## 07.pre # - works
 
-video7pre URL http://www.sevenPre.com
+#video7pre URL http://www.sevenPre.com
+#
+#timestamp12 time 12
+#timestamp12 title "twelve"
+#timestamp12 video video7pre
+#
+#timestamp13 time 13
+#timestamp13 title "thirteen"
+#timestamp13 video video7pre
+#
+#timestamp14 time 14
+#timestamp14 title "fourteen"
+#timestamp14 video video7pre
 
-timestamp12 time 12
-timestamp12 title "twelve"
-timestamp12 video video7pre
-
-timestamp13 time 13
-timestamp13 title "thirteen"
-timestamp13 video video7pre
-
-timestamp14 time 14
-timestamp14 title "fourteen"
-timestamp14 video video7pre
-
-## 07 # - next step 
-
+## 07 # - works
+#
 #video7 URL http://www.seven.com
 #video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp9, timestamp10, timestamp11)
 #
@@ -88,19 +88,34 @@ timestamp14 video video7pre
 #
 #timestamp8 time 888
 #timestamp8 title "Eight"
+#
 
-
-### 07.a # 
+### 07.a # - works 
 #
 #video7 URL http://www.seven.com
 #
 #timestamp6 time 666
 #timestamp6 title "Six"
 #
-#timestamp7 time 777
-#timestamp7 title "Seven"
+##timestamp7 time 777
+##timestamp7 title "Seven"
 #
 #timestamp8 time 888
 #timestamp8 title "Eight"
 #
-#video7 timestamp (timestamp6, timestamp7, timestamp8)
+#video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp10)
+
+## 07.b # - next step:solve timestamp6 dangling around. check backlog 
+
+timestamp6 time 666
+timestamp6 title "Six"
+
+video7 URL http://www.eight.com
+video7 timestamp (timestamp6, timestamp7, timestamp8)
+
+timestamp7 time 777
+timestamp7 title "Seven"
+
+timestamp8 time 888
+timestamp8 title "Eight"
+

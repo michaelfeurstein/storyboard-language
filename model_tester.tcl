@@ -77,15 +77,14 @@ puts "internalBuilder $internalBuilder"
 # Call method from with a storyboard
 $internalBuilder from [$internalParser storyboardDict get]
 
-
-puts Videos:[llength [Video info instances -closure]]
+puts "\nVideos: [llength [Video info instances -closure]]"
 foreach x [Video info instances -closure] {
 	puts "found class $x with id:[$x id get] timestamp:[$x timestamp get] or children:[$x info children]"
 	foreach el [$x info children] {
 		puts child:[$el id get]
 	}
 }
-puts Timestamp:[llength [Timestamp info instances -closure]]
+puts "\nTimestamp:[llength [Timestamp info instances -closure]]"
 foreach x [Timestamp info instances -closure] {
 	puts "found class $x with id:[$x id get]"
 	foreach el [$x info parent] {

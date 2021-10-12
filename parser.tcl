@@ -35,7 +35,7 @@ nx::Class create StoryboardParser {
 			set line [string map {\( "{" \) "}"} $line]
 			set line [string map {, ""} $line]
 
-			#puts line:$line
+			puts line:$line
 			lappend :storyboardLinesList $line
 		} 
 		
