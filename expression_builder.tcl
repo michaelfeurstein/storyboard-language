@@ -5,7 +5,6 @@ namespace eval StoryBoard {
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
 
-	:variable retryFlag 0
 	:variable creationStack ""
 	:variable creationBacklogStack ""
 
@@ -59,6 +58,7 @@ nx::Class create StoryboardBuilder {
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set notFound [dict get [dict get $options customOptions] "not found"]
 
+						## begin - redundant code also in status 7 - next step: put in method
 						# is notFound (e.g. timestamp7) in storyboard key list
 						set idx [lsearch ${:storyboardDict} $notFound]
 						if {$idx ne "-1"} {
@@ -97,11 +97,37 @@ nx::Class create StoryboardBuilder {
 							break
 						}
 
+						# Check Backlog
+						# add -video videoX to reference timestamp in tslist
+						if {[llength ${:creationBacklogStack}] > 0} {
+							puts "checking backlog"
+							foreach i ${:creationBacklogStack} {
+								set idxID [lsearch $i "-id"]
+								if {$idxID ne "-1"} {
+									incr idxID -2
+									if {[lindex $i $idxID] eq "Timestamp"} {
+										incr idxID 3
+										puts [lindex $i $idxID];# -> timestamp2
+										set idxSE [lsearch $notFound [lindex $i $idxID]]
+										if {$idxSE ne "-1"} {
+											# found a timestamp  on backlog
+											:removeCmdFromStack $i :creationBacklogStack
+											lappend i "-video" [$caller id get]
+											puts i_new:$i
+											lappend :creationBacklogStack $i
+											puts "STATUS:BACKLOG_READD - $i"
+										}
+									}
+								}
+							}
+						}
+
 						# we don't need the command with the timestamp list anymore, remove this parameter completely
 						# the correct timestamps will be added through the backlog
 						puts "removing timestamp parameter from video command"
 						set idxts [lsearch $c "-timestamp"]
 						set newC [lreplace $c $idxts [incr idxts]]
+						## end - redundant code
 
 						$caller destroy
 						:removeCmdFromStack $c :creationStack
@@ -109,11 +135,6 @@ nx::Class create StoryboardBuilder {
 						puts "STATUS:BACKLOG - $newC"
 					};# -> if ends here
 				} on 6 {msg options} {
-					#
-					# CONTINUE HERE: storyboard/tester case 05 loops.
-					# the timestamp command should be appended with -video videoX
-					# also check again Status 5 of video (in follow up command)
-					#
 					puts "STATUS:6 --> from TIMESTAMP instance msg: $msg"
 					if {[dict exists $options customOptions]} {
 						set key [dict get [dict get $options customOptions] "key"] ;# -> timestamp
@@ -214,9 +235,7 @@ nx::Class create StoryboardBuilder {
 									}
 								}
 							}
-
 						}
-
 
 						# we don't need the command with the timestamp list anymore, remove this parameter completely
 						# the correct timestamps will be added through the backlog
