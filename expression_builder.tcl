@@ -60,13 +60,31 @@ nx::Class create StoryboardBuilder {
 						set notFound [dict get [dict get $options customOptions] "not found"]
 
 						# is notFound (e.g. timestamp7) in storyboard key list
-						set idx [lsearch ${:storyboardKeyStack} $notFound]
+						set idx [lsearch ${:storyboardDict} $notFound]
 						if {$idx ne "-1"} {
-							# case 1 e.g. timestamp1 was referenced early but is in storyboard
-							$caller destroy
-							:removeCmdFromStack $c :creationStack
-							lappend :creationBacklogStack $c
-							puts "STATUS:BACKLOG"
+							# case 1 e.g. timestamp7 was referenced early but is in storyboard
+							set idxo $idx
+							set idxn [incr idx]
+							set tsKey [lindex ${:storyboardDict} $idxo] ;# -> e.g. timestamp7
+							set tsParam [lindex ${:storyboardDict} $idxn] ;# -> time 777 title Seven
+
+							puts "tsKey: $tsKey"
+							puts "tsParam: $tsParam"
+
+							#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
+
+							# update the storyboard
+							#
+							# based on: https://wiki.tcl-lang.org/page/dict+lappend
+							# insert/append video [$caller id get] into timestampX
+							# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
+							#
+							dict update :storyboardDict $tsKey $tsKey {
+								dict lappend $tsKey video [$caller id get]
+							}
+							#set :storyboardDict ;# -> not sure what this does, leave commented
+
+							puts new:[dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 							# remove timestamp reference from video (i.e. set it to empty)
@@ -75,10 +93,27 @@ nx::Class create StoryboardBuilder {
 							set command [list $caller {*}$makeEmpty]
 							{*}$command
 							:removeCmdFromStack $c :creationStack
+							puts "STATUS:OK - break"
+							break
 						}
-					}
 
+						# we don't need the command with the timestamp list anymore, remove this parameter completely
+						# the correct timestamps will be added through the backlog
+						puts "removing timestamp parameter from video command"
+						set idxts [lsearch $c "-timestamp"]
+						set newC [lreplace $c $idxts [incr idxts]]
+
+						$caller destroy
+						:removeCmdFromStack $c :creationStack
+						lappend :creationBacklogStack $newC
+						puts "STATUS:BACKLOG - $newC"
+					};# -> if ends here
 				} on 6 {msg options} {
+					#
+					# CONTINUE HERE: storyboard/tester case 05 loops.
+					# the timestamp command should be appended with -video videoX
+					# also check again Status 5 of video (in follow up command)
+					#
 					puts "STATUS:6 --> from TIMESTAMP instance msg: $msg"
 					if {[dict exists $options customOptions]} {
 						set key [dict get [dict get $options customOptions] "key"] ;# -> timestamp
@@ -90,9 +125,9 @@ nx::Class create StoryboardBuilder {
 						foreach e [dict keys ${:storyboardRevDict}] {
 							set idxe [lsearch $e $key] ;# -> search for key timestamp
 							if {[lindex $e $idxe] eq $key} {
-								# if timestamp key found incr into next element 
+								# if timestamp key found incr into next element
 								# this could be: "timestamp timestamp7" or "timestamp (ts1, ts2, ts3)"
-							  	set ne [incr idxe]
+								set ne [incr idxe]
 								if {[lsearch [lindex $e $ne] [$caller id get]] ne "-1"} { ;# -> search for timestamp reference
 									# found element / go ahead and create the timestamp
 									puts "found: [$caller id get] in storyboard via: [lindex $e $ne]"
@@ -106,7 +141,7 @@ nx::Class create StoryboardBuilder {
 							$caller destroy
 							lappend :creationBacklogStack $c
 							:removeCmdFromStack $c :creationStack
-							puts "STATUS:BACKLOG"
+							puts "STATUS:BACKLOG - $c"
 						} else {
 							$caller destroy
 							:removeCmdFromStack $c :creationStack
@@ -115,11 +150,11 @@ nx::Class create StoryboardBuilder {
 					}
 
 				} on 7 {msg options} {
-				  	puts "STATUS:7 --> from VIDEO with TIMESTAMP LIST msg: $msg"
-				  	if {[dict exists $options customOptions]} {
+					puts "STATUS:7 --> from VIDEO with TIMESTAMP LIST msg: $msg"
+					if {[dict exists $options customOptions]} {
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set tslist [dict get [dict get $options customOptions] "tslist"]
-	
+
 						# (1) Check Storyboard
 						# add timestamp{$n} video [$caller id get] into $storyboard
 						foreach i $tslist {
@@ -135,13 +170,13 @@ nx::Class create StoryboardBuilder {
 
 								puts "tsKey: $tsKey"
 								puts "tsParam: $tsParam"
-								
+
 								#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
-								
+
 								# update the storyboard
 								#
 								# based on: https://wiki.tcl-lang.org/page/dict+lappend
-								# insert/append video [$caller id get] into timestampX 
+								# insert/append video [$caller id get] into timestampX
 								# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
 								#
 								dict update :storyboardDict $tsKey $tsKey {
@@ -174,6 +209,7 @@ nx::Class create StoryboardBuilder {
 											lappend i "-video" [$caller id get]
 											puts i_new:$i
 											lappend :creationBacklogStack $i
+											puts "STATUS:BACKLOG_READD - $i"
 										}
 									}
 								}
@@ -181,19 +217,17 @@ nx::Class create StoryboardBuilder {
 
 						}
 
-						
+
 						# we don't need the command with the timestamp list anymore, remove this parameter completely
 						# the correct timestamps will be added through the backlog
-						puts "removing timestamp parameter from command"
+						puts "removing timestamp parameter from video command"
 						set idxts [lsearch $c "-timestamp"]
 						set newC [lreplace $c $idxts [incr idxts]]
-						puts "new command: $newC"
-
 
 						$caller destroy
 						:removeCmdFromStack $c :creationStack
 						lappend :creationBacklogStack $newC
-						puts "STATUS:BACKLOG"
+						puts "STATUS:BACKLOG - $newC"
 					  }
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
@@ -238,7 +272,7 @@ nx::Class create StoryboardBuilder {
 		#set maxTries [llength ${:creationBacklogStack}]
 		while {[llength ${:creationBacklogStack}] > 0} {
 			foreach c ${:creationBacklogStack} {
-				#puts "trying c: $c"
+				puts "\ntrying c: $c"
 				try {
 					# try cmd from backlog stack
 					set :stack [{*}$c]
@@ -250,10 +284,19 @@ nx::Class create StoryboardBuilder {
 					if {$idx ne "-1"} {
 						# case 1 e.g. timestamp1 was referenced early but is in storyboard
 						puts "case 1"
+
+						#a
+						#set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
+						#set command [list $caller {*}$makeEmpty]
+						#{*}$command
+						#:removeCmdFromStack $c :creationBacklogStack
+
+						#b
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack; # remove from backlog
 						lappend :creationBacklogStack $c; # and put it at the end of backlog
-						puts ${:creationBacklogStack}
+
+						puts "STATUS:BACKLOG_READD - $c"
 					} else {
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack
@@ -264,7 +307,42 @@ nx::Class create StoryboardBuilder {
 					# if (++count == maxTries) throw e;
 				} on 6 {msg options} {
 					puts "(@[current method]) STATUS:6 --> msg: $msg"
-					:removeCmdFromStack $c :creationBacklogStack
+					puts c:$c
+					#:removeCmdFromStack $c :creationBacklogStack
+
+					if {[dict exists $options customOptions]} {
+						set key [dict get [dict get $options customOptions] "key"] ;# -> timestamp
+						set caller [dict get [dict get $options customOptions] "caller"] ;# -> ::Timestamp
+						set found 0
+
+						# Find timestamp reference in storyboard
+						# works with single timestamp and timestamp list
+						foreach e [dict keys ${:storyboardRevDict}] {
+							set idxe [lsearch $e $key] ;# -> search for key timestamp
+							if {[lindex $e $idxe] eq $key} {
+								# if timestamp key found incr into next element
+								# this could be: "timestamp timestamp7" or "timestamp (ts1, ts2, ts3)"
+								set ne [incr idxe]
+								if {[lsearch [lindex $e $ne] [$caller id get]] ne "-1"} { ;# -> search for timestamp reference
+									# found timestamp / timestamp referenced - put on backlog again
+									puts "found: [$caller id get] in storyboard via: [lindex $e $ne]"
+									set found 1
+									continue
+								}
+							}
+						}
+
+						if {$found} {
+							$caller destroy
+							:removeCmdFromStack $c :creationBacklogStack
+							lappend :creationBacklogStack $c
+							puts "STATUS:BACKLOG_READD"
+						} else {
+							$caller destroy
+							:removeCmdFromStack $c :creationBacklogStack
+							puts "STATUS:DELETED"
+						}
+					}
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
@@ -327,7 +405,7 @@ nx::Class create StoryboardBuilder {
 	  #puts availableClasses:$availableClasses
 
 	  foreach ns $availableClasses {
-	  	set tail [namespace tail $ns]
+		set tail [namespace tail $ns]
 		if {[regexp -nocase "^$tail" $id match]} {
 			#puts "found $match1 in $id"
 			set matchedClass $match
