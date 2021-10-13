@@ -43,24 +43,24 @@ timestamp2 title "second"
 #timestamp3 title "third"
 #timestamp3 video video4
 #
-### 05 # - works 
-#
-#timestamp4 time 444
-#timestamp4 title "Four"
-#
-#video5 URL http://www.five.com
-#video5 timestamp timestamp4
+### 05 # - looping 
 
-## 06 # - this will currently still loop 
+timestamp4 time 444
+timestamp4 title "Four"
 
-#timestamp5 time 444
+video5 URL http://www.five.com
+video5 timestamp timestamp4
+
+## 06 # - works (no timestamp5 created) 
+
+#itimestamp5 time 444
 #timestamp5 title "Four"
 #timestamp5 video video6
 
 #video6 URL http://www.six.com
 
 ## 07.pre # - works
-
+#
 #video7pre URL http://www.sevenPre.com
 #
 #timestamp12 time 12
@@ -89,6 +89,9 @@ timestamp2 title "second"
 #timestamp8 time 888
 #timestamp8 title "Eight"
 #
+#timestamp10 time 010
+#timestamp10 title "Ten"
+
 
 ### 07.a # - works 
 #
@@ -97,25 +100,25 @@ timestamp2 title "second"
 #timestamp6 time 666
 #timestamp6 title "Six"
 #
-##timestamp7 time 777
-##timestamp7 title "Seven"
+#timestamp7 time 777
+#timestamp7 title "Seven"
 #
 #timestamp8 time 888
 #timestamp8 title "Eight"
 #
 #video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp10)
 
-## 07.b # - next step:solve timestamp6 dangling around. check backlog 
+## 07.b # - works 
 
-timestamp6 time 666
-timestamp6 title "Six"
+#timestamp6 time 666
+#timestamp6 title "Six"
 
-video7 URL http://www.eight.com
-video7 timestamp (timestamp6, timestamp7, timestamp8)
+#video7 URL http://www.eight.com
+#video7 timestamp (timestamp6, timestamp7, timestamp8)
 
-timestamp7 time 777
-timestamp7 title "Seven"
+#timestamp7 time 777
+#timestamp7 title "Seven"
 
-timestamp8 time 888
-timestamp8 title "Eight"
+#timestamp8 time 888
+#timestamp8 title "Eight"
 
