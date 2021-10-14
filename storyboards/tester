@@ -57,7 +57,7 @@ video5 URL http://www.five.com
 video5 timestamp timestamp4
 
 
-# 06 # - not working --> video6 is left empty, should hold timestamp5
+# 06 # - works
 
 timestamp5 time 444
 timestamp5 title "Four"
@@ -130,4 +130,7 @@ timestamp7b title "Seven"
 
 timestamp8b time 888
 timestamp8b title "Eight"
+
+timestamp9b time 999
+timestamp9b title "Should be deleted"
 
