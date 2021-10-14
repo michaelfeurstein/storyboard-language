@@ -53,14 +53,13 @@ nx::Class create StoryboardBuilder {
 				try {
 					set :stack [{*}$c]
 				} on 5 {msg options} {
-					puts "STATUS:5 --> from VIDEO instance msg: $msg "
+					puts "STATUS:5 --> from VIDEO instance with TIMESTAMP msg: $msg "
 					if {[dict exists $options customOptions]} {
 						set caller [dict get [dict get $options customOptions] "caller"]
-						set notFound [dict get [dict get $options customOptions] "not found"]
+						set tslist [dict get [dict get $options customOptions] "tslist"]
 
-						## begin - redundant code also in status 7 - next step: put in method
-						# is notFound (e.g. timestamp7) in storyboard key list
-						set idx [lsearch ${:storyboardDict} $notFound]
+						foreach i $tslist {
+						set idx [lsearch ${:storyboardDict} $i]
 						if {$idx ne "-1"} {
 							# case 1 e.g. timestamp7 was referenced early but is in storyboard
 							set idxo $idx
@@ -88,14 +87,15 @@ nx::Class create StoryboardBuilder {
 						} else {
 							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 							# remove timestamp reference from video (i.e. set it to empty)
-							puts "case 2"
-							set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
-							set command [list $caller {*}$makeEmpty]
-							{*}$command
-							:removeCmdFromStack $c :creationStack
-							puts "STATUS:OK - break"
-							break
+							puts "nothing to do here"
+							#set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
+							#set command [list $caller {*}$makeEmpty]
+							#{*}$command
+							#:removeCmdFromStack $c :creationStack
+							#puts "STATUS:OK - break"
+							#break
 						}
+						};# - foreach ends here
 
 						# Check Backlog
 						# add -video videoX to reference timestamp in tslist
@@ -108,7 +108,7 @@ nx::Class create StoryboardBuilder {
 									if {[lindex $i $idxID] eq "Timestamp"} {
 										incr idxID 3
 										puts [lindex $i $idxID];# -> timestamp2
-										set idxSE [lsearch $notFound [lindex $i $idxID]]
+										set idxSE [lsearch $tslist [lindex $i $idxID]]
 										if {$idxSE ne "-1"} {
 											# found a timestamp  on backlog
 											:removeCmdFromStack $i :creationBacklogStack
@@ -291,9 +291,7 @@ nx::Class create StoryboardBuilder {
 		#set maxTries [llength ${:creationBacklogStack}]
 		while {[llength ${:creationBacklogStack}] > 0} {
 			foreach c ${:creationBacklogStack} {
-				puts "\ntrying c: $c"
 				try {
-					# try cmd from backlog stack
 					set :stack [{*}$c]
 				} on 5 {msg options} {
 					puts "(@[current method]) STATUS:5 --> from VIDEO instance msg: $msg"

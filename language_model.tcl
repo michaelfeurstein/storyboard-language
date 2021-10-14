@@ -74,17 +74,18 @@ nx::Class create Video {
 				:addTimestamp -ts $ti
 			} else {
 				# case 1: timestamp not found - return code 5 - handle details in expression builder
-				dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
-				dict set returnOptions customOptions "not found" "${:timestamp}"
+				#dict set returnOptions customOptions "makeEmpty" "timestamp set empty"
+				puts "handling timestamp ${:timestamp}, llength: [llength ${:timestamp}]"
+				dict set returnOptions customOptions "tslist" "${:timestamp}"
 				dict set returnOptions customOptions "caller" [self]
-				return -code 5 -options $returnOptions "${:timestampClass}:${:timestamp} not found"
+				return -code 5 -options $returnOptions "process timestamp: ${:timestamp}"
 			}
 		} elseif {${:timestamp} ne "empty" && [llength ${:timestamp}] > 1} {
 			# handle a list of timestamps
 			puts "handling list of timestamp ${:timestamp}, llength: [llength ${:timestamp}]"
 			dict set returnOptions customOptions "tslist" "${:timestamp}"
 			dict set returnOptions customOptions "caller" [self]
-			return -code 7 -options $returnOptions "process list of timestamps: ${:timestamp}"
+			return -code 5 -options $returnOptions "process list of timestamps: ${:timestamp}"
 		}
 		next
 	}
