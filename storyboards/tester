@@ -8,14 +8,14 @@
 video1 URL http://www.myvideo.com
 
 
-## 02 # - works
-## creates video2
-## timestamp1 is not valid, because no reference to video
-#
-#video2 URL http://www.anothervideo.com
-#
-#timestamp1 time 0123
-#timestamp1 title "first"
+# 02 # - works
+# creates video2
+# timestamp1 is not valid, because no reference to video
+
+video2 URL http://www.anothervideo.com
+
+timestamp1 time 0123
+timestamp1 title "timestamp should not show up as it is not referenced"
 
 
 # 03 # - works
@@ -29,104 +29,105 @@ video3 timestamp timestamp2
 timestamp2 time 4567
 timestamp2 title "second"
 
-## 03.a # - works 
-#
-#video3a URL http://www.3a.com
-#
-#timestamp3a time 8769
-#timestamp3a title "Three a"
-#
-#video3a timestamp timestamp3a
+
+# 03.a # - works
+
+video3a URL http://www.3a.com
+
+timestamp3a time 8769
+timestamp3a title "Three A"
+
+video3a timestamp timestamp3a
 
 
-### 04 # - works
-#video4 URL http://www.four.com
-#
-#timestamp3 time 6789
-#timestamp3 title "third"
-#timestamp3 video video4
+## 04 # - works
+video4 URL http://www.four.com
+
+timestamp3 time 6789
+timestamp3 title "third"
+timestamp3 video video4
 
 
-### 05 # - works
-#
-#timestamp4 time 444
-#timestamp4 title "Four"
-#
-#video5 URL http://www.five.com
-#video5 timestamp timestamp4
+## 05 # - works
+
+timestamp4 time 444
+timestamp4 title "Four"
+
+video5 URL http://www.five.com
+video5 timestamp timestamp4
 
 
-## 06 # - works (no timestamp5 created) 
-#
-#timestamp5 time 444
-#timestamp5 title "Four"
-#timestamp5 video video6
-#
-#video6 URL http://www.six.com
+# 06 # - not working --> video6 is left empty, should hold timestamp5
+
+timestamp5 time 444
+timestamp5 title "Four"
+timestamp5 video video6
+
+video6 URL http://www.six.com
 
 
-## 07.pre # - works
-#
-#video7pre URL http://www.sevenPre.com
-#
-#timestamp12 time 12
-#timestamp12 title "twelve"
-#timestamp12 video video7pre
-#
-#timestamp13 time 13
-#timestamp13 title "thirteen"
-#timestamp13 video video7pre
-#
-#timestamp14 time 14
-#timestamp14 title "fourteen"
-#timestamp14 video video7pre
+# 07.pre # - works
+
+video7pre URL http://www.sevenPre.com
+
+timestamp12 time 12
+timestamp12 title "twelve"
+timestamp12 video video7pre
+
+timestamp13 time 13
+timestamp13 title "thirteen"
+timestamp13 video video7pre
+
+timestamp14 time 14
+timestamp14 title "fourteen"
+timestamp14 video video7pre
 
 
-## 07 # - works
-#
-#video7 URL http://www.seven.com
-#video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp9, timestamp10, timestamp11)
-#
-#timestamp6 time 666
-#timestamp6 title "Six"
-#
-#timestamp7 time 777
-#timestamp7 title "Seven"
-#
-#timestamp8 time 888
-#timestamp8 title "Eight"
-#
-#timestamp10 time 010
-#timestamp10 title "Ten"
+# 07 # - works
+
+video7 URL http://www.seven.com
+video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp9, timestamp10, timestamp11)
+
+timestamp6 time 666
+timestamp6 title "Six"
+
+timestamp7 time 777
+timestamp7 title "Seven"
+
+timestamp8 time 888
+timestamp8 title "Eight"
+
+timestamp10 time 010
+timestamp10 title "Ten"
 
 
-### 07.a # - works 
-#
-#video7 URL http://www.seven.com
-#
-#timestamp6 time 666
-#timestamp6 title "Six"
-#
-#timestamp7 time 777
-#timestamp7 title "Seven"
-#
-#timestamp8 time 888
-#timestamp8 title "Eight"
-#
-#video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp10)
+## 07.a # - works
+
+video7a URL http://www.seven.com
+
+timestamp6a time 666
+timestamp6a title "Six"
+
+timestamp7a time 777
+timestamp7a title "Seven"
+
+timestamp8a time 888
+timestamp8a title "Eight"
+
+video7a timestamp (timestamp6a, timestamp7a, timestamp8a, timestamp10a)
 
 
-## 07.b # - works 
+# 07.b # - works
 
-#timestamp6 time 666
-#timestamp6 title "Six"
+timestamp6b time 666
+timestamp6b title "Six"
 
-#video7 URL http://www.eight.com
-#video7 timestamp (timestamp6, timestamp7, timestamp8)
+video7b URL http://www.eight.com
+video7b timestamp (timestamp6b, timestamp7b, timestamp8b)
 
-#timestamp7 time 777
-#timestamp7 title "Seven"
+timestamp7b time 777
+timestamp7b title "Seven"
 
-#timestamp8 time 888
-#timestamp8 title "Eight"
+timestamp8b time 888
+timestamp8b title "Eight"
 
