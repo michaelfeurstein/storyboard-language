@@ -139,10 +139,12 @@ nx::Class create StoryboardBuilder {
 					if {[dict exists $options customOptions]} {
 						set key [dict get [dict get $options customOptions] "key"] ;# -> timestamp
 						set caller [dict get [dict get $options customOptions] "caller"] ;# -> ::Timestamp
-						set found 0
+						set foundTS 0
+						set foundV 0
 
 						# Find timestamp reference in storyboard
 						# works with single timestamp and timestamp list
+						# for cases where timestamp is created without video reference
 						foreach e [dict keys ${:storyboardRevDict}] {
 							set idxe [lsearch $e $key] ;# -> search for key timestamp
 							if {[lindex $e $idxe] eq $key} {
@@ -152,13 +154,23 @@ nx::Class create StoryboardBuilder {
 								if {[lsearch [lindex $e $ne] [$caller id get]] ne "-1"} { ;# -> search for timestamp reference
 									# found element / go ahead and create the timestamp
 									puts "found: [$caller id get] in storyboard via: [lindex $e $ne]"
-									set found 1
+									set foundTS 1
 									continue
 								}
 							}
 						}
 
-						if {$found} {
+						# Find video in storyboard
+						# for cases where timestamp is created first with video reference
+						if {[$caller video get] ne "empty"} {
+							set idx [lsearch ${:storyboardKeyStack} [$caller video get]]
+							if {$idx ne "-1"} {
+								puts "found referenced video: [lindex ${:storyboardKeyStack} $idx] in storyboard"
+								set foundV 1
+							}
+						}
+
+						if {$foundTS || $foundV} {
 							$caller destroy
 							lappend :creationBacklogStack $c
 							:removeCmdFromStack $c :creationStack
@@ -252,7 +264,7 @@ nx::Class create StoryboardBuilder {
 					puts "STATUS:ERROR: $msg"
 					error $msg
 				} on ok {msg} {
-					puts "STATUS:OK --> msg:$msg stack:${:stack}"
+					puts "STATUS:OK --> msg:$msg"
 					:removeCmdFromStack $c :creationStack
 				}
 			}
