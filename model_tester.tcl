@@ -21,7 +21,10 @@ if { $argc != 1 } {
 #puts storyboardFile:$storyboardFile
 
 puts "\n--- Direct instantiations from model_tester.tcl\n"
-# begin
+
+#Module new -id testModule
+
+#Module new -id mySecondImpossibleModule
 
 #Video new -id video1
 
@@ -52,6 +55,9 @@ puts "\n--- Direct instantiations from model_tester.tcl\n"
 
 # end
 
+#puts "\nModule: [llength [Module info instances -closure]] title: [[Module info instances -closure] id get]"
+
+
 #puts "[testVideo info class]::[testVideo info name] URL:[testVideo URL get]"
 #puts "children:[testVideo info children]"
 #foreach x [testVideo info children] {
@@ -76,6 +82,10 @@ puts "internalBuilder $internalBuilder"
 
 # Call method from with a storyboard
 $internalBuilder from [$internalParser storyboardDict get]
+
+puts "\nModule: [llength [Module info instances -closure]]"
+puts " - id: [[Module info instances -closure] id get]"
+puts " - title: [[Module info instances -closure] title get]"
 
 puts "\nVideos: [llength [Video info instances -closure]]"
 foreach x [Video info instances -closure] {
