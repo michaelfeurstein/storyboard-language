@@ -14,9 +14,10 @@ nx::Class create StoryboardBuilder {
 
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
+	:forward module %self creator Module
 
 	:method creator {class} {
-		#puts "creator method with class:$class"
+		puts "\n ---- creator method with class:$class stack:${:stack}"
 
 		# intersect create info of class with stack
 		set configInfo [$class info lookup syntax create]
@@ -404,12 +405,12 @@ nx::Class create StoryboardBuilder {
 	:method intersectLists {a b} {
 		set propertyList ""
 		set dash "-"
-		#puts a:$a
-		#puts b:$b
+		puts a:$a
+		puts b:$b
 		foreach i $a {
 			set parameter [string trim $i "?-"]
 			if { $parameter in [dict keys $b] } {
-			  #puts "matched parameter:$parameter in b:$b"
+			  puts "matched parameter:$parameter in b:$b"
 			  lappend propertyList $dash$parameter [dict get $b $parameter]
 			}
 		}

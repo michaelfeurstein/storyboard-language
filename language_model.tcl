@@ -2,6 +2,20 @@ package req nx
 
 namespace eval StoryBoard {
 
+#
+# ContentFragment
+#
+# Based on ALOCoM: a generic content model for learning objects (Verbet & Duval, 2008)
+#
+  
+nx::Class create ContentFragment {
+
+}  
+
+#
+# Helper
+#
+
 nx::Class create Helper {
 
 	##
@@ -43,7 +57,7 @@ nx::Class create Helper {
 # Video
 #
 
-nx::Class create Video {
+nx::Class create Video -superclass ContentFragment {
 	:property -accessor public {id empty}
 	:property -accessor public {URL empty}
 	:property -accessor public {timestamp empty}
@@ -173,10 +187,35 @@ nx::Class create Timestamp {
 #
 
 nx::Class create Module {
-	:property -accessor public {title}
-	:property -accessor public {structure}
+	:property -accessor public {id empty}
+	:property -accessor public {title empty}
+	:property -accessor public {structure:object ContentFragment}
+	:property -accessor public {pagination:boolean 0}
+
+	#:variable instance:object
+
+	# expression builder's intersectList
+	# the call [$class lookup syntax create] with class being Module only returns: ?/arg .../?
+	# instead of a long list of args defined above (incl.: id, title, structure, pagination)
+	#
+	#:public object method create {args} {
+	#  	puts "create call"
+	#	return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
+	#}
+
+	:public method addObject {
+		-obj:object,type=ContentFragment
+	} {
+	  set a [$obj id get]
+	  puts a:$a
+	}
+
+	:public method addTimestampList {
+		-objlist:object,type=ContentFragment,1..n
+	} {
+	}
 }
 
-namespace export Video Timestamp Module Helper
+namespace export ContentFragment Video Timestamp Module Helper 
 }
 
