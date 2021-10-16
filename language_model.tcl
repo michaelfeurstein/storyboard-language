@@ -161,6 +161,16 @@ nx::Class create Timestamp {
 		next
 	}
 
+	#
+	# incorrectyl overloading create
+	# will corrupt the return from lookup syntax create
+	# expression_builder uses lookup syntax create to build commands
+	#
+	#:public object method create {-id -time -title -video} {
+	#	puts "Timestamp --> create call"
+	#	next
+	#}
+
 	:method init {} {
 		#puts "Current: [current callingclass] [current callingobject] [current class]:[current methodpath]"
 		if {[current callingclass] ne "::StoryBoard::Video"} {
@@ -189,10 +199,15 @@ nx::Class create Timestamp {
 nx::Class create Module {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
-	:property -accessor public {structure:object ContentFragment}
+	:property -accessor public {structure empty}
 	:property -accessor public {pagination:boolean 0}
 
 	#:variable instance:object
+
+	:public object method new {args} {
+		puts "new call"
+		next
+	}
 
 	# expression builder's intersectList
 	# the call [$class lookup syntax create] with class being Module only returns: ?/arg .../?
@@ -201,7 +216,26 @@ nx::Class create Module {
 	#:public object method create {args} {
 	#  	puts "create call"
 	#	return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
+	#	next
 	#}
+
+	:method init {} {
+		puts "init call"
+		if {${:structure} ne "empty"} {
+			puts "structure not empty"
+			dict set returnOptions customOptions "structure" "${:structure}"
+			dict set returnOptions customOptions "caller" [self]
+			return -code 8 -options $returnOptions "process module structure: ${:structure}"
+
+			#set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
+			#if {$ti ne 0} {
+				#puts "(@[current method]) timestamp:[[self] timestamp get]"
+				#puts "ti:"
+			#} else {
+			#
+			#}	
+		}
+	}
 
 	:public method addObject {
 		-obj:object,type=ContentFragment
@@ -210,7 +244,7 @@ nx::Class create Module {
 	  puts a:$a
 	}
 
-	:public method addTimestampList {
+	:public method addObjectList {
 		-objlist:object,type=ContentFragment,1..n
 	} {
 	}

@@ -264,6 +264,16 @@ nx::Class create StoryboardBuilder {
 				#		puts "STATUS:BACKLOG - $newC"
 				#	  }
 				##### PREPARE FOR DELETION - END ########
+				} on 8 {msg options}  { 
+					puts "STATUS:8 --> from MODULE msg: $msg"
+					if {[dict exists $options customOptions]} {
+						set structure [dict get [dict get $options customOptions] "structure"] ;# -> structure
+						set caller [dict get [dict get $options customOptions] "caller"] ;# -> ::Module
+						puts "structure: $structure"
+						puts "caller: [$caller id get]"
+						#[Helper isInstanceAvailable x y]
+						:removeCmdFromStack $c :creationStack
+					}
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
 					error $msg
@@ -292,7 +302,12 @@ nx::Class create StoryboardBuilder {
 	#
 	###
 	:method removeCmdFromStack {c s} {
-		set d "$"
+	#	set d "$"
+	#  	set ls [list "lsearch $d{$s} {$c}"]
+	#	puts ls:$ls
+	#	error idx:[$ls]
+	  	
+	  	set d "$"
 		set idx [eval [subst {lsearch $d{$s} {$c}}]]
 		if {$idx ne -1} {
 			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
