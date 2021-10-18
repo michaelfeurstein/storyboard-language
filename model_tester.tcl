@@ -4,6 +4,7 @@ package require nx
 
 source language_model.tcl
 source parser.tcl
+source worker.tcl
 source expression_builder.tcl
 
 namespace import StoryBoard::*
