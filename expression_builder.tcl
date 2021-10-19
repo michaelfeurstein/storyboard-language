@@ -20,7 +20,8 @@ nx::Class create StoryboardBuilder {
 		puts "\n ---- creator method with class:$class stack:${:stack}"
 
 		# intersect create info of class with stack
-		set configInfo [$class info lookup syntax create]
+		#set configInfo [$class info lookup syntax create]
+		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
 		# setup class new command with parameters
@@ -182,88 +183,6 @@ nx::Class create StoryboardBuilder {
 							puts "STATUS:DELETED"
 						}
 					}
-
-				} on 7 {msg options} {
-					puts "STATUS:7 should not be called anymore - will be deleted"
-				##### PREPARE FOR DELETION - BEGIN ########
-				#  	puts "STATUS:7 --> from VIDEO with TIMESTAMP LIST msg: $msg"
-				#	if {[dict exists $options customOptions]} {
-				#		set caller [dict get [dict get $options customOptions] "caller"]
-				#		set tslist [dict get [dict get $options customOptions] "tslist"]
-
-				#		# (1) Check Storyboard
-				#		# add timestamp{$n} video [$caller id get] into $storyboard
-				#		foreach i $tslist {
-				#			# is i (e.g. timestamp7) in storyboard key list
-				#			set idx [lsearch ${:storyboardDict} $i]
-				#			# also idx and search backlog insert elseif
-				#			if {$idx ne "-1"} {
-				#				# case 1 e.g. timestamp7 was referenced early but is in storyboard
-				#				set idxo $idx
-				#				set idxn [incr idx]
-				#				set tsKey [lindex ${:storyboardDict} $idxo] ;# -> e.g. timestamp7
-				#				set tsParam [lindex ${:storyboardDict} $idxn] ;# -> time 777 title Seven
-
-				#				puts "tsKey: $tsKey"
-				#				puts "tsParam: $tsParam"
-
-				#				#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
-
-				#				# update the storyboard
-				#				#
-				#				# based on: https://wiki.tcl-lang.org/page/dict+lappend
-				#				# insert/append video [$caller id get] into timestampX
-				#				# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
-				#				#
-				#				dict update :storyboardDict $tsKey $tsKey {
-				#					dict lappend $tsKey video [$caller id get]
-				#				}
-				#				#set :storyboardDict ;# -> not sure what this does, leave commented
-
-				#				puts new:[dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
-				#				#puts stb:${:storyboardDict}
-				#			} else {
-				#				# case 2 e.g. timestamp7 is NOT in storyboard
-				#			}
-				#		};# - foreach ends here
-
-				#		# Check Backlog
-				#		# add -video videoX to reference timestamp in tslist
-				#		if {[llength ${:creationBacklogStack}] > 0} {
-				#			puts "checking backlog"
-				#			foreach i ${:creationBacklogStack} {
-				#				set idxID [lsearch $i "-id"]
-				#				if {$idxID ne "-1"} {
-				#					incr idxID -2
-				#					if {[lindex $i $idxID] eq "Timestamp"} {
-				#						incr idxID 3
-				#						puts [lindex $i $idxID];# -> timestamp2
-				#						set idxSE [lsearch $tslist [lindex $i $idxID]]
-				#						if {$idxSE ne "-1"} {
-				#							# found a timestamp from tslist on backlog
-				#							:removeCmdFromStack $i :creationBacklogStack
-				#							lappend i "-video" [$caller id get]
-				#							puts i_new:$i
-				#							lappend :creationBacklogStack $i
-				#							puts "STATUS:BACKLOG_READD - $i"
-				#						}
-				#					}
-				#				}
-				#			}
-				#		}
-
-				#		# we don't need the command with the timestamp list anymore, remove this parameter completely
-				#		# the correct timestamps will be added through the backlog
-				#		puts "removing timestamp parameter from video command"
-				#		set idxts [lsearch $c "-timestamp"]
-				#		set newC [lreplace $c $idxts [incr idxts]]
-
-				#		$caller destroy
-				#		:removeCmdFromStack $c :creationStack
-				#		lappend :creationBacklogStack $newC
-				#		puts "STATUS:BACKLOG - $newC"
-				#	  }
-				##### PREPARE FOR DELETION - END ########
 				} on 8 {msg options}  { 
 					puts "STATUS:8 --> from MODULE msg: $msg"
 					if {[dict exists $options customOptions]} {
@@ -303,7 +222,7 @@ nx::Class create StoryboardBuilder {
 	###
 	:method removeCmdFromStack {c s} {
 	#	set d "$"
-	#  	set ls [list "lsearch $d{$s} {$c}"]
+	# 	set ls [list "lsearch $d{$s} {$c}"]
 	#	puts ls:$ls
 	#	error idx:[$ls]
 	  	
@@ -469,6 +388,10 @@ nx::Class create StoryboardBuilder {
 	}
 
 	# DYNAMIC RECEPTION
+	#
+	# reminder to self: not using dynamic reception
+	# because some calls inside a line include known cmds
+	#
 	#:method unknown {v args} {
 	#  lappend :stack $v
 	#}
