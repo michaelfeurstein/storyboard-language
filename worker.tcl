@@ -2,6 +2,10 @@ package req nx
 
 namespace eval StoryBoard {
 
+#
+# Helper
+#
+
 nx::Class create Helper {
 
 	##
@@ -23,16 +27,16 @@ nx::Class create Helper {
 				#puts "(@[current method]) [current] is looking for $class:$id comparing to [$i info class]:[$i id get]"
 				if {$id eq [$i id get]} {
 					# class instance with id found
-					puts "MIFEURST !!!!! (@[current method]) found instance [$i info class] with id: [$i id get]"
+					#puts "(@[current method]) found instance [$i info class] with id: [$i id get]"
 					return $i
 				}
 			}
 			# no matching instance of class with id found
-			puts "(@[current method]) no matching instance $id of $class found"
+			#puts "(@[current method]) no matching instance $id of $class found"
 			return 0
 		} else {
 			# no instance of this class available
-			puts "(@[current method]) instances of $class not available"
+			#puts "(@[current method]) instances of $class not available"
 		    return 0
 		}
 	}

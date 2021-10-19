@@ -334,17 +334,18 @@ nx::Class create StoryboardBuilder {
 	# if they match (input b is found in input a), the following pattern is created "-parameter value"
 	#
 	# Q: Geht das anders auch? Im NS Tutorial steht etwas von nx::Slot und nx::ObjectParameterSlot
+	# A: Ja mit lmap slot [Module info variables] {$slot info name}
 	#
 	###
 	:method intersectLists {a b} {
 		set propertyList ""
 		set dash "-"
-		puts a:$a
-		puts b:$b
+		#puts a:$a
+		#puts b:$b
 		foreach i $a {
 			set parameter [string trim $i "?-"]
 			if { $parameter in [dict keys $b] } {
-			  puts "matched parameter:$parameter in b:$b"
+			  #puts "matched parameter:$parameter in b:$b"
 			  lappend propertyList $dash$parameter [dict get $b $parameter]
 			}
 		}
