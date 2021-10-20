@@ -19,7 +19,7 @@ nx::Class create ContentFragment {
 nx::Class create Video -superclass ContentFragment {
 	:property -accessor public {id empty}
 	:property -accessor public {URL empty}
-	:property -accessor public {timestamp empty}
+	:property -accessor public {timestamp:0..* empty}
 	:property {timestampClass ::Timestamp}
 	:property {prefix timestamp}
 
@@ -75,10 +75,10 @@ nx::Class create Video -superclass ContentFragment {
 	  set b [$ts time get]
 	  set c [$ts title get]
 	  if {${:timestamp} eq "empty"} {
+		puts "adding $a"
 		[self] timestamp set $a
 	  } else {
-		lappend :timestamp $a
-		[self] timestamp set ${:timestamp}
+		[self] timestamp add $a
 	  }
 	  $ts destroy
 	  :createTimestamp -id $a -time $b -title $c -video [self]
