@@ -75,7 +75,6 @@ nx::Class create Video -superclass ContentFragment {
 	  set b [$ts time get]
 	  set c [$ts title get]
 	  if {${:timestamp} eq "empty"} {
-		puts "adding $a"
 		[self] timestamp set $a
 	  } else {
 		[self] timestamp add $a
@@ -154,56 +153,22 @@ nx::Class create Timestamp {
 #
 # Module
 #
-# CONTINUE HERE: module befüllen mit constraints
 nx::Class create Module {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
-	:property -accessor public structure:1..*,object,type=ContentFragment
+	:property -accessor public {structure:1..*,object,type=ContentFragment}
 	:property -accessor public {pagination:boolean 0}
 
-	#:variable instance:object
-
-	:public object method new {args} {
-		puts "new call"
-		next
-	}
+	:variable instance:object
 
 	# expression builder's intersectList
 	# the call [$class lookup syntax create] with class being Module only returns: ?/arg .../?
 	# instead of a long list of args defined above (incl.: id, title, structure, pagination)
 	#
-	#:public object method create {args} {
-	#  	puts "create call"
-	#	return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
-	#	next
-	#}
-
-	:method init {} {
-		puts "init call"
-		if {${:structure} ne "empty"} {
-			puts "structure not empty"
-			dict set returnOptions customOptions "structure" "${:structure}"
-			dict set returnOptions customOptions "caller" [self]
-			return -code 8 -options $returnOptions "process module structure: ${:structure}"
-			
-			# CONTIUNE HERE: after the storyboard is complete use a ModuleBuilder based on 
-			# https://github.com/mrcalvin/djdsl/blob/3520e7ac72185629f8be61ac48f1bca3a826e079/tutorials/patterns.tcl#L690 
-
-			#set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
-			#if {$ti ne 0} {
-				#puts "(@[current method]) timestamp:[[self] timestamp get]"
-				#puts "ti:"
-			#} else {
-			#
-			#}	
-		}
-	}
-
-	:public method addObject {
-		-obj:object,type=ContentFragment
-	} {
-	  set a [$obj id get]
-	  puts a:$a
+	:public object method create {args} {
+		puts "create call"
+		return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
+		next
 	}
 }
 

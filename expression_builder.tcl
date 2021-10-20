@@ -7,6 +7,7 @@ nx::Class create StoryboardBuilder {
 
 	:variable creationStack ""
 	:variable creationBacklogStack ""
+	:variable moduleStack ""
 
 	:variable storyboardDict ""
 	:variable storyboardKeyStack ""
@@ -20,22 +21,19 @@ nx::Class create StoryboardBuilder {
 		puts "\n ---- creator method with class:$class stack:${:stack}"
 
 		# intersect create info of class with stack
-		#set configInfo [$class info lookup syntax create]
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
-		# setup class new command with parameters
+		# SETUP COMMAND
 		set creation [list $class new -id ${:className} {*}$intersectLists]
 		puts "\ncreationCmd: $creation"
-		lappend :creationStack $creation
-		:tryCmdStack
 
-		#if [catch {set :stack [eval $creation]} errMsg] {
-		#	puts "Error while creating ${:className}: $errMsg"
-		#	# put creation command on a stack and try again later (at the end or after each iteration?)
-		#	lappend :creationStack $creation
-		#}
-		#puts stack:${:stack}
+		if {$class eq "Module"} {
+			lappend :moduleStack $creation
+		} else {
+			lappend :creationStack $creation
+			:tryCmdStack
+		}
 	}
 
 	###
@@ -55,7 +53,7 @@ nx::Class create StoryboardBuilder {
 				try {
 					set :stack [{*}$c]
 				} on 5 {msg options} {
-					puts "STATUS:5 --> from VIDEO instance with TIMESTAMP msg: $msg "
+					puts "STATUS:5 --> from VIDEO instance with TIMESTAMP(s) msg: $msg "
 					if {[dict exists $options customOptions]} {
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set tslist [dict get [dict get $options customOptions] "tslist"]
@@ -182,16 +180,6 @@ nx::Class create StoryboardBuilder {
 							:removeCmdFromStack $c :creationStack
 							puts "STATUS:DELETED"
 						}
-					}
-				} on 8 {msg options}  { 
-					puts "STATUS:8 --> from MODULE msg: $msg"
-					if {[dict exists $options customOptions]} {
-						set structure [dict get [dict get $options customOptions] "structure"] ;# -> structure
-						set caller [dict get [dict get $options customOptions] "caller"] ;# -> ::Module
-						puts "structure: $structure"
-						puts "caller: [$caller id get]"
-						#[Helper isInstanceAvailable x y]
-						:removeCmdFromStack $c :creationStack
 					}
 				} on error {msg} {
 					puts "STATUS:ERROR: $msg"
@@ -322,6 +310,35 @@ nx::Class create StoryboardBuilder {
 		}
 	}
 
+	:method handleModuleStack {} {
+		set theModule [Module new]
+		set moduleCmd [lindex ${:moduleStack} 0]
+
+		# look into structure and find instances from structure
+		set si [lsearch $moduleCmd "-structure"]
+		incr si
+		set structure [lindex $moduleCmd $si]
+		#puts structure:$structure
+
+		foreach i $structure {
+			set se [Helper isInstanceAvailable ::ContentFragment $i]
+			if {$se ne 0} {
+				puts "found instance $se of type [$se info class]"
+				$theModule structure add $se; # why is this added in reverse order it seems?
+			}
+		}
+
+		set si [lsearch $moduleCmd "-id"]
+		incr si
+		set id [lindex $moduleCmd $si]
+		$theModule id set $id
+
+		set si [lsearch $moduleCmd "-title"]
+		incr si
+		set title [lindex $moduleCmd $si]
+		$theModule title set $title
+	}
+
 	###
 	### intersectLists
 	###
@@ -394,7 +411,8 @@ nx::Class create StoryboardBuilder {
 	# because some calls inside a line include known cmds
 	#
 	#:method unknown {v args} {
-	#  lappend :stack $v
+	#  puts "unknown $v"
+	#  lappend :moduleStack $v
 	#}
 
 	:public method from {storyboard} {
@@ -427,6 +445,13 @@ nx::Class create StoryboardBuilder {
 	  # after running through the storyboard handle backlog
 	  puts "\nReached end of storyboard - trying again with creationBacklogStack"
 	  :handleBacklogStack
+
+	  # handle module via separate call here
+	  # after running through storyboard + backlog
+	  # + this would assure I already have all relevant ContentFragments instantiated
+	  # +/- not sure if this is the right way
+	  puts "\nLast step: Module"
+	  :handleModuleStack
 
 	  unset :stack
 	  unset :className
