@@ -87,6 +87,7 @@ $internalBuilder from [$internalParser storyboardDict get]
 puts "\nModule: [llength [Module info instances -closure]]"
 puts " - id: [[Module info instances -closure] id get]"
 puts " - title: [[Module info instances -closure] title get]"
+puts " - structure: [[Module info instances -closure] structure get]"
 
 puts "\nVideos: [llength [Video info instances -closure]]"
 foreach x [Video info instances -closure] {

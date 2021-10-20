@@ -2,6 +2,8 @@
 # -----------------
 # document variations that should work
 
+module title "My Test Module"
+
 # 01 # - works
 # creates video1
 
@@ -133,4 +135,6 @@ timestamp8b title "Eight"
 
 timestamp9b time 999
 timestamp9b title "Should be deleted"
+
+module structure (video7b, video3a, video1)
 
