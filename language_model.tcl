@@ -154,11 +154,11 @@ nx::Class create Timestamp {
 #
 # Module
 #
-
+# CONTINUE HERE: module befüllen mit constraints
 nx::Class create Module {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
-	:property -accessor public {structure empty}
+	:property -accessor public structure:1..*,object,type=ContentFragment
 	:property -accessor public {pagination:boolean 0}
 
 	#:variable instance:object
@@ -185,6 +185,9 @@ nx::Class create Module {
 			dict set returnOptions customOptions "structure" "${:structure}"
 			dict set returnOptions customOptions "caller" [self]
 			return -code 8 -options $returnOptions "process module structure: ${:structure}"
+			
+			# CONTIUNE HERE: after the storyboard is complete use a ModuleBuilder based on 
+			# https://github.com/mrcalvin/djdsl/blob/3520e7ac72185629f8be61ac48f1bca3a826e079/tutorials/patterns.tcl#L690 
 
 			#set ti [Helper isInstanceAvailable ${:timestampClass} ${:timestamp}]
 			#if {$ti ne 0} {
@@ -201,11 +204,6 @@ nx::Class create Module {
 	} {
 	  set a [$obj id get]
 	  puts a:$a
-	}
-
-	:public method addObjectList {
-		-objlist:object,type=ContentFragment,1..n
-	} {
 	}
 }
 
