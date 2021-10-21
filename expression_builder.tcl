@@ -38,7 +38,7 @@ nx::Class create StoryboardBuilder {
 	}
 
 	###
-	### tryCmd
+	### tryCmdStack
 	###
 	#
 	# functionality:
@@ -194,34 +194,8 @@ nx::Class create StoryboardBuilder {
 	  }
 
 	###
-	### removeCmdFromStack
+	### handleBacklogStack
 	###
-	#
-	# input: c (the command to remove = list element)
-	# input: s (the stack to operate on = the list)
-	#
-	# functionality:
-	# removes element c from stack s
-	#
-	# original code:
-	# set idx [lsearch ${:creationBacklogStack} $c]
-	# set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
-	# puts creationBacklogStack:${:creationBacklogStack}
-	#
-	###
-	:method removeCmdFromStack {c s} {
-	#	set d "$"
-	# 	set ls [list "lsearch $d{$s} {$c}"]
-	#	puts ls:$ls
-	#	error idx:[$ls]
-	  	
-	  	set d "$"
-		set idx [eval [subst {lsearch $d{$s} {$c}}]]
-		if {$idx ne -1} {
-			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
-			set $s [eval [subst {lreplace $d{$s} {$idx} {$idx}}]]
-		}
-	}
 
 	:method handleBacklogStack {} {
 		puts "Stack size: [llength ${:creationBacklogStack}]"
@@ -311,6 +285,10 @@ nx::Class create StoryboardBuilder {
 		}
 	}
 
+	###
+	### handleModuleStack
+	###
+
 	:method handleModuleStack {} {
 		set theModule [Module new]
 		set moduleCmd [lindex ${:moduleStack} 0]
@@ -338,6 +316,36 @@ nx::Class create StoryboardBuilder {
 		incr si
 		set title [lindex $moduleCmd $si]
 		$theModule title set $title
+	}
+
+	###
+	### removeCmdFromStack
+	###
+	#
+	# input: c (the command to remove = list element)
+	# input: s (the stack to operate on = the list)
+	#
+	# functionality:
+	# removes element c from stack s
+	#
+	# original code:
+	# set idx [lsearch ${:creationBacklogStack} $c]
+	# set :creationBacklogStack [lreplace ${:creationBacklogStack} $idx $idx]
+	# puts creationBacklogStack:${:creationBacklogStack}
+	#
+	###
+	:method removeCmdFromStack {c s} {
+	#	set d "$"
+	# 	set ls [list "lsearch $d{$s} {$c}"]
+	#	puts ls:$ls
+	#	error idx:[$ls]
+
+	  	set d "$"
+		set idx [eval [subst {lsearch $d{$s} {$c}}]]
+		if {$idx ne -1} {
+			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
+			set $s [eval [subst {lreplace $d{$s} {$idx} {$idx}}]]
+		}
 	}
 
 	###

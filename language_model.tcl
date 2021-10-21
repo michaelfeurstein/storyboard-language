@@ -9,6 +9,8 @@ namespace eval StoryBoard {
 #
   
 nx::Class create ContentFragment {
+	:property -accessor public {id empty}
+}
 
 #
 # TextPage
