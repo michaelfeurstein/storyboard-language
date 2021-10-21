@@ -467,5 +467,38 @@ nx::Class create StoryboardBuilder {
 	}
 }
 
-namespace export StoryboardBuilder
+nx::Class create QuestionBuilder {
+	:property -accessor public result:object,type=Question
+
+	:public method question {script} {
+		:result set [Question new]
+		puts "script: $script"
+		:eval $script
+		return [self]
+	}
+
+	:public method setID {id} {
+		${:result} id set $id
+	}
+
+	:public method body {script} {
+		set b [QuestionBody new -childof ${:result}]
+		$b eval $script
+		${:result} body set $b
+	}
+
+	:public method answer {script} {
+		set ans [Answer new -childof ${:result}]
+		$ans eval $script
+		${:result} answers add $ans
+	}
+
+	:public method feedback {script} {
+		set fb [Feedback new -childof ${:result}]
+		$fb eval $script
+		${:result} feedback set $fb
+	}
+}
+
+namespace export StoryboardBuilder QuestionBuilder
 }

@@ -23,6 +23,47 @@ nx::Class create TextPage -superclass ContentFragment {
 }
 
 #
+# Interaction
+#
+# i still need a way to note this down in key:value notation
+# this could be the regular way and then pass it on to QuestionBuilder
+# naming should then be optimized
+#
+#nx::Class create Interaction -superclass ContentFragment {
+#	#:property -accessor public {id empty}
+#	#:property -accessor public {title empty}
+#	#:property -accessor public {text empty}
+#	#:property -accessor public {answers empty}
+#	#:proptery -accessor public {feedback empty}
+#}
+
+#
+# Question
+#
+
+nx::Class create Question -superclass ContentFragment {
+	:property -accessor public {type empty}
+	:property -accessor public {body:1..1,object,type=QuestionBody}
+	:property -accessor public {answers:1..*,object,type=Answer}
+	:property -accessor public {feedback:1..1,object,type=Feedback}
+}
+
+nx::Class create QuestionBody {
+	:property -accessor public {title empty}
+	:property -accessor public {text empty}
+	:property -accessor public {scramble:boolean 0}
+}
+
+nx::Class create Answer {
+	:property -accessor public {text empty}
+	:property -accessor public {correct:boolean 0}
+}
+
+nx::Class create Feedback {
+	:property -accessor public {text empty}
+}
+
+#
 # Video
 #
 
@@ -182,6 +223,6 @@ nx::Class create Module {
 	}
 }
 
-namespace export ContentFragment TextPage Video Timestamp Module
+namespace export ContentFragment TextPage Video Timestamp Module Question QuestionBody Answer Feedback
 }
 

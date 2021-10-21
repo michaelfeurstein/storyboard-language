@@ -13,7 +13,7 @@ set storyboardFile ""
 
 if { $argc != 1 } {
   	puts "model_tester.tcl requires a storyboard as input"
-	puts "For example, tclsh model_tester.tcl storyboard_example_A_01_blank"  
+	puts "For example, tclsh model_tester.tcl storyboard_example_A_01_blank"
 	exit
 } else {
 	set storyboardFile [lindex $argv 0]
@@ -23,13 +23,45 @@ if { $argc != 1 } {
 
 puts "\n--- Direct instantiations from model_tester.tcl\n"
 
+[QuestionBuilder new] question {
+	:setID {question1}
+
+  	:body {
+		:title set "Question 1: Information Systems"
+		:text set "Explain the concept of an information system."
+		:scramble set 0
+	}
+
+	:answer {
+		:text set "Answer 1"
+		:correct set 1
+	}
+
+	:answer {
+		:text set "Answer 2"
+		:correct set 0
+	}
+
+	:answer {
+		:text set "Answer 3"
+		:correct set 1
+	}
+
+	:feedback {
+		:text set "General feedback on this question"
+	}
+
+}
+
+#puts "q1:$q1"
+
 #Module new -id testModule
 
 #Module new -id mySecondImpossibleModule
 
 #Video new -id video1
 
-# Create a testVideo and add 2 timestamps 
+# Create a testVideo and add 2 timestamps
 #Video create testVideo -URL {http://www.link.com}
 #testVideo createTimestamp -time 0123 -title "first"
 #testVideo createTimestamp -time 4567 -title "second"
@@ -62,7 +94,7 @@ puts "\n--- Direct instantiations from model_tester.tcl\n"
 #puts "[testVideo info class]::[testVideo info name] URL:[testVideo URL get]"
 #puts "children:[testVideo info children]"
 #foreach x [testVideo info children] {
-#	puts "found timestamp title:[$x title get] with time:[$x time get] "	
+#	puts "found timestamp title:[$x title get] with time:[$x time get] "
 #}
 
 #? {llength [ContentFragment info instances -closure]} 6
