@@ -16,6 +16,7 @@ nx::Class create StoryboardBuilder {
 	:forward video %self creator Video
 	:forward timestamp %self creator Timestamp
 	:forward module %self creator Module
+	:forward textpage %self creator TextPage
 
 	:method creator {class} {
 		puts "\n ---- creator method with class:$class stack:${:stack}"

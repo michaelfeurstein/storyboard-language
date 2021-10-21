@@ -10,7 +10,15 @@ namespace eval StoryBoard {
   
 nx::Class create ContentFragment {
 
-}  
+#
+# TextPage
+#
+
+nx::Class create TextPage -superclass ContentFragment {
+	:property -accessor public {id empty}
+	:property -accessor public {title empty}
+	:property -accessor public {body empty}
+}
 
 #
 # Video
@@ -172,6 +180,6 @@ nx::Class create Module {
 	}
 }
 
-namespace export ContentFragment Video Timestamp Module
+namespace export ContentFragment TextPage Video Timestamp Module
 }
 
