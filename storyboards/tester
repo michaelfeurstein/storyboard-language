@@ -2,6 +2,8 @@
 # -----------------
 # document variations that should work
 
+# 08 # - works
+
 module title "My Test Module"
 
 # 01 # - works
@@ -136,8 +138,20 @@ timestamp8b title "Eight"
 timestamp9b time 999
 timestamp9b title "Should be deleted"
 
+# 08 # - works
+
+module structure (video7b, video3a, video1, timestamp7b, textpage1, question1)
+
 # 09 #
 
 textpage1 title "My Content Page"
 textpage1 body "Welcome to this video-based learning module"
+
+# 10 #
+
+#interaction1 title "What is an information system?"
+#interaction1 type multipleChoice
+#interaction1 question "Please explain the concept of an information system."
+#interaction1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
+#interaction1 feedback "General feedback on this question"
 
