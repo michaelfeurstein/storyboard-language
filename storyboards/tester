@@ -136,5 +136,8 @@ timestamp8b title "Eight"
 timestamp9b time 999
 timestamp9b title "Should be deleted"
 
-module structure (video7b, video3a, video1)
+# 09 #
+
+textpage1 title "My Content Page"
+textpage1 body "Welcome to this video-based learning module"
 
