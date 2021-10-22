@@ -477,26 +477,18 @@ nx::Class create QuestionBuilder {
 		return [self]
 	}
 
-	:public method setID {id} {
+	:public method setAttributes {id title type question feedback} {
 		${:result} id set $id
-	}
-
-	:public method body {script} {
-		set b [QuestionBody new -childof ${:result}]
-		$b eval $script
-		${:result} body set $b
+		${:result} title set $title
+		${:result} type set $type
+		${:result} question set $question
+		${:result} feedback set $feedback
 	}
 
 	:public method answer {script} {
 		set ans [Answer new -childof ${:result}]
 		$ans eval $script
 		${:result} answers add $ans
-	}
-
-	:public method feedback {script} {
-		set fb [Feedback new -childof ${:result}]
-		$fb eval $script
-		${:result} feedback set $fb
 	}
 }
 

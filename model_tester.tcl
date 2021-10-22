@@ -23,35 +23,37 @@ if { $argc != 1 } {
 
 puts "\n--- Direct instantiations from model_tester.tcl\n"
 
-[QuestionBuilder new] question {
-	:setID {question1}
+set id "question1"
+set title "Information Systems"
+set type "multipleChoice"
+set question "Explain the concept of an information system"
+set feedback "General feedback on this question"
+set a1 "Just some answer test text"
+set bv 1
 
-  	:body {
-		:title set "Question 1: Information Systems"
-		:text set "Explain the concept of an information system."
-		:scramble set 0
+set cmd [subst [list [QuestionBuilder new] question {
+	:setAttributes $id {$title} {$type} {$question} {$feedback}
+
+	:answer {
+		:text set "$a1"
+		:correct set $bv
 	}
 
 	:answer {
-		:text set "Answer 1"
-		:correct set 1
-	}
-
-	:answer {
-		:text set "Answer 2"
+		:text set {Answer 2}
 		:correct set 0
 	}
 
 	:answer {
-		:text set "Answer 3"
+		:text set {Answer 3}
 		:correct set 1
 	}
+}]]
 
-	:feedback {
-		:text set "General feedback on this question"
-	}
+puts $cmd
+{*}$cmd
 
-}
+
 
 #puts "q1:$q1"
 
@@ -115,6 +117,9 @@ puts "internalBuilder $internalBuilder"
 
 # Call method from with a storyboard
 $internalBuilder from [$internalParser storyboardDict get]
+
+
+puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
 
 puts "\nModule: [llength [Module info instances -closure]]"
 puts " - id: [[Module info instances -closure] id get]"
