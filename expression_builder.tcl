@@ -17,6 +17,7 @@ nx::Class create StoryboardBuilder {
 	:forward timestamp %self creator Timestamp
 	:forward module %self creator Module
 	:forward textpage %self creator TextPage
+	:forward question %self creator Question
 
 	:method creator {class} {
 		puts "\n ---- creator method with class:$class stack:${:stack}"
@@ -31,6 +32,8 @@ nx::Class create StoryboardBuilder {
 
 		if {$class eq "Module"} {
 			lappend :moduleStack $creation
+		} elseif {$class eq "Question"} {
+			:handleQuestionCmd $creation
 		} else {
 			lappend :creationStack $creation
 			:tryCmdStack
@@ -316,6 +319,15 @@ nx::Class create StoryboardBuilder {
 		incr si
 		set title [lindex $moduleCmd $si]
 		$theModule title set $title
+	}
+
+	###
+	### handleQuestion
+	###
+
+	:method handleQuestionCmd {qcmd} {
+		# replicate model_tester direct instantiation calls
+		puts "handling Question CMD: $qcmd"
 	}
 
 	###

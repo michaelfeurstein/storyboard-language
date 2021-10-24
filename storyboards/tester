@@ -149,9 +149,9 @@ textpage1 body "Welcome to this video-based learning module"
 
 # 10 #
 
-#interaction1 title "What is an information system?"
-#interaction1 type multipleChoice
-#interaction1 question "Please explain the concept of an information system."
-#interaction1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
-#interaction1 feedback "General feedback on this question"
+question2 title "What is an information system?"
+question2 type multipleChoice
+question2 question "Please explain the concept of an information system."
+question2 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
+question2 feedback "General feedback on this question"
 
