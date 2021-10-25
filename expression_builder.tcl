@@ -337,27 +337,36 @@ nx::Class create StoryboardBuilder {
 		set title [:lget $qcmd "-title"]
 		set type [:lget $qcmd "-type"]
 		set question [:lget $qcmd "-question"]
-		set answers [:lget $qcmd "-answers"]
+
+		# handle multiple answers
+		# prepare answerblock START
+		set answers [:lget $qcmd "-answers"];
+		set counter 0
+		set al [list]
+		set answerBlock ""
+		foreach i $answers {
+			lappend al $i
+			incr counter
+			puts counter:$counter
+			if {$counter eq 2} {
+				#puts "al: $al"
+				set old $answerBlock
+				# CONTINUE HERE: translate wrong/correct to boolean 0/1 from [lindex $al 1]
+				set answerBlock "$old\n[subst [list :answer {\n:text set {[lindex $al 0]} \n:correct set 0 \n}]]"
+				set counter 0
+				set al [list]
+				#puts "ab: $answerBlock"
+			}
+		}
+		# prepare answerblock END
+
 		set feedback [:lget $qcmd "-feedback"]
 
 		# step 2
 		set cmd [subst [list [QuestionBuilder new] question {
 			:setAttributes $id {$title} {$type} {$question} {$feedback}
 
-			:answer {
-				:text set "nothing yet"
-				:correct set 0
-			}
-
-			:answer {
-				:text set {Answer 2}
-				:correct set 0
-			}
-
-			:answer {
-				:text set {Answer 3}
-				:correct set 1
-			}
+			$answerBlock
 		}]]
 
 		# step 3
