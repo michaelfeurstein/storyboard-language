@@ -326,8 +326,49 @@ nx::Class create StoryboardBuilder {
 	###
 
 	:method handleQuestionCmd {qcmd} {
-		# replicate model_tester direct instantiation calls
 		puts "handling Question CMD: $qcmd"
+
+		# step 1: read each parameter as in handleModuleStack
+		# setp 2: build up call for questionbuilder as prepared in model_tester
+		# step 3: call
+
+		# step 1
+		set id [:lget $qcmd "-id"]
+		set title [:lget $qcmd "-title"]
+		set type [:lget $qcmd "-type"]
+		set question [:lget $qcmd "-question"]
+		set answers [:lget $qcmd "-answers"]
+		set feedback [:lget $qcmd "-feedback"]
+
+		# step 2
+		set cmd [subst [list [QuestionBuilder new] question {
+			:setAttributes $id {$title} {$type} {$question} {$feedback}
+
+			:answer {
+				:text set "nothing yet"
+				:correct set 0
+			}
+
+			:answer {
+				:text set {Answer 2}
+				:correct set 0
+			}
+
+			:answer {
+				:text set {Answer 3}
+				:correct set 1
+			}
+		}]]
+
+		# step 3
+		puts $cmd
+		{*}$cmd
+	}
+
+	:method lget {c p} {
+		set x [lsearch $c $p]
+		incr x
+		return [lindex $c $x]
 	}
 
 	###
