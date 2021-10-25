@@ -201,6 +201,6 @@ nx::Class create Module {
 	}
 }
 
-namespace export ContentFragment TextPage Video Timestamp Module Question QuestionBody Answer Feedback
+namespace export ContentFragment TextPage Video Timestamp Module Question Answer Feedback
 }
 
