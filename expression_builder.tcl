@@ -341,8 +341,8 @@ nx::Class create StoryboardBuilder {
 			if {$counter eq 2} {
 				#puts "al: $al"
 				set old $answerBlock
-				# CONTINUE HERE: translate wrong/correct to boolean 0/1 from [lindex $al 1]
-				set answerBlock "$old\n[subst [list :answer {\n:text set {[lindex $al 0]} \n:correct set 0 \n}]]"
+				set isCorrect [string map -nocase {wrong 0 correct 1} [lindex $al 1]]
+				set answerBlock "$old\n[subst [list :answer {\n:text set {[lindex $al 0]} \n:correct set $isCorrect \n}]]"
 				set counter 0
 				set al [list]
 				#puts "ab: $answerBlock"
@@ -404,11 +404,11 @@ nx::Class create StoryboardBuilder {
 	###
 	:method removeCmdFromStack {c s} {
 	#	set d "$"
-	# 	set ls [list "lsearch $d{$s} {$c}"]
+	#	set ls [list "lsearch $d{$s} {$c}"]
 	#	puts ls:$ls
 	#	error idx:[$ls]
 
-	  	set d "$"
+		set d "$"
 		set idx [eval [subst {lsearch $d{$s} {$c}}]]
 		if {$idx ne -1} {
 			set scmd [subst {lreplace $d{$s} {$idx} {$idx}}]
