@@ -140,14 +140,14 @@ timestamp9b title "Should be deleted"
 
 # 08 # - works
 
-module structure (video7b, video3a, video1, timestamp7b, textpage1, question1)
+module structure (video7b, video3a, video1, timestamp7b, textpage1, question2)
 
-# 09 #
+# 09 # - works
 
 textpage1 title "My Content Page"
 textpage1 body "Welcome to this video-based learning module"
 
-# 10 #
+# 10 # - works
 
 question2 title "What is an information system?"
 question2 type multipleChoice

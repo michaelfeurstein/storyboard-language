@@ -1,3 +1,10 @@
+module title "My first Module"
+
 video1 URL http://www.moduleVideo.com
 
-module1 title "My first Module" 
+video2 URL http://www.mySecondVideo.com
+
+video3 URL http://www.myThirdVideo.com
+
+module structure (video1, video2, video7, video3)
+
