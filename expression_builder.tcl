@@ -297,10 +297,7 @@ nx::Class create StoryboardBuilder {
 		set moduleCmd [lindex ${:moduleStack} 0]
 
 		# look into structure and find instances from structure
-		set si [lsearch $moduleCmd "-structure"]
-		incr si
-		set structure [lindex $moduleCmd $si]
-		#puts structure:$structure
+		set structure [:lget $moduleCmd "-structure"]
 
 		foreach i $structure {
 			set se [Helper isInstanceAvailable ::ContentFragment $i]
@@ -310,15 +307,8 @@ nx::Class create StoryboardBuilder {
 			}
 		}
 
-		set si [lsearch $moduleCmd "-id"]
-		incr si
-		set id [lindex $moduleCmd $si]
-		$theModule id set $id
-
-		set si [lsearch $moduleCmd "-title"]
-		incr si
-		set title [lindex $moduleCmd $si]
-		$theModule title set $title
+		$theModule id set [:lget $moduleCmd "-id"]
+		$theModule title set [:lget $moduleCmd "-title"]
 	}
 
 	###
@@ -374,6 +364,22 @@ nx::Class create StoryboardBuilder {
 		{*}$cmd
 	}
 
+	###
+	### lget
+	###
+	#
+	# input: c (the command as a list)
+	# input: p (the parameter to get)
+	#
+	# Example:
+	# c = CommandCaller new -param1 value -param2 {multiple values of interest}
+	# p = -param2
+	# returns {multiple values of interest}
+	#
+	# TODO
+	# error handling, param not found
+	#
+	###
 	:method lget {c p} {
 		set x [lsearch $c $p]
 		incr x
