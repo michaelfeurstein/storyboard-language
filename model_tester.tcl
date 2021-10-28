@@ -116,8 +116,8 @@ set internalBuilder [StoryboardBuilder new]
 puts "internalBuilder $internalBuilder"
 
 # Call method from with a storyboard
-$internalBuilder from [$internalParser storyboardDict get]
-
+set module [$internalBuilder from [$internalParser storyboardDict get]]
+puts "\nModule Object: $module"
 
 puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
 

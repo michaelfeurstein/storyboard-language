@@ -5,6 +5,8 @@ namespace eval StoryBoard {
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
 
+	:property {sbModule:substdefault {[Module new]}}
+
 	:variable creationStack ""
 	:variable creationBacklogStack ""
 	:variable moduleStack ""
@@ -293,7 +295,6 @@ nx::Class create StoryboardBuilder {
 	###
 
 	:method handleModuleStack {} {
-		set theModule [Module new]
 		set moduleCmd [lindex ${:moduleStack} 0]
 
 		# look into structure and find instances from structure
@@ -303,12 +304,12 @@ nx::Class create StoryboardBuilder {
 			set se [Helper isInstanceAvailable ::ContentFragment $i]
 			if {$se ne 0} {
 				puts "found instance $se of type [$se info class]"
-				$theModule structure add $se; # why is this added in reverse order it seems?
+				${:sbModule} structure add $se; # why is this added in reverse order it seems?
 			}
 		}
 
-		$theModule id set [:lget $moduleCmd "-id"]
-		$theModule title set [:lget $moduleCmd "-title"]
+		${:sbModule} id set [:lget $moduleCmd "-id"]
+		${:sbModule} title set [:lget $moduleCmd "-title"]
 	}
 
 	###
@@ -493,7 +494,6 @@ nx::Class create StoryboardBuilder {
 	#}
 
 	:public method from {storyboard} {
-	  # storyboardDict
 	  set :storyboardDict $storyboard
 
 	  # storyboardKeyStack stores all objects to be created
@@ -525,15 +525,19 @@ nx::Class create StoryboardBuilder {
 
 	  # handle module via separate call here
 	  # after running through storyboard + backlog
-	  # + this would assure I already have all relevant ContentFragments instantiated
+	  # + this assures all relevant ContentFragments are instantiated
+	  # + the module will then be available for Visitor
 	  # +/- not sure if this is the right way
 	  puts "\nLast step: Module"
 	  :handleModuleStack
 
 	  unset :stack
 	  unset :className
-	}
-}
+
+	  # return the final storyboard Module
+	  return ${:sbModule}
+	}; # from end
+}; # StoryboardBuilder end
 
 nx::Class create QuestionBuilder {
 	:property -accessor public result:object,type=Question
@@ -558,7 +562,7 @@ nx::Class create QuestionBuilder {
 		$ans eval $script
 		${:result} answers add $ans
 	}
-}
+}; # QuestionBuilder end
 
 namespace export StoryboardBuilder QuestionBuilder
 }
