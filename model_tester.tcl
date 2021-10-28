@@ -107,18 +107,15 @@ puts $cmd
 
 #[testVideo] destroy
 
+#// storyboardbuilder //
 puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
-
 # Setup Parser
 set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
-
 # Setup Expression Builder
 set internalBuilder [StoryboardBuilder new]
-puts "internalBuilder $internalBuilder"
-
 # Call method from with a storyboard
 set module [$internalBuilder from [$internalParser storyboardDict get]]
-puts "\nModule Object: $module"
+#// end //
 
 #// visitor //
 puts "\n--- Visitor call on module object: $module"
