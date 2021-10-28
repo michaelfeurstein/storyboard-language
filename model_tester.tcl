@@ -4,6 +4,7 @@ package require nx
 
 source language_model.tcl
 source parser.tcl
+source visitor.tcl
 source worker.tcl
 source expression_builder.tcl
 
@@ -118,6 +119,12 @@ puts "internalBuilder $internalBuilder"
 # Call method from with a storyboard
 set module [$internalBuilder from [$internalParser storyboardDict get]]
 puts "\nModule Object: $module"
+
+#// visitor //
+puts "\n--- Visitor call on module object: $module"
+set visitor [HTMLVisitor new]
+set r [$visitor evaluate $module]
+#// end //
 
 puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
 

@@ -2,6 +2,13 @@ package req nx
 
 namespace eval StoryBoard {
 
+# dummy class for visitor pattern
+nx::Class create Element {
+	:public method accept {visitor} {
+		error "Element: Implement in subclass"
+	}
+}
+
 #
 # ContentFragment
 #
@@ -16,10 +23,15 @@ nx::Class create ContentFragment {
 # TextPage
 #
 
-nx::Class create TextPage -superclass ContentFragment {
+nx::Class create TextPage -superclasses {ContentFragment Element} {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
 	:property -accessor public {body empty}
+
+	:public method accept {visitor} {
+		puts "TextPage::visit"
+		$visitor visit [self]
+	}
 }
 
 #
@@ -28,24 +40,34 @@ nx::Class create TextPage -superclass ContentFragment {
 # Question new -id question1 -type multipleChoice -title "Information Systems" -question "Explain the concept of an information system" -answers ("", 1, ...) -feedback "Find more information in Wirtschaftsinformatik 1"
 #
 
-nx::Class create Question -superclass ContentFragment {
+nx::Class create Question -superclasses {ContentFragment Element} {
 	:property -accessor public {title empty}
 	:property -accessor public {type multipleChoice}
 	:property -accessor public {question empty}
 	:property -accessor public {answers:1..*,object,type=Answer}
 	:property -accessor public {feedback empty}
+
+	:public method accept {visitor} {
+		puts "Question::visit"
+		$visitor visit [self]
+	}
 }
 
-nx::Class create Answer {
+nx::Class create Answer -superclasses Element {
 	:property -accessor public {text empty}
 	:property -accessor public {correct:boolean 0}
+
+	:public method accept {visitor} {
+		puts "Answer::visit"
+		$visitor visit [self]
+	}
 }
 
 #
 # Video
 #
 
-nx::Class create Video -superclass ContentFragment {
+nx::Class create Video -superclasses {ContentFragment Element} {
 	:property -accessor public {id empty}
 	:property -accessor public {URL empty}
 	:property -accessor public {timestamp:0..* empty}
@@ -122,13 +144,18 @@ nx::Class create Video -superclass ContentFragment {
 		  :addTimestamp -ts $el
 		}
 	}
+
+	:public method accept {visitor} {
+		puts "Video::visit"
+		$visitor visit [self]
+	}
 }
 
 #
 # Timestamp
 #
 
-nx::Class create Timestamp {
+nx::Class create Timestamp -superclasses Element {
 	:property -accessor public {id empty}
 	:property -accessor public {time:integer 0}
 	:property -accessor public {title empty}
@@ -177,12 +204,17 @@ nx::Class create Timestamp {
 			}
 		}
 	}
+
+	:public method accept {visitor} {
+		puts "Timestamp::visit"
+		$visitor visit [self]
+	}
 }
 
 #
 # Module
 #
-nx::Class create Module {
+nx::Class create Module -superclasses Element {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
 	:property -accessor public {structure:1..*,object,type=ContentFragment}
@@ -199,8 +231,13 @@ nx::Class create Module {
 		return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
 		next
 	}
+
+	:public method accept {visitor} {
+		puts "Module::visit"
+		$visitor visit [self]
+	}
 }
 
-namespace export ContentFragment TextPage Video Timestamp Module Question Answer Feedback
+namespace export Element ContentFragment TextPage Video Timestamp Module Question Answer Feedback
 }
 
