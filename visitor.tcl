@@ -1,5 +1,5 @@
 package req nx
-package req html
+package req tdom
 
 namespace eval StoryBoard {
 
@@ -15,8 +15,7 @@ namespace eval StoryBoard {
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate"
 			$element accept [self]
-			::html::init
-		}
+					}
 
 		:public method visit {element:object,type=Element} {
 			puts "HTMLVisitor::visit element:$element"
@@ -25,13 +24,41 @@ namespace eval StoryBoard {
 
 		:method "traverse Module" {e} {
 			puts "HTMLVisitor::traverse Module on $e [:id $e]"
-			append :html [::html::head [$e title get]]
-			append :html [::html::bodyTag]
+
+			set moduleTitle [$e title get]
+
+			# setting up tdom usage
+			# testing around and getting to know it
+			# CONTINUE HERE:
+			# create outside of methods
+			set doc [dom createDocument html]
+			set root [$doc documentElement]
+			:setupHTMLNodes
+
+			$root appendFromScript {
+				head {
+					title -test hello {
+						t $moduleTitle
+					}
+				}
+			}
+
 			foreach i [lreverse [$e structure get]] {
 				$i accept [self]
 			}
-			append :html [::html::end]
-			puts "html: ${:html}"
+
+			$root appendFromScript {
+				body {
+					h1 {
+						t $moduleTitle
+					}
+					a -href [$e id get] {
+						t $moduleTitle
+					}
+				}
+			}
+
+			puts "doc: [$doc asXML]"
 		}
 
 		:method "traverse Question" {e} {
@@ -51,8 +78,6 @@ namespace eval StoryBoard {
 
 		:method "traverse Video" {e} {
 			puts "HTMLVisitor::traverse Video on $e [:id $e]"
-			append :html [subst [::html::openTag iframe {src=[$e URL get]}]]
-			append :html [::html::closeTag]
 			# Design question: use timestamp slot instead of children
 			# currently timestamp slot is not of type=Timestamp
 			# therefore I am no resorting to info children
@@ -67,6 +92,16 @@ namespace eval StoryBoard {
 
 		:method id {e} {
 			return [$e id get]
+		}
+
+		:method setupHTMLNodes {} {
+			dom createNodeCmd elementNode head
+			dom createNodeCmd elementNode title
+			dom createNodeCmd elementNode body
+			dom createNodeCmd elementNode h1
+			dom createNodeCmd elementNode iframe
+			dom createNodeCmd elementNode a
+			dom createNodeCmd textNode t
 		}
 	}
 
