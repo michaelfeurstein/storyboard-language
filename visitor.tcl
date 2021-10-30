@@ -10,8 +10,8 @@ namespace eval StoryBoard {
 	}
 
 	nx::Class create HTMLVisitor -superclasses Visitor {
-		:property {doc empty}
-		:property {root empty}
+		:property {doc:substdefault {[dom createDocument html]}}
+		:property {bodyNode empty}
 
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate"
@@ -28,15 +28,10 @@ namespace eval StoryBoard {
 
 			set moduleTitle [$e title get]
 
-			# setting up tdom usage
-			# testing around and getting to know it
-			# CONTINUE HERE:
-			# create outside of methods
-			set :doc [dom createDocument html]
-			set :root [${:doc} documentElement]
+			set root [${:doc} documentElement]
 			:setupHTMLNodes
 
-			${:root} appendFromScript {
+			$root appendFromScript {
 				head {
 					title {
 						t $moduleTitle
@@ -44,16 +39,15 @@ namespace eval StoryBoard {
 				}
 			}
 
-			foreach i [lreverse [$e structure get]] {
-				$i accept [self]
+			set :bodyNode [$root appendChild [${:doc} createElement body]]
+			${:bodyNode} appendFromScript {
+				h1 {
+					t $moduleTitle
+				}
 			}
 
-			${:root} appendFromScript {
-				body {
-					h1 {
-						t $moduleTitle
-					}
-				}
+			foreach i [lreverse [$e structure get]] {
+				$i accept [self]
 			}
 
 			puts "doc: [${:doc} asXML]"
@@ -77,21 +71,17 @@ namespace eval StoryBoard {
 		:method "traverse Video" {e} {
 			puts "HTMLVisitor::traverse Video on $e [:id $e]"
 
-			# idea would be to get the body node
-			# and append the relevant html tags into the body tag
-			set bodyNode [${:doc} getElementsByTagName "body"]
-			puts $bodyNode
-
-			#$bodyNode appendFromScript {
-			#	iframe -src [$e URL get] {
-			#	}
-			#}
-
-			# this will insert iframe above body
-			#${:root} insertBeforeFromScript {
-			#		iframe -src [$e URL get] {
-			#		}
-			#} body
+			#set iframeNode [${:bodyNode} appendChild [${:doc} createElement iframe]]
+			#$iframeNode setAttribute src [$e URL get]
+			# TODO if no timestamps don't add <p>Timestamps:</p>
+			#
+			${:bodyNode} appendFromScript {
+				iframe -src [$e URL get] {
+				}
+				p {
+					t Timestamps:
+				}
+			}
 
 			# Design question: use timestamp slot instead of children
 			# currently timestamp slot is not of type=Timestamp
@@ -103,6 +93,17 @@ namespace eval StoryBoard {
 
 		:method "traverse Timestamp" {e} {
 			puts "HTMLVisitor::traverse Timestamp on $e [:id $e]"
+
+			#set linkNodes [${:bodyNode} appendChild [${:doc} createElement a]]
+			#$linkNodes setAttribute href [$e id get]
+			#$linkNodes appendChild [${:doc} createTextNode [$e time get]]
+			#
+			${:bodyNode} appendFromScript {
+				a -href [$e id get] {
+					t [$e time get]
+				}
+			}
+
 		}
 
 		:method id {e} {
@@ -114,6 +115,7 @@ namespace eval StoryBoard {
 			dom createNodeCmd elementNode title
 			dom createNodeCmd elementNode body
 			dom createNodeCmd elementNode h1
+			dom createNodeCmd elementNode p
 			dom createNodeCmd elementNode iframe
 			dom createNodeCmd elementNode a
 			dom createNodeCmd textNode t
