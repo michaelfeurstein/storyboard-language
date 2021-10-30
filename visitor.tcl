@@ -10,12 +10,13 @@ namespace eval StoryBoard {
 	}
 
 	nx::Class create HTMLVisitor -superclasses Visitor {
-		:property -accessor public {html}
+		:property {doc empty}
+		:property {root empty}
 
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate"
 			$element accept [self]
-					}
+		}
 
 		:public method visit {element:object,type=Element} {
 			puts "HTMLVisitor::visit element:$element"
@@ -31,13 +32,13 @@ namespace eval StoryBoard {
 			# testing around and getting to know it
 			# CONTINUE HERE:
 			# create outside of methods
-			set doc [dom createDocument html]
-			set root [$doc documentElement]
+			set :doc [dom createDocument html]
+			set :root [${:doc} documentElement]
 			:setupHTMLNodes
 
-			$root appendFromScript {
+			${:root} appendFromScript {
 				head {
-					title -test hello {
+					title {
 						t $moduleTitle
 					}
 				}
@@ -47,18 +48,15 @@ namespace eval StoryBoard {
 				$i accept [self]
 			}
 
-			$root appendFromScript {
+			${:root} appendFromScript {
 				body {
 					h1 {
-						t $moduleTitle
-					}
-					a -href [$e id get] {
 						t $moduleTitle
 					}
 				}
 			}
 
-			puts "doc: [$doc asXML]"
+			puts "doc: [${:doc} asXML]"
 		}
 
 		:method "traverse Question" {e} {
@@ -78,6 +76,23 @@ namespace eval StoryBoard {
 
 		:method "traverse Video" {e} {
 			puts "HTMLVisitor::traverse Video on $e [:id $e]"
+
+			# idea would be to get the body node
+			# and append the relevant html tags into the body tag
+			set bodyNode [${:doc} getElementsByTagName "body"]
+			puts $bodyNode
+
+			#$bodyNode appendFromScript {
+			#	iframe -src [$e URL get] {
+			#	}
+			#}
+
+			# this will insert iframe above body
+			#${:root} insertBeforeFromScript {
+			#		iframe -src [$e URL get] {
+			#		}
+			#} body
+
 			# Design question: use timestamp slot instead of children
 			# currently timestamp slot is not of type=Timestamp
 			# therefore I am no resorting to info children
