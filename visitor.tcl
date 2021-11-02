@@ -13,9 +13,23 @@ namespace eval StoryBoard {
 		:property {doc:substdefault {[dom createDocument html]}}
 		:property {bodyNode empty}
 
+		# TODO consider return value for method evaluate
 	  	:public method evaluate {element:object,type=Element} {
-			puts "HTMLVisitor::evaluate"
+			puts "HTMLVisitor::evaluate start"
 			$element accept [self]
+			puts "HTMLVisitor::evaluate end"
+			try {
+				set outfile [open "storyboards/result/generated.html" w+]
+				puts $outfile [${:doc} asHTML]
+				close $outfile
+				set res ${:doc}
+			} on error msg {
+				error "Preparing HTML document failed: '$msg'."
+			} on ok res {
+				return $res
+			} finally {
+				unset :doc
+			}
 		}
 
 		:public method visit {element:object,type=Element} {
@@ -50,7 +64,7 @@ namespace eval StoryBoard {
 				$i accept [self]
 			}
 
-			puts "doc: [${:doc} asXML]"
+			#puts "doc: [${:doc} asXML]"
 		}
 
 		:method "traverse Question" {e} {
