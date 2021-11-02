@@ -12,7 +12,8 @@ namespace eval StoryBoard {
 	nx::Class create HTMLVisitor -superclasses Visitor {
 		:property {doc:substdefault {[dom createDocument html]}}
 		:property {bodyNode empty}
-		:property {jsNode empty}
+		:property {scriptNode empty}
+		:property {jsAnswer empty}
 
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate start"
@@ -44,6 +45,8 @@ namespace eval StoryBoard {
 
 			set root [${:doc} documentElement]
 			:setupHTMLNodes
+			set :scriptNode ""
+			set :jsAnswer ""
 
 			$root appendFromScript {
 				head {
@@ -95,15 +98,19 @@ namespace eval StoryBoard {
 			}
 
 			${:bodyNode} appendFromScript {
-				button -type "button" -onclick "displayAnswer1()" {
+				button -type "button" -onclick "display[$e id get]()" {
 					t Submit
 				}
 				a -id "showanswer1"
 			}
 
+			set :scriptNode "${:scriptNode}
+			function display[$e id get]() {
+				${:jsAnswer}
+			}"
 			${:bodyNode} appendFromScript {
 				script {
-					t "s"
+					t "${:scriptNode}"
 				}
 			}
 		}
@@ -120,6 +127,15 @@ namespace eval StoryBoard {
 				set type "checkbox"
 			}
 
+			if {[$e correct get]} {
+				set color "limegreen"
+				set innerHTML "Correct!"
+				# IF NEEDED: if its correct add showCorrectAnswer javascript
+			} else {
+				set color "red"
+				set innerHTML "Incorrect!"
+			}
+
 			${:bodyNode} appendFromScript {
 				div -id "$id-block" {
 					label -for "$id-option" {
@@ -131,7 +147,11 @@ namespace eval StoryBoard {
 				}
 			}
 
-			# CONTINUE HERE: generate javascript code
+			set :jsAnswer "${:jsAnswer}
+			if (document.getElementById('$id-option').checked) {
+			document.getElementById('$id-block').style.border = '2px solid $color'
+			document.getElementById('$id-result').style.color = '$color'
+			document.getElementById('$id-result').innerHTML = '$innerHTML'}"
 		}
 
 		:method "traverse TextPage" {e} {
