@@ -335,20 +335,23 @@ nx::Class create StoryboardBuilder {
 		set counter 0
 		set al [list]
 		set answerBlock ""
+		set ac 0; # answer counter
 		foreach i $answers {
 			lappend al $i
 			incr counter
 			puts counter:$counter
 			if {$counter eq 2} {
 				#puts "al: $al"
+				incr ac
 				set old $answerBlock
 				set isCorrect [string map -nocase {wrong 0 correct 1} [lindex $al 1]]
-				set answerBlock "$old\n[subst [list :answer {\n:text set {[lindex $al 0]} \n:correct set $isCorrect \n}]]"
+				set answerBlock "$old\n[subst [list :answer {\n:id set answer$ac \n:text set {[lindex $al 0]} \n:correct set $isCorrect \n}]]"
 				set counter 0
 				set al [list]
-				#puts "ab: $answerBlock"
+				puts "ab: $answerBlock"
 			}
 		}
+		set ac 0
 		# prepare answerblock END
 
 		set feedback [:lget $qcmd "-feedback"]

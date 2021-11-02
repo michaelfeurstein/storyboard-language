@@ -12,8 +12,8 @@ namespace eval StoryBoard {
 	nx::Class create HTMLVisitor -superclasses Visitor {
 		:property {doc:substdefault {[dom createDocument html]}}
 		:property {bodyNode empty}
+		:property {jsNode empty}
 
-		# TODO consider return value for method evaluate
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate start"
 			$element accept [self]
@@ -69,13 +69,69 @@ namespace eval StoryBoard {
 
 		:method "traverse Question" {e} {
 			puts "HTMLVisitor::traverse Question on $e [:id $e]"
+
+			if {[$e type get] eq "singleChoice"} {
+				set prompt "Choose one answer"
+			} elseif {[$e type get] eq "multipleChoice"} {
+				set prompt "Choose one or more answers"
+			}
+
+			${:bodyNode} appendFromScript {
+				div {
+					h3 {
+						t [$e title get]
+					}
+					p {
+						t [$e question get]
+					}
+					p {
+						t $prompt
+					}
+				}
+			}
+
 			foreach i [$e answers get] {
 				$i accept [self]
+			}
+
+			${:bodyNode} appendFromScript {
+				button -type "button" -onclick "displayAnswer1()" {
+					t Submit
+				}
+				a -id "showanswer1"
+			}
+
+			${:bodyNode} appendFromScript {
+				script {
+					t "s"
+				}
 			}
 		}
 
 		:method "traverse Answer" {e} {
-			puts "HTMLVisitor::traverse Answer on $e [$e text get]"
+			puts "HTMLVisitor::traverse Answer on $e [$e id get]-block"
+			set a [$e id get]
+			set b [[$e info parent] id get]
+			set id $b-$a
+
+			if {[[$e info parent] type get] eq "singleChoice"} {
+				set type "radio"
+			} elseif {[[$e info parent] type get] eq "multipleChoice"} {
+				set type "checkbox"
+			}
+
+			${:bodyNode} appendFromScript {
+				div -id "$id-block" {
+					label -for "$id-option" {
+						input -type $type -name "option" -id "$id-option" {
+							t [$e text get]
+						}
+					}
+					span -id "$id-result"
+				}
+			}
+
+			# CONTINUE HERE: generate javascript code
 		}
 
 		:method "traverse TextPage" {e} {
@@ -85,8 +141,6 @@ namespace eval StoryBoard {
 		:method "traverse Video" {e} {
 			puts "HTMLVisitor::traverse Video on $e [:id $e]"
 
-			#set iframeNode [${:bodyNode} appendChild [${:doc} createElement iframe]]
-			#$iframeNode setAttribute src [$e URL get]
 			# TODO if no timestamps don't add <p>Timestamps:</p>
 			#
 			${:bodyNode} appendFromScript {
@@ -112,9 +166,11 @@ namespace eval StoryBoard {
 			#$linkNodes setAttribute href [$e id get]
 			#$linkNodes appendChild [${:doc} createTextNode [$e time get]]
 			#
+			# TODO create a correct href
+			#
 			${:bodyNode} appendFromScript {
 				a -href [$e id get] {
-					t [$e time get]
+					t [$e title get]
 				}
 			}
 
@@ -129,8 +185,15 @@ namespace eval StoryBoard {
 			dom createNodeCmd elementNode title
 			dom createNodeCmd elementNode body
 			dom createNodeCmd elementNode h1
+			dom createNodeCmd elementNode h3
 			dom createNodeCmd elementNode p
+			dom createNodeCmd elementNode div
+			dom createNodeCmd elementNode label
+			dom createNodeCmd elementNode input
+			dom createNodeCmd elementNode button
+			dom createNodeCmd elementNode span
 			dom createNodeCmd elementNode iframe
+			dom createNodeCmd elementNode script
 			dom createNodeCmd elementNode a
 			dom createNodeCmd textNode t
 		}

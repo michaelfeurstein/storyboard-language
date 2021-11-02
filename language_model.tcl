@@ -54,6 +54,7 @@ nx::Class create Question -superclasses {ContentFragment Element} {
 }
 
 nx::Class create Answer -superclasses Element {
+	:property -accessor public {id empty}
 	:property -accessor public {text empty}
 	:property -accessor public {correct:boolean 0}
 

@@ -1,10 +1,20 @@
-module title "My first Module"
+module title "VBL Modul: Informationssystem"
 
-video1 URL http://www.moduleVideo.com
+video1 URL https://www.youtube.com/embed/0siisFJUKh4
+video1 timestamp (timestamp1, timestamp2)
 
-video2 URL http://www.mySecondVideo.com
+timestamp1 title "Definition eines Informationssystems"
+timestamp1 time 83
 
-video3 URL http://www.myThirdVideo.com
+timestamp2 title "Beispiel Bibliothek"
+timestamp1 time 122
 
-module structure (video1, video2, video7, video3)
+question1 title "What is an information system?"
+question1 type singleChoice
+question1 question "Please explain the concept of an information system."
+question1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
+question1 feedback "General feedback on this question"
+
+
+module structure (video1, question1)
 

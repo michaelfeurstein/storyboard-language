@@ -24,35 +24,35 @@ if { $argc != 1 } {
 
 puts "\n--- Direct instantiations from model_tester.tcl\n"
 
-set id "question1"
-set title "Information Systems"
-set type "multipleChoice"
-set question "Explain the concept of an information system"
-set feedback "General feedback on this question"
-set a1 "Just some answer test text"
-set bv 1
-
-set cmd [subst [list [QuestionBuilder new] question {
-	:setAttributes $id {$title} {$type} {$question} {$feedback}
-
-	:answer {
-		:text set "$a1"
-		:correct set $bv
-	}
-
-	:answer {
-		:text set {Answer 2}
-		:correct set 0
-	}
-
-	:answer {
-		:text set {Answer 3}
-		:correct set 1
-	}
-}]]
-
-puts $cmd
-{*}$cmd
+#set id "question1"
+#set title "Information Systems"
+##set type "multipleChoice"
+#set question "Explain the concept of an information system"
+#set feedback "General feedback on this question"
+#set a1 "Just some answer test text"
+#set bv 1
+#
+#set cmd [subst [list [QuestionBuilder new] question {
+#	:setAttributes $id {$title} {$type} {$question} {$feedback}
+#
+#	:answer {
+#		:text set "$a1"
+#		:correct set $bv
+#	}
+#
+#	:answer {
+#		:text set {Answer 2}
+#		:correct set 0
+#	}
+#
+#	:answer {
+#		:text set {Answer 3}
+#		:correct set 1
+#	}
+#}]]
+#
+#puts $cmd
+#{*}$cmd
 
 
 
@@ -121,6 +121,7 @@ set module [$internalBuilder from [$internalParser storyboardDict get]]
 puts "\n--- Visitor call on module object: $module"
 set visitor [HTMLVisitor new]
 set r [$visitor evaluate $module]
+puts "\n result from visitor:\n[$r asHTML]"
 #// end //
 
 puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
