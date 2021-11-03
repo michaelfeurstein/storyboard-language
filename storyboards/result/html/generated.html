@@ -1,0 +1,65 @@
+<html>
+<head><title>VBL Modul: Informationssystem</title></head><body>
+<h1>VBL Modul: Informationssystem</h1><h3>Erklärvideo: Was ist ein Informationssystem</h3><p>Herzlich willkommen zu dem videobasierten Lernmodul.</p><iframe src="https://www.youtube.com/embed/0siisFJUKh4"></iframe><p>Timestamps:</p><ul>
+<li><a href="timestamp2">Beispiel Bibliothek</a></li><li><a href="timestamp1">Die Definition eines Informationssystems</a></li>
+</ul><div>
+<h3>What is an information system?</h3><p>Please explain the concept of an information system.</p><p>Choose one answer</p>
+</div><div id="question1-answer3-block">
+<label for="question1-answer3-option"><input type="radio" name="option" id="question1-answer3-option">Answer 3</label><span id="question1-answer3-result"></span>
+</div><div id="question1-answer2-block">
+<label for="question1-answer2-option"><input type="radio" name="option" id="question1-answer2-option">Answer 2</label><span id="question1-answer2-result"></span>
+</div><div id="question1-answer1-block">
+<label for="question1-answer1-option"><input type="radio" name="option" id="question1-answer1-option">Answer 1</label><span id="question1-answer1-result"></span>
+</div><button type="button" onclick="displayquestion1()">Submit</button><a id="showanswer1"></a><div>
+<h3>Bib</h3><p>Please explain another concept</p><p>Choose one answer</p>
+</div><div id="question2-answer3-block">
+<label for="question2-answer3-option"><input type="radio" name="option" id="question2-answer3-option">Answer Z</label><span id="question2-answer3-result"></span>
+</div><div id="question2-answer2-block">
+<label for="question2-answer2-option"><input type="radio" name="option" id="question2-answer2-option">Answer Y</label><span id="question2-answer2-result"></span>
+</div><div id="question2-answer1-block">
+<label for="question2-answer1-option"><input type="radio" name="option" id="question2-answer1-option">Answer X</label><span id="question2-answer1-result"></span>
+</div><button type="button" onclick="displayquestion2()">Submit</button><a id="showanswer1"></a><script>
+			function displayquestion1() {
+				
+			if (document.getElementById('question1-answer3-option').checked) {
+			document.getElementById('question1-answer3-block').style.border = '2px solid limegreen'
+			document.getElementById('question1-answer3-result').style.color = 'limegreen'
+			document.getElementById('question1-answer3-result').innerHTML = 'Correct!'}
+			if (document.getElementById('question1-answer2-option').checked) {
+			document.getElementById('question1-answer2-block').style.border = '2px solid limegreen'
+			document.getElementById('question1-answer2-result').style.color = 'limegreen'
+			document.getElementById('question1-answer2-result').innerHTML = 'Correct!'}
+			if (document.getElementById('question1-answer1-option').checked) {
+			document.getElementById('question1-answer1-block').style.border = '2px solid red'
+			document.getElementById('question1-answer1-result').style.color = 'red'
+			document.getElementById('question1-answer1-result').innerHTML = 'Incorrect!'}
+			}
+			function displayquestion2() {
+				
+			if (document.getElementById('question1-answer3-option').checked) {
+			document.getElementById('question1-answer3-block').style.border = '2px solid limegreen'
+			document.getElementById('question1-answer3-result').style.color = 'limegreen'
+			document.getElementById('question1-answer3-result').innerHTML = 'Correct!'}
+			if (document.getElementById('question1-answer2-option').checked) {
+			document.getElementById('question1-answer2-block').style.border = '2px solid limegreen'
+			document.getElementById('question1-answer2-result').style.color = 'limegreen'
+			document.getElementById('question1-answer2-result').innerHTML = 'Correct!'}
+			if (document.getElementById('question1-answer1-option').checked) {
+			document.getElementById('question1-answer1-block').style.border = '2px solid red'
+			document.getElementById('question1-answer1-result').style.color = 'red'
+			document.getElementById('question1-answer1-result').innerHTML = 'Incorrect!'}
+			if (document.getElementById('question2-answer3-option').checked) {
+			document.getElementById('question2-answer3-block').style.border = '2px solid red'
+			document.getElementById('question2-answer3-result').style.color = 'red'
+			document.getElementById('question2-answer3-result').innerHTML = 'Incorrect!'}
+			if (document.getElementById('question2-answer2-option').checked) {
+			document.getElementById('question2-answer2-block').style.border = '2px solid red'
+			document.getElementById('question2-answer2-result').style.color = 'red'
+			document.getElementById('question2-answer2-result').innerHTML = 'Incorrect!'}
+			if (document.getElementById('question2-answer1-option').checked) {
+			document.getElementById('question2-answer1-block').style.border = '2px solid limegreen'
+			document.getElementById('question2-answer1-result').style.color = 'limegreen'
+			document.getElementById('question2-answer1-result').innerHTML = 'Correct!'}
+			}</script>
+</body>
+</html>

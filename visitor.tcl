@@ -21,7 +21,7 @@ namespace eval StoryBoard {
 			$element accept [self]
 			puts "HTMLVisitor::evaluate end"
 			try {
-				set outfile [open "storyboards/result/generated.html" w+]
+				set outfile [open "storyboards/result/html/generated.html" w+]
 				puts $outfile [${:doc} asHTML]
 				close $outfile
 				set res ${:doc}
@@ -209,6 +209,8 @@ namespace eval StoryBoard {
 
 			# TODO create a correct href
 			# involves js to reference iframe
+			#  - update src of iframe
+			#  - reload iframe without page refresh
 			#
 			${:tsNode} appendFromScript {
 				li {
