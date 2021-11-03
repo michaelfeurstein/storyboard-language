@@ -14,6 +14,7 @@ namespace eval StoryBoard {
 		:property {bodyNode empty}
 		:property {scriptNode empty}
 		:property {jsAnswer empty}
+		:property {tsNode empty}
 
 	  	:public method evaluate {element:object,type=Element} {
 			puts "HTMLVisitor::evaluate start"
@@ -67,6 +68,12 @@ namespace eval StoryBoard {
 				$i accept [self]
 			}
 
+			${:bodyNode} appendFromScript {
+				script {
+					t "${:scriptNode}"
+				}
+			}
+
 			#puts "doc: [${:doc} asXML]"
 		}
 
@@ -108,11 +115,12 @@ namespace eval StoryBoard {
 			function display[$e id get]() {
 				${:jsAnswer}
 			}"
-			${:bodyNode} appendFromScript {
-				script {
-					t "${:scriptNode}"
-				}
-			}
+
+			#${:bodyNode} appendFromScript {
+			#	script {
+			#		t "${:scriptNode}"
+			#	}
+			#}
 		}
 
 		:method "traverse Answer" {e} {
@@ -156,24 +164,41 @@ namespace eval StoryBoard {
 
 		:method "traverse TextPage" {e} {
 			puts "HTMLVisitor::traverse TextPage on $e [:id $e]"
+
+			${:bodyNode} appendFromScript {
+				h3 {
+					t [$e title get]
+				}
+				p {
+					t [$e body get]
+				}
+			}
 		}
 
 		:method "traverse Video" {e} {
 			puts "HTMLVisitor::traverse Video on $e [:id $e]"
 
-			# TODO if no timestamps don't add <p>Timestamps:</p>
-			#
-			${:bodyNode} appendFromScript {
-				iframe -src [$e URL get] {
+			if {[llength [$e info children]] eq 0} {
+				${:bodyNode} appendFromScript {
+					iframe -src [$e URL get] {
+					}
 				}
-				p {
-					t Timestamps:
+			} else {
+				${:bodyNode} appendFromScript {
+					iframe -src [$e URL get] {
+					}
+					p {
+						t Timestamps:
+					}
 				}
+
+				set :tsNode [${:bodyNode} appendChild [${:doc} createElement ul]]
 			}
 
 			# Design question: use timestamp slot instead of children
 			# currently timestamp slot is not of type=Timestamp
-			# therefore I am no resorting to info children
+			# therefore I am now resorting to info children
+			# instead of [$e timestamp get]
 			foreach i [$e info children] {
 				$i accept [self]
 			}
@@ -182,18 +207,16 @@ namespace eval StoryBoard {
 		:method "traverse Timestamp" {e} {
 			puts "HTMLVisitor::traverse Timestamp on $e [:id $e]"
 
-			#set linkNodes [${:bodyNode} appendChild [${:doc} createElement a]]
-			#$linkNodes setAttribute href [$e id get]
-			#$linkNodes appendChild [${:doc} createTextNode [$e time get]]
-			#
 			# TODO create a correct href
+			# involves js to reference iframe
 			#
-			${:bodyNode} appendFromScript {
-				a -href [$e id get] {
-					t [$e title get]
+			${:tsNode} appendFromScript {
+				li {
+					a -href [$e id get] {
+						t [$e title get]
+					}
 				}
 			}
-
 		}
 
 		:method id {e} {
@@ -214,6 +237,7 @@ namespace eval StoryBoard {
 			dom createNodeCmd elementNode span
 			dom createNodeCmd elementNode iframe
 			dom createNodeCmd elementNode script
+			dom createNodeCmd elementNode li
 			dom createNodeCmd elementNode a
 			dom createNodeCmd textNode t
 		}
