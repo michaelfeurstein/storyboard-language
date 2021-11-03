@@ -1,5 +1,8 @@
 module title "VBL Modul: Informationssystem"
 
+textpage1 title "Erklärvideo: Was ist ein Informationssystem"
+textpage1 body "Herzlich willkommen zu dem videobasierten Lernmodul."
+
 video1 URL https://www.youtube.com/embed/0siisFJUKh4
 video1 timestamp (timestamp1, timestamp2)
 
@@ -15,6 +18,11 @@ question1 question "Please explain the concept of an information system."
 question1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
 question1 feedback "General feedback on this question"
 
+question2 title "Bib"
+question2 type singleChoice
+question2 question "Please explain another concept"
+question2 answers ("Answer X", correct, "Answer Y", wrong, "Answer Z", wrong)
+question2 feedback "General feedback on this question"
 
-module structure (video1, question1)
+module structure (textpage1, video1, question1, question2)
 
