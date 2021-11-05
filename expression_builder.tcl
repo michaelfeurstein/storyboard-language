@@ -24,7 +24,7 @@ nx::Class create StoryboardBuilder {
 	:method creator {class} {
 		puts "\n ---- creator method with class:$class stack:${:stack}"
 
-		# intersect create info of class with stack
+		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
@@ -51,9 +51,8 @@ nx::Class create StoryboardBuilder {
 	# if an error is raised add command to :creationBacklogStack
 	#
 	###
+
 	:method tryCmdStack {} {
-		puts "Stack size: [llength ${:creationStack}]"
-		puts "Stack: ${:creationStack}"
 		while {[llength ${:creationStack}] > 0} {
 			foreach c ${:creationStack} {
 				try {
@@ -65,48 +64,41 @@ nx::Class create StoryboardBuilder {
 						set tslist [dict get [dict get $options customOptions] "tslist"]
 
 						foreach i $tslist {
-						set idx [lsearch ${:storyboardDict} $i]
-						if {$idx ne "-1"} {
-							# case 1 e.g. timestamp7 was referenced early but is in storyboard
-							set idxo $idx
-							set idxn [incr idx]
-							set tsKey [lindex ${:storyboardDict} $idxo] ;# -> e.g. timestamp7
-							set tsParam [lindex ${:storyboardDict} $idxn] ;# -> time 777 title Seven
+							set idx [lsearch ${:storyboardDict} $i]
+							if {$idx ne "-1"} {
+								# case 1 e.g. timestamp7 was referenced early but is in storyboard
+								set idxo $idx
+								set idxn [incr idx]
+								set tsKey [lindex ${:storyboardDict} $idxo] ;# -> e.g. timestamp7
+								set tsParam [lindex ${:storyboardDict} $idxn] ;# -> time 777 title Seven
 
-							puts "tsKey: $tsKey"
-							puts "tsParam: $tsParam"
+								puts "tsKey: $tsKey"
+								puts "tsParam: $tsParam"
 
-							#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
+								#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
 
-							# update the storyboard
-							#
-							# based on: https://wiki.tcl-lang.org/page/dict+lappend
-							# insert/append video [$caller id get] into timestampX
-							# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
-							#
-							dict update :storyboardDict $tsKey $tsKey {
-								dict lappend $tsKey video [$caller id get]
+								# update the storyboard
+								#
+								# based on: https://wiki.tcl-lang.org/page/dict+lappend
+								# insert/append video [$caller id get] into timestampX
+								# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
+								#
+								dict update :storyboardDict $tsKey $tsKey {
+									dict lappend $tsKey video [$caller id get]
+								}
+								#set :storyboardDict ;# -> not sure what this does, leave commented
+
+								#puts new:[dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
+							} else {
+								# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
+								# remove timestamp reference from video (i.e. set it to empty)
+								puts "nothing to do here"
 							}
-							#set :storyboardDict ;# -> not sure what this does, leave commented
-
-							puts new:[dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
-						} else {
-							# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
-							# remove timestamp reference from video (i.e. set it to empty)
-							puts "nothing to do here"
-							#set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
-							#set command [list $caller {*}$makeEmpty]
-							#{*}$command
-							#:removeCmdFromStack $c :creationStack
-							#puts "STATUS:OK - break"
-							#break
-						}
 						};# - foreach ends here
 
 						# Check Backlog
 						# add -video videoX to reference timestamp in tslist
 						if {[llength ${:creationBacklogStack}] > 0} {
-							puts "checking backlog"
 							foreach i ${:creationBacklogStack} {
 								set idxID [lsearch $i "-id"]
 								if {$idxID ne "-1"} {
@@ -116,7 +108,8 @@ nx::Class create StoryboardBuilder {
 										puts [lindex $i $idxID];# -> timestamp2
 										set idxSE [lsearch $tslist [lindex $i $idxID]]
 										if {$idxSE ne "-1"} {
-											# found a timestamp  on backlog
+											# found a timestamp on backlog
+											# -> manipulate timestamp to include video reference
 											:removeCmdFromStack $i :creationBacklogStack
 											lappend i "-video" [$caller id get]
 											puts i_new:$i
@@ -133,7 +126,6 @@ nx::Class create StoryboardBuilder {
 						puts "removing timestamp parameter from video command"
 						set idxts [lsearch $c "-timestamp"]
 						set newC [lreplace $c $idxts [incr idxts]]
-						## end - redundant code
 
 						$caller destroy
 						:removeCmdFromStack $c :creationStack
@@ -203,10 +195,6 @@ nx::Class create StoryboardBuilder {
 	###
 
 	:method handleBacklogStack {} {
-		puts "Stack size: [llength ${:creationBacklogStack}]"
-		puts "Backlog stack: ${:creationBacklogStack}"
-		#set count 0
-		#set maxTries [llength ${:creationBacklogStack}]
 		while {[llength ${:creationBacklogStack}] > 0} {
 			foreach c ${:creationBacklogStack} {
 				try {
@@ -217,34 +205,17 @@ nx::Class create StoryboardBuilder {
 					set notFound [dict get [dict get $options customOptions] "not found"]
 					set idx [lsearch ${:storyboardKeyStack} $notFound]
 					if {$idx ne "-1"} {
-						# case 1 e.g. timestamp1 was referenced early but is in storyboard
-						puts "case 1"
-
-						#a
-						#set makeEmpty [dict get [dict get $options customOptions] "makeEmpty"]
-						#set command [list $caller {*}$makeEmpty]
-						#{*}$command
-						#:removeCmdFromStack $c :creationBacklogStack
-
-						#b
+						# timestampX was referenced early but is in storyboard
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack; # remove from backlog
 						lappend :creationBacklogStack $c; # and put it at the end of backlog
-
 						puts "STATUS:BACKLOG_READD - $c"
 					} else {
 						$caller destroy
 						:removeCmdFromStack $c :creationBacklogStack
 					}
-					# do something if error
-					# keep on stack
-					# try ${:stack} destroy
-					# if (++count == maxTries) throw e;
 				} on 6 {msg options} {
 					puts "(@[current method]) STATUS:6 --> msg: $msg"
-					puts c:$c
-					#:removeCmdFromStack $c :creationBacklogStack
-
 					if {[dict exists $options customOptions]} {
 						set key [dict get [dict get $options customOptions] "key"] ;# -> timestamp
 						set caller [dict get [dict get $options customOptions] "caller"] ;# -> ::Timestamp
@@ -283,7 +254,6 @@ nx::Class create StoryboardBuilder {
 					error $msg
 				} on ok {} {
 					puts "(@[current method]) STATUS:OK"
-					# on success remove cmd from backlog stack
 					:removeCmdFromStack $c :creationBacklogStack
 				}
 			}
@@ -320,7 +290,7 @@ nx::Class create StoryboardBuilder {
 		puts "handling Question CMD: $qcmd"
 
 		# step 1: read each parameter as in handleModuleStack
-		# setp 2: build up call for questionbuilder as prepared in model_tester
+		# setp 2: build up call for questionbuilder
 		# step 3: call
 
 		# step 1
@@ -357,14 +327,13 @@ nx::Class create StoryboardBuilder {
 		set feedback [:lget $qcmd "-feedback"]
 
 		# step 2
+		# based on djdsl/tutorials/patterns.tcl:727 ComputerBuilder
 		set cmd [subst [list [QuestionBuilder new] question {
 			:setAttributes $id {$title} {$type} {$question} {$feedback}
-
 			$answerBlock
 		}]]
 
 		# step 3
-		puts $cmd
 		{*}$cmd
 	}
 
@@ -384,6 +353,7 @@ nx::Class create StoryboardBuilder {
 	# error handling, param not found
 	#
 	###
+
 	:method lget {c p} {
 		set x [lsearch $c $p]
 		incr x
@@ -406,11 +376,15 @@ nx::Class create StoryboardBuilder {
 	# puts creationBacklogStack:${:creationBacklogStack}
 	#
 	###
+
 	:method removeCmdFromStack {c s} {
-	#	set d "$"
-	#	set ls [list "lsearch $d{$s} {$c}"]
-	#	puts ls:$ls
-	#	error idx:[$ls]
+
+		# try to optimized based on this comment:
+		# https://github.com/michaelfeurstein/storyboard-language/commit/cc3e06741bd9a88d511908dae3664329650747b2#r57534578
+		# set d "$"
+		# set ls [list "lsearch $d{$s} {$c}"]
+		# puts ls:$ls
+		# error idx:[$ls]
 
 		set d "$"
 		set idx [eval [subst {lsearch $d{$s} {$c}}]]
@@ -435,11 +409,11 @@ nx::Class create StoryboardBuilder {
 	# A: Ja mit lmap slot [Module info variables] {$slot info name}
 	#
 	###
+
 	:method intersectLists {a b} {
 		set propertyList ""
 		set dash "-"
-		#puts a:$a
-		#puts b:$b
+
 		foreach i $a {
 			set parameter [string trim $i "?-"]
 			if { $parameter in [dict keys $b] } {
@@ -465,10 +439,10 @@ nx::Class create StoryboardBuilder {
 	# set return to matched class (e.g. video)
 	#
 	###
+
 	:method matchClass {id ns} {
 	  set matchedClass ""
 	  set availableClasses [info commands $ns]
-	  #puts availableClasses:$availableClasses
 
 	  foreach ns $availableClasses {
 		set tail [namespace tail $ns]
@@ -511,7 +485,7 @@ nx::Class create StoryboardBuilder {
 	  foreach id [dict keys ${:storyboardDict}] {
 		foreach el [dict get ${:storyboardDict} $id] {
 		  # fill the stack with all elements (el) of key (id)
-		  #:$el
+		  #:$el ; # dynamic reception
 		  lappend :stack $el
 		}
 		#puts "calling:$id with stack:${:stack}"
@@ -528,20 +502,20 @@ nx::Class create StoryboardBuilder {
 
 	  # handle module via separate call here
 	  # after running through storyboard + backlog
-	  # + this assures all relevant ContentFragments are instantiated
-	  # + the module will then be available for Visitor
-	  # +/- not sure if this is the right way
+	  # - this assures all relevant ContentFragments are instantiated
+	  # - the module will then be available for Visitor
 	  puts "\nLast step: Module"
 	  :handleModuleStack
 
 	  unset :stack
 	  unset :className
 
-	  # return the final storyboard Module
+	  # return the final storyboard module
 	  return ${:sbModule}
 	}; # from end
 }; # StoryboardBuilder end
 
+# based on djdsl/tutorials/patterns.tcl:690 ComputerBuilder
 nx::Class create QuestionBuilder {
 	:property -accessor public result:object,type=Question
 

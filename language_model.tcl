@@ -2,7 +2,12 @@ package req nx
 
 namespace eval StoryBoard {
 
-# dummy class for visitor pattern
+#
+# Element
+#
+# Dummy class for Visitor Pattern
+#
+
 nx::Class create Element {
 	:public method accept {visitor} {
 		error "Element: Implement in subclass"
@@ -14,7 +19,7 @@ nx::Class create Element {
 #
 # Based on ALOCoM: a generic content model for learning objects (Verbet & Duval, 2008)
 #
-  
+
 nx::Class create ContentFragment {
 	:property -accessor public {id empty}
 }
@@ -52,6 +57,10 @@ nx::Class create Question -superclasses {ContentFragment Element} {
 		$visitor visit [self]
 	}
 }
+
+#
+# Answer
+#
 
 nx::Class create Answer -superclasses Element {
 	:property -accessor public {id empty}
@@ -176,16 +185,6 @@ nx::Class create Timestamp -superclasses Element {
 		next
 	}
 
-	#
-	# incorrectyl overloading create
-	# will corrupt the return from lookup syntax create
-	# expression_builder uses lookup syntax create to build commands
-	#
-	#:public object method create {-id -time -title -video} {
-	#	puts "Timestamp --> create call"
-	#	next
-	#}
-
 	:method init {} {
 		#puts "Current: [current callingclass] [current callingobject] [current class]:[current methodpath]"
 		if {[current callingclass] ne "::StoryBoard::Video"} {
@@ -215,18 +214,14 @@ nx::Class create Timestamp -superclasses Element {
 #
 # Module
 #
+
 nx::Class create Module -superclasses Element {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
 	:property -accessor public {structure:1..*,object,type=ContentFragment}
 	:property -accessor public {pagination:boolean 0}
-
 	:variable instance:object
 
-	# expression builder's intersectList
-	# the call [$class lookup syntax create] with class being Module only returns: ?/arg .../?
-	# instead of a long list of args defined above (incl.: id, title, structure, pagination)
-	#
 	:public object method create {args} {
 		puts "create call"
 		return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
