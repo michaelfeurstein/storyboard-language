@@ -214,7 +214,7 @@ namespace eval StoryBoard {
 			#
 			${:tsNode} appendFromScript {
 				li {
-					a -href [$e id get] {
+					a -href "[[$e info parent] URL get]?start=[$e time get]" {
 						t [$e title get]
 					}
 				}
