@@ -19,24 +19,22 @@ nx::Class create Helper {
 	#  - in case there are no matching instances found return code 0 is returned
 	#    this could also mean that there are instances available but not the one with instance id
 	#
+
 	:public object method isInstanceAvailable {class id} {
 		set instlist [$class info instances -closure]
 		if {[llength $instlist] > 0} {
-			#puts "(@[current method]) $class instances available"
+			# instances available
 			foreach i $instlist {
-				#puts "(@[current method]) [current] is looking for $class:$id comparing to [$i info class]:[$i id get]"
+				# looking for class with id"
 				if {$id eq [$i id get]} {
 					# class instance with id found
-					#puts "(@[current method]) found instance [$i info class] with id: [$i id get]"
 					return $i
 				}
 			}
 			# no matching instance of class with id found
-			#puts "(@[current method]) no matching instance $id of $class found"
 			return 0
 		} else {
-			# no instance of this class available
-			#puts "(@[current method]) instances of $class not available"
+			# no instance of class available
 		    return 0
 		}
 	}
