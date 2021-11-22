@@ -5,7 +5,7 @@ namespace eval StoryBoard {
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
 
-	:property {sbModule:substdefault {[Module new]}}
+	:property {sbModule:substdefault {[StoryBoard::Module new]}}
 
 	:variable creationStack ""
 	:variable creationBacklogStack ""

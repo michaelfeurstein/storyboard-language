@@ -5,7 +5,7 @@ package req nx
 # outputs a dict which is readable by expression builder
 
 nx::Class create StoryboardParser {
-	:property -accessor public {storyboardFile:required}
+	:property -accessor public {storyboard:required}
 	:property storyboardLinesList
 	:property -accessor public {storyboardDict:substdefault {[dict create]}}
 
@@ -15,15 +15,22 @@ nx::Class create StoryboardParser {
 
 	:method readStoryboard {} {
 		#puts "storyboardFile [:storyboardFile get]"
-	  	#puts "storyboardFile ${:storyboardFile} or [[self] storyboardFile get] or [:storyboardFile get]"
-	  	set sbfile [open [:storyboardFile get] r]
-		set sbdata [read -nonewline $sbfile]
-		close $sbfile
+		#puts "storyboardFile ${:storyboardFile} or [[self] storyboardFile get] or [:storyboardFile get]"
+		if {[file isfile [:storyboard get]]} {
+			puts "parser -- storyboard is regular file"
+			set sbfile [open [:storyboard get] r]
+			set sbdata [read -nonewline $sbfile]
+			close $sbfile
+		} else {
+			puts "parser -- storyboard is not a file"
+			set sbdata [:storyboard get]
+		}
 
+		puts "parser -- sbdata:$sbdata"
 		set lines [split $sbdata "\n"]
 		foreach line $lines {
 			# remove comments
-		  	regsub -all -line "#.*$" $line "" line
+			regsub -all -line "#.*$" $line "" line
 
 			# remove leading and trailing spaces
 			set line [string trim $line]

@@ -110,7 +110,7 @@ puts "\n--- Direct instantiations from model_tester.tcl\n"
 #// storyboardbuilder //
 puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 # Setup Parser
-set internalParser [StoryboardParser new -storyboardFile $storyboardFile]
+set internalParser [StoryboardParser new -storyboard $storyboardFile]
 # Setup Expression Builder
 set internalBuilder [StoryboardBuilder new]
 # Call method from with a storyboard
