@@ -81,7 +81,7 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 	:property -accessor public {id empty}
 	:property -accessor public {URL empty}
 	:property -accessor public {timestamp:0..* empty}
-	:property {timestampClass ::Timestamp}
+	:property {timestampClass Timestamp}
 	:property {prefix timestamp}
 
 	:public object method new {args} {
@@ -189,13 +189,13 @@ nx::Class create Timestamp -superclasses Element {
 		#puts "Current: [current callingclass] [current callingobject] [current class]:[current methodpath]"
 		if {[current callingclass] ne "::StoryBoard::Video"} {
 			if {${:video} ne "empty"} {
-				set y [Helper isInstanceAvailable ::Video ${:video}]
+				set y [Helper isInstanceAvailable Video ${:video}]
 				if {$y ne 0} {
 					$y addTimestamp -ts [self]
 				} else {
 					dict set returnOptions customOptions "key" "timestamp"
 					dict set returnOptions customOptions "caller" [self]
-					return -code 6 -options $returnOptions "::Video:${:video} not found"
+					return -code 6 -options $returnOptions "Video ${:video} not found"
 				}
 			} elseif {${:video} eq "empty"} {
 				dict set returnOptions customOptions "key" "timestamp"

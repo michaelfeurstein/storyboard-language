@@ -5,7 +5,7 @@ namespace eval StoryBoard {
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
 
-	:property {sbModule:substdefault {[StoryBoard::Module new]}}
+	:property {sbModule:substdefault {[Module new]}}
 
 	:variable creationStack ""
 	:variable creationBacklogStack ""
@@ -271,7 +271,7 @@ nx::Class create StoryboardBuilder {
 		set structure [:lget $moduleCmd "-structure"]
 
 		foreach i $structure {
-			set se [Helper isInstanceAvailable ::ContentFragment $i]
+			set se [Helper isInstanceAvailable ContentFragment $i]
 			if {$se ne 0} {
 				puts "found instance $se of type [$se info class]"
 				${:sbModule} structure add $se; # why is this added in reverse order it seems?
