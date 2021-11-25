@@ -44,10 +44,13 @@ nx::Class create StoryboardParser {
 
 			puts line:$line
 			lappend :storyboardLinesList $line
-		} 
-		
+		}
+
 		#puts "storyboardLinesList:${:storyboardLinesList}"
 		#puts "storyboardLinesList length:[llength ${:storyboardLinesList}]"
+
+		# TODO check each line
+		# - check for overwritings e.g. time defined twice in timestamp - see case 11
 
 		:createDictFromList ${:storyboardLinesList}
 		}

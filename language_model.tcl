@@ -209,6 +209,14 @@ nx::Class create Timestamp -superclasses Element {
 		puts "Timestamp::visit"
 		$visitor visit [self]
 	}
+
+	:public method convertTime {t} {
+		# TODO convert seconds to minutes
+		# - change slot:time to regular string
+		# - allow both seconds as input and HH:MM:SS or MM:SS
+		# - convert into usable seconds for youtube timestamp
+		# - return value: seconds
+	}
 }
 
 #

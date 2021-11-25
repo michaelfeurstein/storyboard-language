@@ -151,7 +151,7 @@ nx::Class create StoryboardBuilder {
 								set ne [incr idxe]
 								if {[lsearch [lindex $e $ne] [$caller id get]] ne "-1"} { ;# -> search for timestamp reference
 									# found element / go ahead and create the timestamp
-									puts "found: [$caller id get] in storyboard via: [lindex $e $ne]"
+									puts "found: [$caller id get] is in storyboard via: [lindex $e $ne]"
 									set foundTS 1
 									continue
 								}
@@ -163,7 +163,7 @@ nx::Class create StoryboardBuilder {
 						if {[$caller video get] ne "empty"} {
 							set idx [lsearch ${:storyboardKeyStack} [$caller video get]]
 							if {$idx ne "-1"} {
-								puts "found referenced video: [lindex ${:storyboardKeyStack} $idx] in storyboard"
+								puts "found: [lindex ${:storyboardKeyStack} $idx] is in storyboard"
 								set foundV 1
 							}
 						}
