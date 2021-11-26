@@ -117,12 +117,16 @@ set internalBuilder [StoryboardBuilder new]
 set module [$internalBuilder from [$internalParser storyboardDict get]]
 #// end //
 
+puts "\n info commands: [info commands ::StoryBoard::*]"
+
 #// visitor //
 puts "\n--- Visitor call on module object: $module"
 set visitor [HTMLVisitor new]
 set r [$visitor evaluate $module]
 puts "\n result from visitor:\n[$r asHTML]"
 #// end //
+
+puts "\n info commands: [info commands ::StoryBoard::*]"
 
 puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
 
