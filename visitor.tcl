@@ -1,7 +1,7 @@
 package req nx
 package req tdom
 
-namespace eval StoryBoard {
+namespace eval StoryBoardVisitor {
 
 	nx::Class create Visitor {
 		:public method visit args {
@@ -16,14 +16,20 @@ namespace eval StoryBoard {
 		:property {jsAnswer empty}
 		:property {tsNode empty}
 
-	  	:public method evaluate {element:object,type=Element} {
+		:public method evaluate {element:object,type=::StoryBoard::Element} {
 			puts "HTMLVisitor::evaluate start"
 			$element accept [self]
 			puts "HTMLVisitor::evaluate end"
 			try {
-				set outfile [open "storyboards/result/html/generated.html" w+]
-				puts $outfile [${:doc} asHTML]
-				close $outfile
+				######
+				# Commented out for use with xowfstoryboard
+				# -- think of a way to handle this
+				# -- a) a preview visitor (?)
+				# -- b) a html visitor exporting generated.html
+				#
+				#set outfile [open "storyboards/result/html/generated.html" w+]
+				#puts $outfile [${:doc} asHTML]
+				#close $outfile
 				set res ${:doc}
 			} on error msg {
 				error "Preparing HTML document failed: '$msg'."
@@ -34,7 +40,7 @@ namespace eval StoryBoard {
 			}
 		}
 
-		:public method visit {element:object,type=Element} {
+		:public method visit {element:object,type=::StoryBoard::Element} {
 			puts "HTMLVisitor::visit element:$element"
 			:traverse [namespace tail [$element info class]] $element
 		}
