@@ -22,7 +22,7 @@ nx::Class create StoryboardBuilder {
 	:forward question %self creator Question
 
 	:method creator {class} {
-		puts "\n ---- creator method with class:$class stack:${:stack}"
+		puts "---- creator method with class:$class stack:${:stack}"
 
 		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
@@ -30,7 +30,7 @@ nx::Class create StoryboardBuilder {
 
 		# SETUP COMMAND
 		set creation [list $class new -id ${:className} {*}$intersectLists]
-		puts "\ncreationCmd: $creation"
+		puts "creationCmd: $creation"
 
 		if {$class eq "Module"} {
 			lappend :moduleStack $creation
@@ -83,6 +83,7 @@ nx::Class create StoryboardBuilder {
 								# insert/append video [$caller id get] into timestampX
 								# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
 								#
+								puts "adding video parameter to timestamp $tsKey in storyboard"
 								dict update :storyboardDict $tsKey $tsKey {
 									dict lappend $tsKey video [$caller id get]
 								}
@@ -110,6 +111,7 @@ nx::Class create StoryboardBuilder {
 										if {$idxSE ne "-1"} {
 											# found a timestamp on backlog
 											# -> manipulate timestamp to include video reference
+											puts "adding video parameter to timestamp command(s) in backlog"
 											:removeCmdFromStack $i :creationBacklogStack
 											lappend i "-video" [$caller id get]
 											puts i_new:$i
@@ -253,7 +255,7 @@ nx::Class create StoryboardBuilder {
 					puts "STATUS:ERROR: $msg"
 					error $msg
 				} on ok {} {
-					puts "(@[current method]) STATUS:OK"
+					puts "(@[current method]) STATUS:OK COMMAND: $c"
 					:removeCmdFromStack $c :creationBacklogStack
 				}
 			}
@@ -447,7 +449,7 @@ nx::Class create StoryboardBuilder {
 	  foreach ns $availableClasses {
 		set tail [namespace tail $ns]
 		if {[regexp -nocase "^$tail" $id match]} {
-			#puts "found $match1 in $id"
+			#puts "found $match in $id"
 			set matchedClass $match
 			break
 		}
@@ -488,7 +490,7 @@ nx::Class create StoryboardBuilder {
 		  #:$el ; # dynamic reception
 		  lappend :stack $el
 		}
-		#puts "calling:$id with stack:${:stack}"
+		puts "\n NEW CALL calling:$id with stack:${:stack}"
 		set :className $id
 		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e

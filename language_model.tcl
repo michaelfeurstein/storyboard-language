@@ -85,9 +85,9 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 	:property {prefix timestamp}
 
 	:public object method new {args} {
-		set idxID [lsearch $args -id]
-		incr idxID
-		set videoID [lindex $args $idxID]
+		#set idxID [lsearch $args -id]
+		#incr idxID
+		#set videoID [lindex $args $idxID]
 
 		#set vi [Helper isInstanceAvailable ::Video $videoID]
 
@@ -173,9 +173,9 @@ nx::Class create Timestamp -superclasses Element {
 
 
 	:public object method new {args} {
-		set idxID [lsearch $args -id]
-		incr idxID
-		set timestampID [lindex $args $idxID]
+		#set idxID [lsearch $args -id]
+		#incr idxID
+		#set timestampID [lindex $args $idxID]
 
 		#set ti [Helper isInstanceAvailable ::Timestamp $timestampID]
 
@@ -186,7 +186,7 @@ nx::Class create Timestamp -superclasses Element {
 	}
 
 	:method init {} {
-		#puts "Current: [current callingclass] [current callingobject] [current class]:[current methodpath]"
+		#puts "Current Timestamp Introspection: [current callingclass] [current callingobject] [current class]:[current methodpath]"
 		if {[current callingclass] ne "::StoryBoard::Video"} {
 			if {${:video} ne "empty"} {
 				set y [Helper isInstanceAvailable Video ${:video}]
