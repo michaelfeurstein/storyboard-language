@@ -1,7 +1,7 @@
 package req nx
 package req tdom
 
-namespace eval StoryBoardVisitor {
+namespace eval StoryBoard {
 
 	nx::Class create Visitor {
 		:public method visit args {
@@ -56,17 +56,17 @@ namespace eval StoryBoardVisitor {
 			set :jsAnswer ""
 
 			$root appendFromScript {
-				head {
-					title {
-						t $moduleTitle
+				html::head {
+					html::title {
+						html::t $moduleTitle
 					}
 				}
 			}
 
 			set :bodyNode [$root appendChild [${:doc} createElement body]]
 			${:bodyNode} appendFromScript {
-				h1 {
-					t $moduleTitle
+				html::h1 {
+					html::t $moduleTitle
 				}
 			}
 
@@ -75,8 +75,8 @@ namespace eval StoryBoardVisitor {
 			}
 
 			${:bodyNode} appendFromScript {
-				script {
-					t "${:scriptNode}"
+				html::script {
+					html::t "${:scriptNode}"
 				}
 			}
 
@@ -93,15 +93,15 @@ namespace eval StoryBoardVisitor {
 			}
 
 			${:bodyNode} appendFromScript {
-				div {
-					h3 {
-						t [$e title get]
+				html::div {
+					html::h3 {
+						html::t [$e title get]
 					}
-					p {
-						t [$e question get]
+					html::p {
+						html::t [$e question get]
 					}
-					p {
-						t $prompt
+					html::p {
+						html::t $prompt
 					}
 				}
 			}
@@ -111,10 +111,10 @@ namespace eval StoryBoardVisitor {
 			}
 
 			${:bodyNode} appendFromScript {
-				button -type "button" -onclick "display[$e id get]()" {
-					t Submit
+				html::button -type "button" -onclick "display[$e id get]()" {
+					html::t Submit
 				}
-				a -id "showanswer1"
+				html::a -id "showanswer1"
 			}
 
 			set :scriptNode "${:scriptNode}
@@ -151,13 +151,13 @@ namespace eval StoryBoardVisitor {
 			}
 
 			${:bodyNode} appendFromScript {
-				div -id "$id-block" {
-					label -for "$id-option" {
-						input -type $type -name "option" -id "$id-option" {
-							t [$e text get]
+				html::div -id "$id-block" {
+					html::label -for "$id-option" {
+						html::input -type $type -name "option" -id "$id-option" {
+							html::t [$e text get]
 						}
 					}
-					span -id "$id-result"
+					html::span -id "$id-result"
 				}
 			}
 
@@ -172,11 +172,11 @@ namespace eval StoryBoardVisitor {
 			puts "HTMLVisitor::traverse TextPage on $e [:id $e]"
 
 			${:bodyNode} appendFromScript {
-				h3 {
-					t [$e title get]
+				html::h3 {
+					html::t [$e title get]
 				}
-				p {
-					t [$e body get]
+				html::p {
+					html::t [$e body get]
 				}
 			}
 		}
@@ -186,15 +186,15 @@ namespace eval StoryBoardVisitor {
 
 			if {[llength [$e info children]] eq 0} {
 				${:bodyNode} appendFromScript {
-					iframe -src [$e URL get] {
+					html::iframe -src [$e URL get] {
 					}
 				}
 			} else {
 				${:bodyNode} appendFromScript {
-					iframe -src [$e URL get] {
+					html::iframe -src [$e URL get] {
 					}
-					p {
-						t Timestamps:
+					html::p {
+						html::t Timestamps:
 					}
 				}
 
@@ -218,13 +218,17 @@ namespace eval StoryBoardVisitor {
 			#  - update src of iframe
 			#  - reload iframe without page refresh
 			#
+			#set oldp [namespace path]
+			#namespace path [self class]::Markup
 			${:tsNode} appendFromScript {
-				li {
-					a -href "[[$e info parent] URL get]?start=[$e time get]" {
-						t [$e title get]
+				html::li {
+					html::a -href "[[$e info parent] URL get]?start=[$e time get]" {
+						html::t [$e title get]
 					}
 				}
 			}
+			#namespace path $oldp
+
 		}
 
 		:method id {e} {
@@ -232,22 +236,24 @@ namespace eval StoryBoardVisitor {
 		}
 
 		:method setupHTMLNodes {} {
-			dom createNodeCmd elementNode head
-			dom createNodeCmd elementNode title
-			dom createNodeCmd elementNode body
-			dom createNodeCmd elementNode h1
-			dom createNodeCmd elementNode h3
-			dom createNodeCmd elementNode p
-			dom createNodeCmd elementNode div
-			dom createNodeCmd elementNode label
-			dom createNodeCmd elementNode input
-			dom createNodeCmd elementNode button
-			dom createNodeCmd elementNode span
-			dom createNodeCmd elementNode iframe
-			dom createNodeCmd elementNode script
-			dom createNodeCmd elementNode li
-			dom createNodeCmd elementNode a
-			dom createNodeCmd textNode t
+			namespace eval [namespace current]::html {
+				dom createNodeCmd elementNode head
+				dom createNodeCmd elementNode title
+				dom createNodeCmd elementNode body
+				dom createNodeCmd elementNode h1
+				dom createNodeCmd elementNode h3
+				dom createNodeCmd elementNode p
+				dom createNodeCmd elementNode div
+				dom createNodeCmd elementNode label
+				dom createNodeCmd elementNode input
+				dom createNodeCmd elementNode button
+				dom createNodeCmd elementNode span
+				dom createNodeCmd elementNode iframe
+				dom createNodeCmd elementNode script
+				dom createNodeCmd elementNode li
+				dom createNodeCmd elementNode a
+				dom createNodeCmd textNode t
+			}
 		}
 	}
 
