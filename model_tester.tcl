@@ -9,7 +9,6 @@ source worker.tcl
 source expression_builder.tcl
 
 namespace import StoryBoard::*
-namespace import StoryBoardVisitor::*
 
 set storyboardFile ""
 

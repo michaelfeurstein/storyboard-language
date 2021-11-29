@@ -275,7 +275,7 @@ nx::Class create StoryboardBuilder {
 		foreach i $structure {
 			set se [Helper isInstanceAvailable ContentFragment $i]
 			if {$se ne 0} {
-				puts "found instance $se of type [$se info class]"
+				puts "found instance $se of type [$se info class] for ${:sbModule}"
 				${:sbModule} structure add $se; # why is this added in reverse order it seems?
 			}
 		}
