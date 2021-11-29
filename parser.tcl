@@ -1,5 +1,7 @@
 package req nx
 
+namespace eval StoryBoard {
+
 # Parser
 # reads a storyboard file with a given syntax variant
 # outputs a dict which is readable by expression builder
@@ -64,4 +66,7 @@ nx::Class create StoryboardParser {
 			dict set :storyboardDict {*}$ele
 		}
 	}
+}
+
+namespace export StoryboardParser
 }
