@@ -231,8 +231,11 @@ nx::Class create Module -superclasses Element {
 	:variable instance:object
 
 	:public object method create {args} {
-		puts "create call"
-		return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
+		puts "Module::create call"
+		# Initial idea of a singleton
+		# - doesn' make much sense in xowf/oacs
+		# - there will be numerous Modules around
+		#return [expr {[info exists :instance] ? ${:instance} : [set :instance [next]]}]
 		next
 	}
 
