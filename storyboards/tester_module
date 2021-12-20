@@ -1,3 +1,5 @@
+# Storyboard for a video-based learning module
+
 module title "VBL Modul: Informationssystem"
 
 textpage1 title "Erklärvideo: Was ist ein Informationssystem"
@@ -6,11 +8,11 @@ textpage1 body "Herzlich willkommen zu dem videobasierten Lernmodul."
 video1 URL https://www.youtube.com/embed/0siisFJUKh4
 video1 timestamp (timestamp1, timestamp2)
 
-timestamp1 title "Definition eines Informationssystems"
+timestamp1 title "Die Definition eines Informationssystems"
 timestamp1 time 83
 
 timestamp2 title "Beispiel Bibliothek"
-timestamp1 time 122
+timestamp2 time 122
 
 question1 title "What is an information system?"
 question1 type singleChoice
