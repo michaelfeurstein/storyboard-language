@@ -9,6 +9,7 @@ tclsh model_tester.tcl storyboards/dict_structure_A
 | Syntax A / B          | creates dict   | --> dict --> | reads dict and instantiates| ---> instances |
 
 ---
+[a relative link](docs/RELATED_WORK.md)
 
 ## A Language for Authoring Video-based Learning Content
 
