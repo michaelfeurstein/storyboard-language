@@ -1,8 +1,14 @@
 # storyboard tester
-# -----------------
-# document variations that should work
+# 
+# documentation of variations that work
+#
+# date: 21-12-2021
+# status: working
+# cmd: tclsh model_tester.tcl storyboards/key-value/tester
 
 # 08 # - works
+# defining module title at the top 
+# and its structure at the bottom
 
 module title "My Test Module"
 
@@ -154,4 +160,12 @@ question2 type multipleChoice
 question2 question "Please explain the concept of an information system."
 question2 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
 question2 feedback "General feedback on this question"
+
+# 11 # - TODO catch this error
+
+timestamp10 title "This is a timestamp"
+timestamp10 time 1234
+
+timestamp11 title "Another timestamp"
+timestamp10 time 5678
 
