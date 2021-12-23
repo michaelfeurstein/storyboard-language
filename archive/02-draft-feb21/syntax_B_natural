@@ -1,0 +1,77 @@
+# Storyboard - Syntax Variant B 
+# 
+# Case 01: Vivista Project
+# 1 360-video
+# 3 chapters (highlights) = AuthTask01
+# 2 text interactions (annotation) = AuthTask02
+# 1 multiple choice question = AuthTask03
+#
+
+#There is 1 scene (video)
+#Scene 1 is called "Overview of classroom"
+#Scene 2 is called "A second scene"
+#At the beginning in scene 1 the classroom technology is introduced for about 1 minute
+#After that in scene 1 the camera positions are discussed for the room for about 2 minutes
+#Finally in scene 1 a camera position is chosen and setup for about 1 minute
+
+#puts hello
+
+### AuthTask00 Video Setup
+
+# A block defining a video
+There is a video with the title "A 360 Video title with a"
+There is a video with the videoSource "oneConcatenatedWord"
+There is a video with the length 60
+
+# A block defining further elements with gibberish parameters
+# parameters do not fit the video class
+There is a video with the thing "A simple title without numbers"
+There is a video with the otherThing justSomethingWithoutQuotes
+There is a video with the parameter 1234
+#This video is located at "videoPathPlaceholder"
+
+# A line defining an object which is not stated in the language model
+There is a object with the parameter "360"
+
+# A later line (still referencing the above video) adding a type
+There is a video with the type 360
+
+# Another way of formulating the last sentence
+# This video is a 360 video
+
+# Another way of formulating the videoSource parameter
+This video is located at /path/to/a/video.mp4
+
+# Defining the whole video setup in only one sentence
+#There is a video with the title "One sentence title" and the videoSource "someSource" and the length 120 and the is360Video true
+
+###
+
+Highlight 1 is called "Chapter 1: Anfang"
+Highlight 1 starts at timestamp 0
+Highlight 1 ends at timestamp 20
+
+Highlight 2 is called "Chapter 2: Erklärung"
+Highlight 2 starts at timestamp 20
+Highlight 2 ends at timestamp 30
+
+Highlight 3 is called "Chapter 4: Ende"
+Highlight 3 starts at timestamp 30
+Highlight 3 ends at timestamp 60
+
+Annotation 1 is called "Willkommen" and holds the text "Willkommen im videobasierten Lernmodul zum Thema 360-Video in der Lehre!"
+This annotation starts at timestamp 0 and ends at timestamp 20
+Place this annotation in the main content zone
+
+Interaction 1 is called "Frage 1"
+This interaction is a multiple choice question
+The multiple choice question body holds the text "Answer this question in order to demonstrate the system functionalities!"
+This multiple choice question offers an answer "Answer option 1"
+This multiple choice question offers an answer "Answer option 2" which is correct
+This multiple choice question offers an answer "Answer option 3"
+
+
+
+ 
+
+# end

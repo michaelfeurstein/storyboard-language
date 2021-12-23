@@ -1,0 +1,4 @@
+# Storyboard - Syntax Variant B 
+# Defining the whole video setup in only one sentence
+There is a video with the title "One sentence title" and the videoSource "someSource" and the length 120 and the is360Video true
+
