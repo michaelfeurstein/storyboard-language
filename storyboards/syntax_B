@@ -1,0 +1,17 @@
+# natural-language notation tester
+#
+# created 21-12-2021
+
+# 01 #
+# creates video1
+
+There is a video1 with the URL "https://www.youtube.com/embed/0siisFJUKh4"
+
+Video 1 has the URL "..."
+
+Given a video with the id 1 and the URL "..."
+
+Define video1 with the URL "..."
+
+Create video with ID "..." and URL "..."
+
