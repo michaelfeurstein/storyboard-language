@@ -7,11 +7,24 @@
 
 There is a video1 with the URL "https://www.youtube.com/embed/0siisFJUKh4"
 
-Video 1 has the URL "..."
+#Video 1 has the URL "..."
 
-Given a video with the id 1 and the URL "..."
+#Given a video with the id 1 and the URL "..."
 
-Define video1 with the URL "..."
+#Define video1 with the URL "..."
 
-Create video with ID "..." and URL "..."
+#Create video with ID "..." and URL "..."
+
+# 01.a #
+# setting the id of the video
+
+#Create video with URL "..."
+#Set ID of this video to "video1"
+
+#Set ID to "video1"
+
+#Set ID for this video to "video1"
+
+#There is a video2
+#This video2 has the URL "http://www.video.com"
 

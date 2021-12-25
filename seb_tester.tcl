@@ -151,50 +151,32 @@ namespace eval ::seb::tests {
 
   set seBuilder [Builder new]
   
+  ### Info Stefan
+  # In the below scripts,
+  # ... one can use $0 - $n to positionally access the regex matches
+  #puts "Video: $0" ; 
+  #puts "Video title: $1"
+  # ... one can access the responsible builder object implicitly
+  #puts "builder (implicit): [self]"
+  #
   # Note: There can be multiple match sentences per first word (first defined, first processed)!
+  # Note: the return value of these scripts are discarded if 'result' object variable exists !
+  ###
   
-  # CONTINUE HERE: problem is that define 01 and define 02 are triggered. This could either be by design or I may want to keep track of what was triggered.
-  $seBuilder define There {^is a video with the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*) and the (.+?) (.*)$} {
-	# define 01
-	#
-	#Matches the following
-	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers" and <name-of-parameter> "..." repeated.
-	puts "define 01 - Video 0:$0 1:$1 2:$2 3:$3 4:$4 5:$5 6:$6 7:$7"
-	set parameterList "-$0 $1 -$2 $3 -$4 $5 -$6 $7"
-	set creation [subst {::StoryBoard::Video new -childof [self] $parameterList}]
-	puts "creationCmd: $creation"
-    lappend :result [eval $creation]; # to be returned by get!
-  }
-
+  # CONTINUE HERE: start fresh (25.12.2021)
+  #
+  # Video Creation Definitions
+  
   $seBuilder define There {^is a (.+) with the (.+?) (.*)$} {
-  	# define 02
+  	# define 01
 	#
-	# old {^is a (.+) with the (.+?) {?(.+?)}?$}
     # Matches the following:
 	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
 	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
 	#
 	# append the matches to a dict
 	
-	# In these scripts,
-    # ... one can use $0 - $n to positionally access the regex matches
-    #puts "Video: $0" ; 
-    #puts "Video title: $1"
-    # ... one can access the responsible builder object implicitly
-    #puts "builder (implicit): [self]"
-    # Note: the return value of the script is discarded if 'result' object variable exists !
-	#
-	# Q: is there a way to report if the regex didn't match
-	
-	if {$1 eq "type" && $2 eq "360"} {
-		set 1 is360Video
-		set 2 true
-	} elseif {$1 eq "type" && $2 eq "regular"} {
-		set 1 is360Video
-		set 2 false
-	}
-
-	puts "define 02 - Creating dict with 0:$0 1:$1 2:$2"
+	puts "define 01 - Creating dict with 0:$0 1:$1 2:$2"
 	# create a dict from the matches stacking it
 	set ele "$0 $1 $2"
 	puts ele:$ele
@@ -202,23 +184,17 @@ namespace eval ::seb::tests {
 	lappend :result "Element 0:$0 1:$1 2:$2"
   }
 
-
-  $seBuilder define This {^(.+) is a (.*) video$} {
-	if { $1 eq 360 } {
-	  puts "it's a 360 video"
-	} else {
-	  puts "it's a regular video"
-	}
-	set ele "$0 is360Video $1"
+  $seBuilder define There {^is a (.+)$} {
+  	puts "define 02"
+	set ele "$0 id $0"
+	puts ele:$ele
 	dict set :stackDict {*}$ele
-	lappend :result "Class:$0 type:$1"
   }
 
-  $seBuilder define This {^(.+) is located at (.*)$} {
-	puts "Location $0 and $1"
-	set ele "$0 videoSource $1"
+  $seBuilder define This {^(.+) has the URL (.*)$} {
+  	puts "define 03"
+	set ele "$0 URL $1"
 	dict set :stackDict {*}$ele
-	lappend :result "Class:$0 location:$1"
   }
   
   # Beware! Right now, at this stage, the string following the first
