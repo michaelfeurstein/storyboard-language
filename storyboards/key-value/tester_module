@@ -1,5 +1,6 @@
 # Storyboard for a video-based learning module
 #
+# notation: key-value
 # date: 21-12-2021
 # status: working
 # cmd: tclsh model_tester.tcl storyboards/key-value/tester_module
