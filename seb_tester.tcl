@@ -10,7 +10,7 @@ namespace import StoryBoard::*
 namespace eval ::se {
 
   nx::Class create Interp {
-    
+
     :variable interp
 
     :method init {} {
@@ -26,9 +26,9 @@ namespace eval ::se {
     :public method eval {script} {
       ${:interp} eval $script
     }
-    
+
   }
-  
+
   nx::Class create Builder {
 
     :variable result:object
@@ -50,41 +50,51 @@ namespace eval ::se {
     :method polish {script} {
       # TODO: Here one can manipulate the passed script string before
       # being processed as a Tcl script.
+	  puts "polish script:$script"
       return $script
     }
-    
-    :public method get {storyboardScript} { 
+
+    :public method get {storyboardScript} {
       set interp [Interp new]
       $interp register [list [self] handleUnknown] ::unknown
       set storyboardScript [:polish $storyboardScript]
-      puts "Calling eval storyboardScript"
+      puts "--- Calling eval storyboardScript"
 	  $interp eval $storyboardScript
       # TODO: At this point, one can decide what the result or kind of
       # post-processing (e.g., lazy instantiation to reverse
       # syntax-induced declaration order) needs to be performed.
 	  #
-	  # Create the class commands here or inside define. 
-      puts "\nAfter eval storyboardScript"
+	  # Create the class commands here or inside define.
+      puts "\n--- After eval storyboardScript"
 
-	  # just checking if the stackDict is filled correctly
-	  puts "stackDict size:[dict size ${:stackDict}]"
-	  puts stackDict:${:stackDict}
-	  foreach id [dict keys ${:stackDict}] {
-	  	puts keys:$id
-	  }
-	  
-	  if {[info exists :result]} {
-        foreach el ${:result} {
-			puts el:$el
+	  # prepare dict
+	  puts "\nchecking stackDict"
+	  if {[info exists :stackDict]} {
+		puts "stackDict size:[dict size ${:stackDict}]"
+		puts stackDict:${:stackDict}
+		foreach id [dict keys ${:stackDict}] {
+			puts keys:$id
 		}
-		set r ${:result}
-      } else {
-		puts "no result"
-        set r ""; # TODO: anything useful as a compensation action?
-      }
+		set r ${:stackDict}
+	  } else {
+		puts "no result for stackDict"
+		set r ""; # TODO: compensation action required?
+	  }
+
+	  # prepare result
+#	  if {[info exists :result]} {
+#        foreach el ${:result} {
+#			puts el:$el
+#		}
+#		set r ${:result}
+#      } else {
+#		puts "no result for result"
+#        set r ""; # TODO: anything useful as a compensation action?
+#      }
+
       return $r
     }
-    
+
     :public method handleUnknown {firstWord args} {
       if {[dict exists ${:sentences} $firstWord]} {
         foreach s [dict get ${:sentences} $firstWord] {
@@ -104,6 +114,29 @@ namespace eval ::se {
       set sentence [list $regExprArgs $script]
       dict lappend :sentences $firstWord $sentence
     }
+
+	# find value v in dict d
+	# e.g. timestamp xyz
+	:method findValue {d v} {
+		set rd [lreverse $d]
+		foreach e [dict keys $rd] {
+			set idx [lsearch $e $v]
+			if {[lindex $e $idx] eq $v} {
+				puts "found $v"
+				return 1
+			} else {
+				return 0
+			}
+		}
+	}
+
+	# append value v to subkey sk in dict d for key
+	#
+	:method appendValue {d k sk v} {
+		dict update $d $k $k {
+			dict lappend $k $sk $v
+		}
+	}
   }
 
   namespace export Builder
@@ -118,7 +151,7 @@ namespace eval ::seb::tests {
   ::tcltest::configure {*}$::argv
   ::tcltest::loadTestedCommands
 
-         
+
   namespace import ::StoryBoard::*
   namespace import ::se::*
 
@@ -127,7 +160,7 @@ namespace eval ::seb::tests {
     uplevel [list test test-$ctr "" -body $script -result $expected \
                  -returnCodes {0 1 2}]
   }
-  
+
   set storyboardFile ""
 
   if { $argc != 1 } {
@@ -150,11 +183,11 @@ namespace eval ::seb::tests {
   }
 
   set seBuilder [Builder new]
-  
+
   ### Info Stefan
   # In the below scripts,
   # ... one can use $0 - $n to positionally access the regex matches
-  #puts "Video: $0" ; 
+  #puts "Video: $0" ;
   #puts "Video title: $1"
   # ... one can access the responsible builder object implicitly
   #puts "builder (implicit): [self]"
@@ -162,65 +195,89 @@ namespace eval ::seb::tests {
   # Note: There can be multiple match sentences per first word (first defined, first processed)!
   # Note: the return value of these scripts are discarded if 'result' object variable exists !
   ###
-  
+
   # CONTINUE HERE: start fresh (25.12.2021)
   #
   # Video Creation Definitions
-  
-  $seBuilder define There {^is a (.+) with the (.+?) (.*)$} {
-  	# define 01
-	#
+
+  $seBuilder define Create {^(.+) with id (.*)$} {
     # Matches the following:
 	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
 	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
 	#
 	# append the matches to a dict
-	
-	puts "define 01 - Creating dict with 0:$0 1:$1 2:$2"
+
+	puts "---\nstep definition 01 CREATE"
+	puts "0:$0 1:$1"
 	# create a dict from the matches stacking it
-	set ele "$0 $1 $2"
-	puts ele:$ele
-	dict set :stackDict {*}$ele
-	lappend :result "Element 0:$0 1:$1 2:$2"
-  }
-
-  $seBuilder define There {^is a (.+)$} {
-  	puts "define 02"
-	set ele "$0 id $0"
+	set ele "$1 id $1"
 	puts ele:$ele
 	dict set :stackDict {*}$ele
   }
 
-  $seBuilder define This {^(.+) has the URL (.*)$} {
-  	puts "define 03"
-	set ele "$0 URL $1"
+  $seBuilder define Set {^(.+?) of (.+?) to (.*)$} {
+	puts "---\nstep definition 02 SET"
+	puts "0:$0 1:$1 2:$2"
+	set ele "$1 $0 $2"
 	dict set :stackDict {*}$ele
   }
-  
+
+  $seBuilder define Add {^timestamp (.+?) to (.*)$} {
+	puts "---\nstep definition 03 ADD TIMESTAMP"
+	puts "0:$0 1:$1"
+	set ele "$1 timestamp $0"
+	puts "stackDict:${:stackDict}"
+	# this will probably break if more videos with timestamps are there
+	# i will need to fix by also checking the video reference $1 // fix later
+	if {[:findValue ${:stackDict} timestamp]} {
+		:appendValue :stackDict $1 timestamp $0
+	} else {
+		dict set :stackDict {*}$ele
+	}
+
+  }
+
+  #$seBuilder define There {^is a (.+)$} {
+  #	puts "define 02"
+  # set ele "$0 id $0"
+  # puts ele:$ele
+  # dict set :stackDict {*}$ele
+  #}
+
+  #$seBuilder define This {^(.+) has the URL (.*)$} {
+  #	puts "define 03"
+  #	set ele "$0 URL $1"
+  #	dict set :stackDict {*}$ele
+  #}
+
   # Beware! Right now, at this stage, the string following the first
   # word (e.g., Scene) will habve been processed as a Tcl command
   # (e.g., double quotes etc. will been transformed to curly
   # braces). One would have to polish the input script further to
   # avoid this interpretation.
-  
-  $seBuilder define Highlight {^(\d+) is called {(.+)}$} {
-    #puts "Highlight: $0"
-    #puts "Highlight title: $1"
-    lappend :result [::StoryBoard::Video new -title $1]; # to be returned by get!
-	#puts define:${:result}
-  }
- 
+
+  #$seBuilder define Highlight {^(\d+) is called {(.+)}$} {
+  #  #puts "Highlight: $0"
+  #  #puts "Highlight title: $1"
+  #  lappend :result [::StoryBoard::Video new -title $1]; # to be returned by get!
+  #	#puts define:${:result}
+  #}
+
   set r [$seBuilder get $sbdata]
-  
-  set iBuilder [StoryboardBuilder new]
-  $iBuilder from [$seBuilder stackDict get]
+  puts "\n--- Result\nr:$r"
 
-  puts ContentFragments:[llength [ContentFragment info instances -closure]]
+  #set iBuilder [StoryboardBuilder new]
+  #$iBuilder from $r
 
-  foreach el $r {
-  	? {$el info class} ::StoryBoard::Video
-	}
-  cleanupTests
+  #
+  # Tests
+  #
+  puts "\n--- ContentFragments:[llength [ContentFragment info instances -closure]]"
+
+  #foreach el $r {
+  #	? {$el info class} ::StoryBoard::Video
+  #}
+  #cleanupTests
 }
 
 # Local variables:

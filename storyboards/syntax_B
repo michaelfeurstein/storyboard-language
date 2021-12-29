@@ -5,26 +5,10 @@
 # 01 #
 # creates video1
 
-There is a video1 with the URL "https://www.youtube.com/embed/0siisFJUKh4"
+Create video with id video1
+Set URL of video1 to http://www.video1.com
+Add timestamp timestamp1 to video1
+Add timestamp timestamp2 to video1
+Add timestamp ts3 to video1
 
-#Video 1 has the URL "..."
-
-#Given a video with the id 1 and the URL "..."
-
-#Define video1 with the URL "..."
-
-#Create video with ID "..." and URL "..."
-
-# 01.a #
-# setting the id of the video
-
-#Create video with URL "..."
-#Set ID of this video to "video1"
-
-#Set ID to "video1"
-
-#Set ID for this video to "video1"
-
-#There is a video2
-#This video2 has the URL "http://www.video.com"
 
