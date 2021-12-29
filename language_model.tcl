@@ -78,8 +78,8 @@ nx::Class create Answer -superclasses Element {
 #
 
 nx::Class create Video -superclasses {ContentFragment Element} {
-	:property -accessor public {id empty}
-	:property -accessor public {URL empty}
+	:property -accessor public {id:required}
+	:property -accessor public {URL:required}
 	:property -accessor public {timestamp:0..* empty}
 	:property {timestampClass Timestamp}
 	:property {prefix timestamp}
