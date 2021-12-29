@@ -21,14 +21,21 @@ nx::Class create StoryboardBuilder {
 	:forward textpage %self creator TextPage
 	:forward question %self creator Question
 
+	:public object method create {args} {
+		puts "\nStoryboardBuilder::create call"
+		next
+	}
+
 	:method creator {class} {
-		puts "---- creator method with class:$class stack:${:stack}"
+		puts "\n---- creator method with class:$class stack:${:stack}"
 
 		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
 		# SETUP COMMAND
+		# CONTINUE HERE: be careful not to break key-value notation
+		# 				 don't set -id twice
 		set creation [list $class new -id ${:className} {*}$intersectLists]
 		puts "creationCmd: $creation"
 
@@ -490,7 +497,7 @@ nx::Class create StoryboardBuilder {
 		  #:$el ; # dynamic reception
 		  lappend :stack $el
 		}
-		puts "\n NEW CALL calling:$id with stack:${:stack}"
+		puts "\nNEW CALL calling:$id with stack:${:stack}"
 		set :className $id
 		:[:matchClass $id ::StoryBoard::*]
 		#:creator $e

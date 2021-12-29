@@ -55,6 +55,7 @@ nx::Class create StoryboardParser {
 		# - check for overwritings e.g. time defined twice in timestamp - see case 11
 
 		:createDictFromList ${:storyboardLinesList}
+		puts "\nparser -- storyboardDict:\n${:storyboardDict}"
 		}
 
 	:method createDictFromList {l} {
