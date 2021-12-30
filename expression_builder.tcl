@@ -433,42 +433,6 @@ nx::Class create StoryboardBuilder {
 		return $propertyList
 	}
 
-	###
-	### matchClass
-	###
-	# input: id (token)
-	# input: ns (namespace)
-	#
-	# functionality:
-	# match any variant of e.g. video1, videoIntro, videopart, video3a to video
-	# get available classes in ns
-	# tail each class (::StoryBoard::Video --> Video)
-	# compare id case insensitive to tailed class
-	# if they match (e.g. id:video1 --> tailed namespace:Video --> matches video) use it
-	# set return to matched class (e.g. video)
-	#
-	###
-
-	:method matchClass {id ns} {
-	  set matchedClass ""
-	  set availableClasses [info commands $ns]
-
-	  foreach ns $availableClasses {
-		set tail [namespace tail $ns]
-		if {[regexp -nocase "^$tail" $id match]} {
-			#puts "found $match in $id"
-			set matchedClass $match
-			break
-		}
-	  }
-
-	  if {$matchedClass eq ""} {
-		error "ERROR: matchClass could not match $id in $ns"
-	  }
-
-	  return $matchedClass
-	}
-
 	# DYNAMIC RECEPTION
 	#
 	# reminder to self: not using dynamic reception
@@ -499,7 +463,7 @@ nx::Class create StoryboardBuilder {
 		}
 		puts "\nNEW CALL calling:$id with stack:${:stack}"
 		set :className $id
-		:[:matchClass $id ::StoryBoard::*]
+		:[Helper matchClass $id ::StoryBoard::*]
 		#:creator $e
 		set :stack ""
 		set :className ""

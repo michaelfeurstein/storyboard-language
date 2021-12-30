@@ -38,6 +38,44 @@ nx::Class create Helper {
 		    return 0
 		}
 	}
+
+	###
+	### matchClass
+	###
+	# input: id (token)
+	# input: ns (namespace)
+	#
+	# functionality:
+	# match any variant of e.g. video1, videoIntro, videopart, video3a to video
+	# get available classes in ns
+	# tail each class (::StoryBoard::Video --> Video)
+	# compare id case insensitive to tailed class
+	# if they match (e.g. id:video1 --> tailed namespace:Video --> matches video) use it
+	# set return to matched class (e.g. video)
+	#
+	###
+
+	:public object method matchClass {id ns} {
+	  set matchedClass ""
+	  set availableClasses [info commands $ns]
+
+	  foreach ns $availableClasses {
+		set tail [namespace tail $ns]
+		if {[regexp -nocase "^$tail" $id match]} {
+			#puts "found $match in $id"
+			set matchedClass $match
+			break
+		}
+	  }
+
+	  if {$matchedClass eq ""} {
+		# ALSO CONTINUE HERE: refine error response - only warning and continue empty ?
+		error "ERROR: matchClass could not match $id in $availableClasses"
+	  }
+
+	  return $matchedClass
+	}
+
 }
 
 namespace export Helper
