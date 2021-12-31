@@ -4,6 +4,7 @@ package require nx
 
 source language_model.tcl
 source expression_builder.tcl
+source worker.tcl
 
 namespace import StoryBoard::*
 
@@ -137,6 +138,18 @@ namespace eval ::se {
 			dict lappend $k $sk $v
 		}
 	}
+
+	# count occurences of main keys k in dict d
+	# key could be video - match it with video1
+	:method countKeys {d k} {
+		#puts "keys:[dict keys $d [subst -nocommands -nobackslashes {$k*}]]"
+		if {[dict size $d] > 0} {
+			return [llength [dict keys $d [subst -nocommands -nobackslashes {$k*}]]]
+		} else {
+			puts "no key:$k found"
+			return 0
+		}
+	}
   }
 
   namespace export Builder
@@ -200,7 +213,7 @@ namespace eval ::seb::tests {
   #
   # Video Creation Definitions
 
-  $seBuilder define Create {^(.+) with id (.*)$} {
+  $seBuilder define Create {^(.+) with id ([^\s]*)$} {
     # Matches the following:
 	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
 	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
@@ -210,7 +223,20 @@ namespace eval ::seb::tests {
 	puts "---\nstep definition 01 CREATE"
 	puts "0:$0 1:$1"
 	# create a dict from the matches stacking it
-	set ele "$1 id $1"
+	#
+	# check the stackDict for already created references (e.g. video1)
+	# and if there are already some videos (e.g. video1, video2 etc.) count them
+	# and set a new incremented id correctly e.g. video 3
+	#
+	# pseudo:
+	# 1) match $0 against classes in StoryBoard namespace as in expression builder
+	# 2) generate a main key such as video2 depending on previous counts of this type (incr)
+	set type [Helper matchClass $0 ::StoryBoard::*]
+	set no_of_keys [:countKeys ${:stackDict} $type]
+	incr no_of_keys
+	set keyName $type$no_of_keys
+	#puts "type:$type found $no_of_keys time(s)"
+	set ele "$keyName id $1"
 	puts ele:$ele
 	dict set :stackDict {*}$ele
   }
