@@ -211,6 +211,30 @@ namespace eval ::seb::tests {
 
   # CONTINUE HERE: start fresh (25.12.2021)
   #
+  # Regex cheatsheet
+  #
+  # ^		-- match the (following) regex at the beginning of the string
+  # (.+?)	-- match:
+  #			()	= grouping
+  #			.	= matches any character except the newline symbol
+  #			+	= match the preceding regex 1 or * times
+  #			?	= match preceding regex 0 or 1 time
+  #
+  # (\d+)	-- match:
+  #			\d	= matches a digit: [0-9]
+  # (.+)	-- match:
+  #			()	= grouping
+  #			.	= matches any character except the newline symbol
+  #			+   = match the preceding regex 1 or * times
+  # (.*)
+  # ([^\s]*)-- match:
+  #			[]	= define a character class to match a single character
+  #			^	= negation if used inside square brackets
+  #			\s	= match whitespace
+  #			*	= match the preceding regex 0 or * times
+  #
+  # $		-- match the (following) regex at the end of the string
+  #
   # Video Creation Definitions
 
   $seBuilder define Create {^(.+) with id ([^\s]*)$} {
