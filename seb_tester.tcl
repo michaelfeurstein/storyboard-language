@@ -164,6 +164,7 @@ namespace eval ::se {
 
 	# count occurences of main keys k in dict d
 	# key could be video - match it with video1
+	#
 	:method countKeys {d k} {
 		#puts "keys:[dict keys $d [subst -nocommands -nobackslashes {$k*}]]"
 		if {[dict size $d] > 0} {
@@ -220,7 +221,10 @@ namespace eval ::seb::tests {
 
   set seBuilder [Builder new]
 
+  ###
   ### Info Stefan
+  ###
+  #
   # In the below scripts,
   # ... one can use $0 - $n to positionally access the regex matches
   #puts "Video: $0" ;
@@ -230,9 +234,10 @@ namespace eval ::seb::tests {
   #
   # Note: There can be multiple match sentences per first word (first defined, first processed)!
   # Note: the return value of these scripts are discarded if 'result' object variable exists !
+  #
   ###
 
-  # CONTINUE HERE: start fresh (25.12.2021)
+  # A fresh start fresh on 25.12.2021
   #
   # Regex cheatsheet
   #
@@ -257,27 +262,30 @@ namespace eval ::seb::tests {
   #			*	= match the preceding regex 0 or * times
   #
   # $		-- match the (following) regex at the end of the string
+
+  ###
+  ### Step Definitions
+  ###
   #
-  # Video Creation Definitions
+  # Concept:
+  # - define a keyword to match and call the sentence
+  # - use a regex for the remaining part of the sentence
+  # - convert sentence into dict structure for StoryboardBuilder (expression_builder.tcl)
+  #
+  ###
 
   $seBuilder define Create {^(.+) with id ([^\s]*)$} {
-    # Matches the following:
-	# There is a <name-of-class> with the <name-of-parameter> "Name with spaces, characters and numbers"
-	# There is a <name-of-class> with the <name-of-parameter> UsingNoQuotesORaDigitInOneWord
+	# Approach:
+	# check stackDict for created references (e.g. video1)
+	# if there are videos (e.g. video1, video2 etc.) count them
+	# then set a new incremented id correctly e.g. video3
 	#
-	# append the matches to a dict
+	# Pseudo:
+	# 1) match $0 against classes in StoryBoard namespace as in expression builder
+	# 2) generate a main key such as video2 depending on previous counts of this type (incr)
 
 	puts "---\nstep definition 01 CREATE"
 	puts "0:$0 1:$1"
-	# create a dict from the matches stacking it
-	#
-	# check the stackDict for already created references (e.g. video1)
-	# and if there are already some videos (e.g. video1, video2 etc.) count them
-	# and set a new incremented id correctly e.g. video 3
-	#
-	# pseudo:
-	# 1) match $0 against classes in StoryBoard namespace as in expression builder
-	# 2) generate a main key such as video2 depending on previous counts of this type (incr)
 	set type [Helper matchClass $0 ::StoryBoard::*]
 	set no_of_keys [:countKeys ${:stackDict} $type]
 	incr no_of_keys
