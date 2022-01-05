@@ -119,14 +119,37 @@ namespace eval ::se {
 	# find value v in dict d
 	# e.g. timestamp xyz
 	:method findValue {d v} {
-		set rd [lreverse $d]
-		foreach e [dict keys $rd] {
-			set idx [lsearch $e $v]
-			if {[lindex $e $idx] eq $v} {
-				puts "found $v"
-				return 1
+			if {[dict size $d] > 0} {
+				set rd [lreverse $d]
+				puts rd:$rd
+				foreach e [dict keys $rd] {
+					puts e:$e
+					set idx [lsearch $e $v]
+					if {[lindex $e $idx] eq $v} {
+						puts "found $v"
+						return 1
+					} else {
+						return 0
+					}
+				}
 			} else {
 				return 0
+			}
+	}
+
+	# get main key (mk=return value) of key value pair k v in dict d
+	# dict sample structure: mk {k v a b}
+	#
+	:method getMainKey {d k v} {
+		#puts "looking for $k $v"
+		set rd [lreverse $d]
+		#puts rd:$rd
+		foreach e [dict keys $rd] {
+			if {[dict get $e $k] eq $v} {
+			  #puts "$k: [dict get $e $k] --> [dict get $rd $e]"
+			  return [dict get $rd $e]
+			} else {
+				# not found / do nothing / continue
 			}
 		}
 	}
