@@ -288,10 +288,31 @@ namespace eval ::seb::tests {
 	dict set :stackDict {*}$ele
   }
 
+  $seBuilder define Create {^([^\s]*) with ([^\s]*) ([^\s]*) and ([^\s]*) ([^\s]*)$} {
+	puts "---\nstep definition 01a CREATE"
+	puts "0:$0 1:$1 2:$2 3:$3 4:$4"
+	set ele ""
+  }
+
   $seBuilder define Set {^(.+?) of (.+?) to (.*)$} {
 	puts "---\nstep definition 02 SET"
 	puts "0:$0 1:$1 2:$2"
-	set ele "$1 $0 $2"
+
+	# dict structure:
+	# video1 {id videoABC URL http://www.videolink.com} video2 {id videoDEF ...}
+	#
+	# pseudo:
+	# 1) find key value pair "id $1" (e.g. id videoABC)
+	# 2) get mainkey of this pair e.g. video1
+
+	set keyName [:getMainKey ${:stackDict} "id" $1]
+	if {$keyName eq ""} {
+		puts stderr "Cannot set $0 of \"$1\" because it has not been defined yet. Use Create command first."
+		exit 1
+	}
+
+	set ele "$keyName $0 $2"
+	puts ele:$ele
 	dict set :stackDict {*}$ele
   }
 
