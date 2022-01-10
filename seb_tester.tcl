@@ -299,10 +299,27 @@ namespace eval ::seb::tests {
 	dict set :stackDict {*}$ele
   }
 
-  $seBuilder define Create {^([^\s]*) with ([^\s]*) ([^\s]*) and ([^\s]*) ([^\s]*)$} {
-	puts "---\nstep definition 01a CREATE"
-	puts "0:$0 1:$1 2:$2 3:$3 4:$4"
-	set ele ""
+  $seBuilder define Create {^([^\s]*) with id ([^\s]*) and URL ([^\s]*)$} {
+	puts "---\nstep definition 01a CREATE with URL"
+	puts "0:$0 1:$1 2:$2"
+
+	if {$0 eq "video"} {
+		set type [Helper matchClass $0 ::StoryBoard::*]
+		set no_of_keys [:countKeys ${:stackDict} $type]
+		incr no_of_keys
+		set keyName $type$no_of_keys
+
+		# id
+		set ele "$keyName id $1"
+		dict set :stackDict {*}$ele
+
+		# URL
+		set ele "$keyName URL $2"
+		dict set :stackDict {*}$ele
+	} else {
+		puts stderr "Creating $0 with URL \"$2\" is not allowed. Use Set URL."
+		exit 1
+	}
   }
 
   $seBuilder define Set {^(.+?) of (.+?) to (.*)$} {
