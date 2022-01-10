@@ -140,8 +140,8 @@ namespace eval ::se {
 		}
 	}
 
-	# get main key (mk=return value) of key value pair k v in dict d
-	# dict sample structure: mk {k v a b}
+	# get main key (=return value) of key value pair k v in dict d
+	# dict sample structure: mk {k v a b ... ...}
 	#
 	:method getMainKey {d k v} {
 		#puts "looking for $k $v"
@@ -289,6 +289,7 @@ namespace eval ::seb::tests {
 
 	puts "---\nstep definition 01 CREATE"
 	puts "0:$0 1:$1"
+
 	set type [Helper matchClass $0 ::StoryBoard::*]
 	set no_of_keys [:countKeys ${:stackDict} $type]
 	incr no_of_keys
@@ -377,7 +378,6 @@ namespace eval ::seb::tests {
 			dict set :stackDict {*}$ele
 		}
 	}
-
   }
 
   #$seBuilder define There {^is a (.+)$} {
