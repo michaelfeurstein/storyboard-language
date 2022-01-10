@@ -323,9 +323,6 @@ namespace eval ::seb::tests {
   }
 
   $seBuilder define Set {^(.+?) of (.+?) to (.*)$} {
-	puts "---\nstep definition 02 SET"
-	puts "0:$0 1:$1 2:$2"
-
 	# dict structure:
 	# video1 {id videoABC URL http://www.videolink.com} video2 {id videoDEF ...}
 	#
@@ -333,15 +330,23 @@ namespace eval ::seb::tests {
 	# 1) find key value pair "id $1" (e.g. id videoABC)
 	# 2) get mainkey of this pair e.g. video1
 
+	puts "---\nstep definition 02 SET"
+	puts "0:$0 1:$1 2:$2"
+
+	if {$0 eq "timestamp"} {
+		puts stderr "Adding timestamp via Set command is not allowed. Use \"Add timestamp\" command instead."
+		exit 1
+	}
+
 	set keyName [:getMainKey ${:stackDict} "id" $1]
 	if {$keyName eq ""} {
 		puts stderr "Cannot set $0 of \"$1\" because it has not been defined yet. Use Create command first."
 		exit 1
+	} else {
+		set ele "$keyName $0 $2"
+		puts ele:$ele
+		dict set :stackDict {*}$ele
 	}
-
-	set ele "$keyName $0 $2"
-	puts ele:$ele
-	dict set :stackDict {*}$ele
   }
 
   $seBuilder define Add {^timestamp (.+?) to (.*)$} {
