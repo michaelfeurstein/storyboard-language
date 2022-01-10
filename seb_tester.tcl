@@ -116,25 +116,28 @@ namespace eval ::se {
       dict lappend :sentences $firstWord $sentence
     }
 
-	# find value v in dict d
-	# e.g. timestamp xyz
-	:method findValue {d v} {
-			if {[dict size $d] > 0} {
-				set rd [lreverse $d]
-				puts rd:$rd
-				foreach e [dict keys $rd] {
-					puts e:$e
-					set idx [lsearch $e $v]
-					if {[lindex $e $idx] eq $v} {
-						puts "found $v"
-						return 1
-					} else {
-						return 0
-					}
-				}
-			} else {
-				return 0
-			}
+	# check if video v has timestamp set in dict d
+	# dict sample structure:
+	# 1) no timestamp:
+	#	video1 {id myVideo URL ...}
+	#
+	# 2) with timestamp:
+	#	video1 {id myVideo URL ... timestamp intro}
+	#
+	# 3) with timestamps:
+	#	video1 {id myVideo URL ... timestamp {intro, content, end}}
+	:method checkTimestamp {d v} {
+		set vdict [dict get $d $v]
+		#puts "getting content of vdict --> $vdict"
+		set tsdict [dict filter $vdict key "timestamp"]
+		#puts "tsdict:$tsdict"
+		if {$tsdict eq ""} {
+			puts "no timestamp defined in video $v"
+			return 0
+		} else {
+			puts "timestamp found --> tsdict:$tsdict in video $v"
+			return 1
+		}
 	}
 
 	# get main key (mk=return value) of key value pair k v in dict d
@@ -325,16 +328,32 @@ namespace eval ::seb::tests {
   }
 
   $seBuilder define Add {^timestamp (.+?) to (.*)$} {
+	# Approach:
+	# When adding a timestamp to a video the following can happen:
+	# - the video has no timestamp therefore simply add it
+	# - the video already has 0 or * timestamps therefore append to this list
+	#
+	# pseudo:
+	# 1) get main key of video id you want to add to (main key of $1)
+	# 2) check if this mainkey has timestamps
+	# 3) if it has no timestamps set it and if it has timestamps append it
+
 	puts "---\nstep definition 03 ADD TIMESTAMP"
 	puts "0:$0 1:$1"
-	set ele "$1 timestamp $0"
-	puts "stackDict:${:stackDict}"
-	# this will probably break if more videos with timestamps are there
-	# i will need to fix by also checking the video reference $1 // fix later
-	if {[:findValue ${:stackDict} timestamp]} {
-		:appendValue :stackDict $1 timestamp $0
+
+	set keyName [:getMainKey ${:stackDict} "id" $1]
+	if {$keyName eq ""} {
+		puts stderr "Cannot add timestamp to \"$1\" because it has not been defined yet. Use Create command first."
+		exit 1
 	} else {
-		dict set :stackDict {*}$ele
+		if {[:checkTimestamp ${:stackDict} $keyName]} {
+			puts "appending timestamp $0 to timestamp of $keyName"
+			:appendValue :stackDict $keyName timestamp $0
+		} else {
+			puts "setting timestamp of $keyName to $0"
+			set ele "$keyName timestamp $0"
+			dict set :stackDict {*}$ele
+		}
 	}
 
   }
