@@ -380,6 +380,19 @@ namespace eval ::seb::tests {
 	}
   }
 
+  $seBuilder define Add {^timestamps \((.+?)\) to ([^\s]*)$} {
+		puts "---\nstep definition 03.a ADD TIMESTAMP plural"
+		puts "0:$0 1:$1"
+
+		set timestamps [string map {, ""} $0]
+		puts timestamps:$timestamps
+
+		set keyName [:getMainKey ${:stackDict} "id" $1]
+		set ele "$keyName timestamp {$timestamps}"
+		puts ele:$ele
+		dict set :stackDict {*}$ele
+  }
+
   #$seBuilder define There {^is a (.+)$} {
   #	puts "define 02"
   # set ele "$0 id $0"
