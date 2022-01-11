@@ -1,14 +1,113 @@
 # natural-language notation tester
 #
 # created 21-12-2021
+# status: working / in development
+# cmd: tclsh seb_tester.tcl storyboards/syntax_B
 
-# 01 #
-# creates video1
+# 01 # - works
+# create objects with ids
+# check correct reference counting of objects
+# e.g. video1, timestamp1, video2, video3
 
-Create video with id video1
-Set URL of video1 to http://www.video1.com
-Add timestamp timestamp1 to video1
-Add timestamp timestamp2 to video1
-Add timestamp ts3 to video1
+Create video with id VideoABC
 
+Create timestamp with id timestamp123
 
+Create video with id VideoGHI
+
+Create video with id someOtherID
+
+# 01.a # - works
+# create video object in one sentence
+
+Create video with id video1a and URL http://www.video1a.com
+
+# 02 # - works
+# set URL of video
+
+Set URL of VideoABC to http://www.videoabc.com
+
+# 02.a # - works
+# override by setting URL 2 times
+
+Create video with id VideoDEF
+Set URL of VideoDEF to http://www.videodef.com
+Set URL of VideoDEF to http://www.override.com
+
+# 03 # - works
+# creates video3 to check confusing counting
+# adds multiple timestamps which are not valid
+# because timestamps haven't been created yet
+# expression_builder will handle the validation
+
+Create video with id video3
+Set URL of video3 to http://www.video3.com
+Add timestamp timestamp4 to video3
+Add timestamp timestamp5 to video3
+Add timestamp ts06 to video3
+
+# 04 # - works
+# create video
+# create 3 timestamps
+# add timestamps to this video in separate line commands
+
+Create video with id my4thVideo
+Set URL of my4thVideo to http://www.4thVideo.com
+
+Create timestamp with id introduction
+Set title of introduction to "Einfuehrung in Informationssysteme"
+Set time of introduction to 83
+
+Create timestamp with id explanation
+Set title of explanation to "Explanation of the term information system"
+Set time of explanation to 155
+
+Create timestamp with id end
+Set title of end to "Conclusion"
+Set time of end to 200
+
+Add timestamp introduction to my4thVideo
+Add timestamp explanation to my4thVideo
+Add timestamp end to my4thVideo
+
+# 04.a #
+# create video
+# create 4 timestamps
+# add timestamps to this video in one line as a list of timestamps
+
+Create video with id listVideo
+Set URL of listVideo to http://www.listVideo.com
+
+Create timestamp with id firstTS
+Set title of firstTS to "First timestamp"
+Set time of firstTS to 10
+
+Create timestamp with id secondTS
+Set title of secondTS to "Second timestamp"
+Set time of secondTS to 20
+
+Create timestamp with id thirdTS
+Set title of thirdTS to "Third timestamp"
+Set time of thirdTS to 30
+
+Create timestamp with id fourthTS
+Set title of fourthTS to "Fourth timestamp"
+Set time of fourthTS to 40
+
+Add timestamps (firstTS secondTS thirdTS fourthTS) to listVideo
+
+# 04.b #
+# use with comma & override
+Add timestamps (firstTS, thirdTS) to listVideo
+
+# 05 # - works
+# create textpage
+
+Create textpage with id myNewTextPage
+Set title of myNewTextPage to "Tile of my Content Page"
+Set body of myNewTextPage to "Welcome to some body text in my module"
+
+# NEXT STEPS:
+# create question with id <id>
+# create <type_of_question> question with id <id>
+# module title and structure
