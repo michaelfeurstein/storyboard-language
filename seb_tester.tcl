@@ -243,6 +243,7 @@ namespace eval ::seb::tests {
   # A fresh start fresh on 25.12.2021
   #
   # Regex cheatsheet
+  # source: https://www.fon.hum.uva.nl/praat/manual/Regular_expressions.html
   #
   # ^		-- match the (following) regex at the beginning of the string
   # (.+?)	-- match:
@@ -274,6 +275,16 @@ namespace eval ::seb::tests {
   # - define a keyword to match and call the sentence
   # - use a regex for the remaining part of the sentence
   # - convert sentence into dict structure for StoryboardBuilder (expression_builder.tcl)
+  #
+  # Keywords:
+  # CREATE: used to create an object with an id for referencing
+  # SET: used to set properties of created object
+  # ADD timestamp(s): add 1 or * objects (timestamp) to a video
+  #
+  ###
+  #
+  # TODO
+  # - possibly already check inside Add timestamp if we are adding to a video
   #
   ###
 
