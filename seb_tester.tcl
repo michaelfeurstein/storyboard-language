@@ -83,15 +83,15 @@ namespace eval ::se {
 	  }
 
 	  # prepare result
-#	  if {[info exists :result]} {
-#        foreach el ${:result} {
-#			puts el:$el
-#		}
-#		set r ${:result}
-#      } else {
-#		puts "no result for result"
-#        set r ""; # TODO: anything useful as a compensation action?
-#      }
+	  #if {[info exists :result]} {
+      #   foreach el ${:result} {
+	  #  	puts el:$el
+	  #  }
+	  #  set r ${:result}
+      # } else {
+	  #  puts "no result for result"
+      #   set r ""; # TODO: anything useful as a compensation action?
+      # }
 
       return $r
     }
@@ -126,6 +126,7 @@ namespace eval ::se {
 	#
 	# 3) with timestamps:
 	#	video1 {id myVideo URL ... timestamp {intro, content, end}}
+	#
 	:method checkTimestamp {d v} {
 		set vdict [dict get $d $v]
 		#puts "getting content of vdict --> $vdict"
@@ -341,6 +342,7 @@ namespace eval ::seb::tests {
 	# pseudo:
 	# 1) find key value pair "id $1" (e.g. id videoABC)
 	# 2) get mainkey of this pair e.g. video1
+	# 3) depending on what is set act (switch)
 
 	puts "---\nstep definition 02 SET"
 	puts "0:$0 1:$1 2:$2"
