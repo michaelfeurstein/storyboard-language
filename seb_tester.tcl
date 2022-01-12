@@ -383,14 +383,7 @@ namespace eval ::seb::tests {
 	};# -- end else
   }
 
- # $seBuilder define Set {^answer of ([^\s]*) to (.+) which is ([^\s]*)$} {
- #   puts "---\nstep definition 02.a SET ANSWER"
- #   puts "0:$0 1:$1 2:$2"
-
-
- # }
-
-  $seBuilder define Add {^timestamp (.+?) to (.*)$} {
+  $seBuilder define Add {^timestamp ([^\s]*) to (.*)$} {
 	# Approach:
 	# When adding a timestamp to a video the following can happen:
 	# - the video has no timestamp therefore simply add it
@@ -420,7 +413,7 @@ namespace eval ::seb::tests {
 	}
   }
 
-  $seBuilder define Add {^timestamps \((.+?)\) to ([^\s]*)$} {
+  $seBuilder define Add {^timestamps \((.+)\) to ([^\s]*)$} {
 		puts "---\nstep definition 03.a ADD TIMESTAMP plural"
 		puts "0:$0 1:$1"
 
