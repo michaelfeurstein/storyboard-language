@@ -334,7 +334,7 @@ namespace eval ::seb::tests {
 	}
   }
 
-  $seBuilder define Set {^(.+?) of (.+?) to (.*)$} {
+  $seBuilder define Set {^([^\s]*) of ([^\s]*) to (.+)$} {
 	# dict structure:
 	# video1 {id videoABC URL http://www.videolink.com} video2 {id videoDEF ...}
 	#
@@ -345,21 +345,50 @@ namespace eval ::seb::tests {
 	puts "---\nstep definition 02 SET"
 	puts "0:$0 1:$1 2:$2"
 
-	if {$0 eq "timestamp"} {
-		puts stderr "Adding timestamp via Set command is not allowed. Use \"Add timestamp\" command instead."
-		exit 1
-	}
-
 	set keyName [:getMainKey ${:stackDict} "id" $1]
+
 	if {$keyName eq ""} {
 		puts stderr "Cannot set $0 of \"$1\" because it has not been defined yet. Use Create command first."
 		exit 1
 	} else {
-		set ele "$keyName $0 $2"
-		puts ele:$ele
-		dict set :stackDict {*}$ele
-	}
+		switch -glob -- $0 {
+			"timestamp"
+			{
+				puts stderr "Adding timestamp via Set command is not allowed. Use \"Add timestamp\" command instead."
+				exit 1
+			}
+			"answer"
+			{
+				puts "setting an answer --> additional regex for: $2"
+				# source: https://www.tcl.tk/man/tcl8.5/tutorial/Tcl20.html
+				set result [regexp {{(.+)} which is ([wrong|correct]+)} $2 match sub1 sub2]
+				if {!$result} {
+					puts stderr "Parts of your sentence are not formulated correctly.\nPlease review the following part:\n$2\nUse:\n\"<answer>\" which is wrong\n\"<answer>\" which is correct"
+					exit 1
+				} else {
+					# add or append answers
+					puts "Result: $result Match: $match 1: $sub1 2: $sub2"
+					set answerPair "\"$sub1\" $sub2"
+					puts "adding answer to $keyName"
+					:appendValue :stackDict $keyName answers $answerPair
+				}
+			}
+			default
+			{
+				set ele "$keyName $0 $2"
+				puts ele:$ele
+				dict set :stackDict {*}$ele
+			}
+		};# -- end switch
+	};# -- end else
   }
+
+ # $seBuilder define Set {^answer of ([^\s]*) to (.+) which is ([^\s]*)$} {
+ #   puts "---\nstep definition 02.a SET ANSWER"
+ #   puts "0:$0 1:$1 2:$2"
+
+
+ # }
 
   $seBuilder define Add {^timestamp (.+?) to (.*)$} {
 	# Approach:
