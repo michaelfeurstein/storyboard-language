@@ -107,7 +107,18 @@ Create textpage with id myNewTextPage
 Set title of myNewTextPage to "Tile of my Content Page"
 Set body of myNewTextPage to "Welcome to some body text in my module"
 
+# 06 #
+# create question
+
+Create question with id QU01
+Set type of QU01 to singleChoice
+Set title of QU01 to "What is an information system?"
+Set question of QU01 to "Please explain the concept of an information system."
+Set answer of QU01 to "Answer 1" which is wrong
+Set answer of QU01 to "Answer 2" which is correct
+Set answer of QU01 to "Answer 3" which is correct
+Set feedback of QU01 to "General feedback on something ..."
+
 # NEXT STEPS:
-# create question with id <id>
-# create <type_of_question> question with id <id>
+# create <type_of_question> question with id <id> (one line variation for question)
 # module title and structure
