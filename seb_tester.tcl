@@ -289,7 +289,7 @@ namespace eval ::seb::tests {
   #
   ###
 
-  $seBuilder define Create {^(.+) with id ([^\s]*)$} {
+  $seBuilder define Create {^([^\s]*) with id ([^\s]*)$} {
 	# Approach:
 	# check stackDict for created references (e.g. video1)
 	# if there are videos (e.g. video1, video2 etc.) count them
@@ -332,6 +332,60 @@ namespace eval ::seb::tests {
 	} else {
 		puts stderr "Creating $0 with URL \"$2\" is not allowed. Use Set URL."
 		exit 1
+	}
+  }
+
+  $seBuilder define Create {^(.*?)\s*(?:[cC]hoice)? question with id ([^\s]*)$} {
+	# regex source: https://stackoverflow.com/questions/5254804/regex-optional-word-match
+	puts "---\nstep definition 01b CREATE <type of> question with id"
+	puts "[self] 0:$0 1:$1"
+
+	set errMsg "\n\nSentence formulation: Create <type of> question with id <id>\n\nSupported question types and formulations are:\n\n- single choice / singleChoice\n- multiple choice / multipleChoice"
+
+	set no_of_keys [:countKeys ${:stackDict} question]
+	incr no_of_keys
+	set keyName "question$no_of_keys"
+
+	switch -glob -- $0 {
+		"single"
+		{
+			puts "single choice question"
+
+			# id
+			set ele "$keyName id $1"
+			dict set :stackDict {*}$ele
+
+			# URL
+			set ele "$keyName type singleChoice"
+			dict set :stackDict {*}$ele
+		}
+		"multiple"
+		{
+			puts "multiple choice question"
+
+			# id
+			set ele "$keyName id $1"
+			dict set :stackDict {*}$ele
+
+			# URL
+			set ele "$keyName type multipleChoice"
+			dict set :stackDict {*}$ele
+		}
+		"single*"
+		{
+			puts "question type: $0 seems misspelled. Try Create single choice question with id $1. $errMsg"
+			exit 1
+		}
+		"multiple*"
+		{
+			puts "question type: $0 seems misspelled. Try Create multiple choice question with id $1. $errMsg"
+			exit 1
+		}
+		default
+		{
+			puts "question type: \"$0\" not supported. $errMsg"
+			exit 1
+		}
 	}
   }
 
