@@ -119,6 +119,36 @@ Set answer of QU01 to "Answer 2" which is correct
 Set answer of QU01 to "Answer 3" which is correct
 Set feedback of QU01 to "General feedback on something ..."
 
+# 07 #
+# create question - one liner tests
+
+# should fail because redundant
+#Create singleChoice choice question with id QU02
+#Create multiplechoice choice question with id QU03
+
+# ok
+Create single choice question with id QU04
+Create multiple choice question with id QU05
+
+# ok
+Create singleChoice question with id QU06
+Create multiplechoice question with id QU07
+
+# should fail because gibberish
+#Create singleblabla question with id QU08
+#Create multipleuoiw234 question with id QU09
+
+# should fail because no match for open text
+#Create open text question with id QU10
+
+# 07.a #
+# create complete question with previous one liner
+
+Create single choice question with id QU11
+Set title of QU11 to "Question title"
+Set question of QU11 to "This is the question to be answered?"
+Set answer of QU11 to "My first answer" which is correct
+Set answer of QU11 to "My second answer" which is wrong
+
 # NEXT STEPS:
-# create <type_of_question> question with id <id> (one line variation for question)
 # module title and structure
