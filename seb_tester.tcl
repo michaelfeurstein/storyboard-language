@@ -85,7 +85,7 @@ namespace eval ::se {
 	  # prepare result
 	  #if {[info exists :result]} {
       #   foreach el ${:result} {
-	  #  	puts el:$el
+	  #		puts el:$el
 	  #  }
 	  #  set r ${:result}
       # } else {
@@ -355,7 +355,7 @@ namespace eval ::seb::tests {
 			set ele "$keyName id $1"
 			dict set :stackDict {*}$ele
 
-			# URL
+			# type singleChoice
 			set ele "$keyName type singleChoice"
 			dict set :stackDict {*}$ele
 		}
@@ -367,7 +367,7 @@ namespace eval ::seb::tests {
 			set ele "$keyName id $1"
 			dict set :stackDict {*}$ele
 
-			# URL
+			# type multipleChoice
 			set ele "$keyName type multipleChoice"
 			dict set :stackDict {*}$ele
 		}
