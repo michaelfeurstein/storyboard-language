@@ -150,5 +150,19 @@ Set question of QU11 to "This is the question to be answered?"
 Set answer of QU11 to "My first answer" which is correct
 Set answer of QU11 to "My second answer" which is wrong
 
-# NEXT STEPS:
-# module title and structure
+# 08 #
+# create module
+
+# ok
+#Create module with title "Modul zu Informationssystemen"
+
+# ok
+# - should fail as module is already created
+# - works if above is commented
+Create module titled "VBL Modul ..."
+
+# ok
+Set structure of module to (myNewTextPage, QU06, QU07, QU11, listVideo)
+
+#TODO
+#-- check if module is there for SET structure
