@@ -430,7 +430,17 @@ namespace eval ::seb::tests {
 	puts "---\nstep definition 02 SET"
 	puts "0:$0 1:$1 2:$2"
 
-	set keyName [:getMainKey ${:stackDict} "id" $1]
+	if {$1 eq "module"} {
+		set keyName "module"
+		# polishing only here, because I want to
+		# reduce the risk of a regular sentence
+		# to get polished where it shouldn't
+		set 2 [string map {\( "{" \) "}"} $2]
+		set 2 [string map {, ""} $2]
+		puts "new 2:$2"
+	} else {
+		set keyName [:getMainKey ${:stackDict} "id" $1]
+	}
 
 	if {$keyName eq ""} {
 		puts stderr "Cannot set $0 of \"$1\" because it has not been defined yet. Use Create command first."
