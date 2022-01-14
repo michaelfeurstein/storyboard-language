@@ -178,6 +178,21 @@ namespace eval ::se {
 			return 0
 		}
 	}
+
+	# module creator
+	#
+	:method createModule {title} {
+		set type [Helper matchClass module ::StoryBoard::*]
+		set no_of_keys [:countKeys ${:stackDict} $type]
+		if {$no_of_keys ne 0} {
+			puts stderr "There seems to be a module already"
+			exit 1
+		} else {
+			set ele "module title $title"
+			puts ele:$ele
+			dict set :stackDict {*}$ele
+		}
+	}
   }
 
   namespace export Builder
@@ -387,6 +402,20 @@ namespace eval ::seb::tests {
 			exit 1
 		}
 	}
+  }
+
+  $seBuilder define Create {^module with title (.+)$} {
+	puts "---\nstep definition 01c CREATE module with title <title of module>"
+	puts "0:$0"
+
+	:createModule $0
+  }
+
+  $seBuilder define Create {^module titled (.+)$} {
+	puts "---\nstep definition 01d CREATE module titled <title of module>"
+	puts "0:$0"
+
+	:createModule $0
   }
 
   $seBuilder define Set {^([^\s]*) of ([^\s]*) to (.+)$} {
