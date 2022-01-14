@@ -431,13 +431,20 @@ namespace eval ::seb::tests {
 	puts "0:$0 1:$1 2:$2"
 
 	if {$1 eq "module"} {
-		set keyName "module"
-		# polishing only here, because I want to
-		# reduce the risk of a regular sentence
-		# to get polished where it shouldn't
-		set 2 [string map {\( "{" \) "}"} $2]
-		set 2 [string map {, ""} $2]
-		puts "new 2:$2"
+		# check if there is a module
+		set no_of_modules [:countKeys ${:stackDict} [Helper matchClass module ::StoryBoard::*]]
+		if {$no_of_modules ne 0} {
+			set keyName "module"
+			# polishing only here, because I want to
+			# reduce the risk of a regular sentence
+			# to get polished where it shouldn't
+			set 2 [string map {\( "{" \) "}"} $2]
+			set 2 [string map {, ""} $2]
+			puts "new 2:$2"
+		} else {
+			puts stderr "No module available. Use Create command first."
+			exit 1
+		}
 	} else {
 		set keyName [:getMainKey ${:stackDict} "id" $1]
 	}
