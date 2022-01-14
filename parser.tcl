@@ -61,6 +61,7 @@ nx::Class create StoryboardParser {
 	:method createDictFromList {l} {
 		foreach ele $l {
 			#puts "element:[string trim $ele]"
+			#puts "element: $ele"
 			# create a dict based on the line elements
 			# this depends on the final syntax of storyboardfile
 			# for now - until syntax variant a is decided on - .

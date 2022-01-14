@@ -470,6 +470,7 @@ namespace eval ::seb::tests {
 			}
 			default
 			{
+				puts "default"
 				set ele "$keyName $0 $2"
 				puts ele:$ele
 				dict set :stackDict {*}$ele
@@ -512,6 +513,7 @@ namespace eval ::seb::tests {
 		puts "---\nstep definition 03.a ADD TIMESTAMP plural"
 		puts "0:$0 1:$1"
 
+		# polishing
 		set timestamps [string map {, ""} $0]
 		puts timestamps:$timestamps
 
