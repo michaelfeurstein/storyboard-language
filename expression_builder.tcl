@@ -4,6 +4,9 @@ namespace eval StoryBoard {
 
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder
 nx::Class create StoryboardBuilder {
+	:property -accessor public {notation:required}
+	:variable natural-language 0
+	:variable key-value 0
 
 	:property {sbModule:substdefault {[Module new]}}
 
@@ -21,21 +24,77 @@ nx::Class create StoryboardBuilder {
 	:forward textpage %self creator TextPage
 	:forward question %self creator Question
 
+	:public object method new {args} {
+		puts "\nStoryboardBuilder::new call $args"
+		next
+	}
+
 	:public object method create {args} {
-		puts "\nStoryboardBuilder::create call"
+		puts "\nStoryboardBuilder::create call $args"
+		next
+	}
+
+	:method init {} {
+		switch -glob -- ${:notation} {
+			"key-value"
+			{
+				# ok
+				puts "notation: key-value"
+				set :key-value 1
+			}
+			"natural-language"
+			{
+				# ok
+				puts "notation: natural-language"
+				set :natural-language 1
+			}
+			default
+			{
+				# complain
+				puts stderr "notation: ${:notation} not supported"
+				exit 1
+			}
+		}
 		next
 	}
 
 	:method creator {class} {
-		puts "\n---- creator method with class:$class stack:${:stack}"
+		puts "---- creator method with class:$class stack:${:stack}"
+
+		# SETUP COMMAND
+		#
+		# Key-Value Notation: generates className based on key
+		# Example: video4 URL http://www.video4.com
+		#
+		# CNL Notation: id is explicitly set for internal referencing
+		# Example: Create video with id video4
+		#
+		# pseudo:
+		# 1) look into :stack if an id set
+		# 2) if id is set, use it and remove from :stack; if not, use :className
+		#
+
+		# -- BEGIN:NL-specific
+		if {${:natural-language}} {
+			set result [regexp {^id ([^\s]*)} ${:stack} match sub1]
+			if {!$result} {
+				puts "id not found in stack - using className:${:className}"
+			} else {
+				puts "Result: $result\nMatch:$match\nClass ID:$sub1"
+				set start [expr [string length ${:stack}] - [string length $match]]
+				set :stack [string range ${:stack} [expr [string length $match] + 1] end]
+				#set :stack [string trimleft ${:stack} $match]
+				puts stack:${:stack}
+				set :className $sub1
+			}
+		}
+		# -- END:NL-specific
 
 		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
-		# SETUP COMMAND
-		# CONTINUE HERE: be careful not to break key-value notation
-		# 				 don't set -id twice
+		# Setup of actual class new command
 		set creation [list $class new -id ${:className} {*}$intersectLists]
 		puts "creationCmd: $creation"
 
@@ -71,6 +130,23 @@ nx::Class create StoryboardBuilder {
 						set tslist [dict get [dict get $options customOptions] "tslist"]
 
 						foreach i $tslist {
+
+							# -- BEGIN:NL-specific
+							if {${:natural-language}} {
+								puts "trying to find main key of $i\n\nstoryboardDict:\n${:storyboardDict}"
+								set mainKey [Helper getMainKey ${:storyboardDict} "id" $i]
+								puts "mainKey: $mainKey i:$i"
+								if {$mainKey eq ""} {
+									puts "mainkey not found - continue"
+									continue
+								} else {
+									puts "old i is $i"
+									set i $mainKey
+									puts "new i is $i"
+								}
+							}
+							# -- END:NL-specific
+
 							set idx [lsearch ${:storyboardDict} $i]
 							if {$idx ne "-1"} {
 								# case 1 e.g. timestamp7 was referenced early but is in storyboard
@@ -310,7 +386,15 @@ nx::Class create StoryboardBuilder {
 
 		# handle multiple answers
 		# prepare answerblock START
-		set answers [:lget $qcmd "-answers"];
+		set answers [:lget $qcmd "-answers"]
+		# the following string map
+		# polishes the answers list from curly brackets
+		# these brackets are used during build up
+		# in CNL syntax variant
+		#
+		# The correct format we need is:
+		# "<answer text> <correct || wrong> "<answer text>" <correct || wrong> ..."
+		set answers [string map {\{ "" \} ""} $answers]
 		set counter 0
 		set al [list]
 		set answerBlock ""

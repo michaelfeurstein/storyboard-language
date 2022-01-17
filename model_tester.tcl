@@ -112,7 +112,7 @@ puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 # Setup Parser
 set internalParser [StoryboardParser new -storyboard $storyboardFile]
 # Setup Expression Builder
-set internalBuilder [StoryboardBuilder new]
+set internalBuilder [StoryboardBuilder new -notation key-value]
 # Call method from with a storyboard
 set module [$internalBuilder from [$internalParser storyboardDict get]]
 #// end //

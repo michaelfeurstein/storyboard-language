@@ -559,8 +559,8 @@ namespace eval ::seb::tests {
   set r [$seBuilder get $sbdata]
   puts "\n--- Result\nr:$r"
 
-  #set iBuilder [StoryboardBuilder new]
-  #$iBuilder from $r
+  set iBuilder [StoryboardBuilder new -notation natural-language]
+  $iBuilder from $r
 
   #
   # Tests
