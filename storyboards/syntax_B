@@ -9,17 +9,24 @@
 # check correct reference counting of objects
 # e.g. video1, timestamp1, video2, video3
 
+# video1
 Create video with id VideoABC
 
+# timestamp1
 Create timestamp with id timestamp123
 
+# video2
 Create video with id VideoGHI
+Set URL of VideoGHI to empty
 
+# video3
 Create video with id someOtherID
+Set URL of someOtherID to empty
 
 # 01.a # - works
 # create video object in one sentence
 
+# video4
 Create video with id video1a and URL http://www.video1a.com
 
 # 02 # - works
@@ -30,6 +37,7 @@ Set URL of VideoABC to http://www.videoabc.com
 # 02.a # - works
 # override by setting URL 2 times
 
+# video5
 Create video with id VideoDEF
 Set URL of VideoDEF to http://www.videodef.com
 Set URL of VideoDEF to http://www.override.com
@@ -40,6 +48,7 @@ Set URL of VideoDEF to http://www.override.com
 # because timestamps haven't been created yet
 # expression_builder will handle the validation
 
+# video6
 Create video with id video3
 Set URL of video3 to http://www.video3.com
 Add timestamp timestamp4 to video3
@@ -51,17 +60,21 @@ Add timestamp ts06 to video3
 # create 3 timestamps
 # add timestamps to this video in separate line commands
 
+# video7
 Create video with id my4thVideo
 Set URL of my4thVideo to http://www.4thVideo.com
 
+# timestamp2
 Create timestamp with id introduction
 Set title of introduction to "Einfuehrung in Informationssysteme"
 Set time of introduction to 83
 
+# timestamp3
 Create timestamp with id explanation
 Set title of explanation to "Explanation of the term information system"
 Set time of explanation to 155
 
+# timestamp4
 Create timestamp with id end
 Set title of end to "Conclusion"
 Set time of end to 200
@@ -75,21 +88,26 @@ Add timestamp end to my4thVideo
 # create 4 timestamps
 # add timestamps to this video in one line as a list of timestamps
 
+# video8
 Create video with id listVideo
 Set URL of listVideo to http://www.listVideo.com
 
+# timestamp5
 Create timestamp with id firstTS
 Set title of firstTS to "First timestamp"
 Set time of firstTS to 10
 
+# timestamp6
 Create timestamp with id secondTS
 Set title of secondTS to "Second timestamp"
 Set time of secondTS to 20
 
+# timestamp7
 Create timestamp with id thirdTS
 Set title of thirdTS to "Third timestamp"
 Set time of thirdTS to 30
 
+# timestamp8
 Create timestamp with id fourthTS
 Set title of fourthTS to "Fourth timestamp"
 Set time of fourthTS to 40
@@ -154,6 +172,12 @@ Set answer of QU11 to "My second answer" which is wrong
 # create module
 
 # ok
+#Create module titled "Test Modul"
+
+# should fail if above is commented
+#Set structure of module to (01, 02, 03)
+
+# ok
 #Create module with title "Modul zu Informationssystemen"
 
 # ok
@@ -165,4 +189,6 @@ Create module titled "VBL Modul ..."
 Set structure of module to (myNewTextPage, QU06, QU07, QU11, listVideo)
 
 #TODO
-#-- check if module is there for SET structure
+#-- check with visitor
+#-- redo exact same storyboard
+#-- then move on to xowfstoryboard
