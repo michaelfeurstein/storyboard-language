@@ -144,13 +144,18 @@ Set feedback of QU01 to "General feedback on something ..."
 #Create singleChoice choice question with id QU02
 #Create multiplechoice choice question with id QU03
 
-# ok
-Create single choice question with id QU04
-Create multiple choice question with id QU05
+# ok / should fail because no meta data (title, question etc.)
+#Create single choice question with id QU04
+#Create multiple choice question with id QU05
 
-# ok
+# ok / should fail because no meta data (title, question etc.)
 Create singleChoice question with id QU06
-Create multiplechoice question with id QU07
+Set title of QU06 to "Some title"
+Set question of QU06 to "Some question?"
+Set answer of QU06 to "Some answer" which is correct
+# ok / leaving feedback empty on purpose
+#Set feedback of QU06 to "Some feedback"
+#Create multiplechoice question with id QU07
 
 # should fail because gibberish
 #Create singleblabla question with id QU08
@@ -183,12 +188,10 @@ Set answer of QU11 to "My second answer" which is wrong
 # ok
 # - should fail as module is already created
 # - works if above is commented
-Create module titled "VBL Modul ..."
+Create module titled "VBL Modul Tester NL"
 
 # ok
-Set structure of module to (myNewTextPage, QU06, QU07, QU11, listVideo)
+Set structure of module to (myNewTextPage, QU01, QU11, listVideo)
 
 #TODO
-#-- check with visitor
-#-- redo exact same storyboard
-#-- then move on to xowfstoryboard
+#-- integrate with xowfstoryboard
