@@ -30,6 +30,8 @@ namespace eval StoryBoard {
 				#set outfile [open "storyboards/result/html/generated.html" w+]
 				#puts $outfile [${:doc} asHTML]
 				#close $outfile
+
+				# leave only next line for xowfstoryboard
 				set res ${:doc}
 			} on error msg {
 				error "Preparing HTML document failed: '$msg'."

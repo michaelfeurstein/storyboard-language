@@ -76,6 +76,10 @@ nx::Class create Answer -superclasses Element {
 #
 # Video
 #
+# TODO
+# - refactor timestamp slot into a slot only accepting objects of type Timestamp
+# - this way the current bug of unordered (alphabetically) should be solved
+#
 
 nx::Class create Video -superclasses {ContentFragment Element} {
 	:property -accessor public {id:required}
