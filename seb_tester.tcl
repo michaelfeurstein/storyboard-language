@@ -5,6 +5,7 @@ package require nx
 source language_model.tcl
 source expression_builder.tcl
 source worker.tcl
+source visitor.tcl
 
 namespace import StoryBoard::*
 
@@ -560,7 +561,14 @@ namespace eval ::seb::tests {
   puts "\n--- Result\nr:$r"
 
   set iBuilder [StoryboardBuilder new -notation natural-language]
-  $iBuilder from $r
+  set module [$iBuilder from $r]
+
+  #// visitor - begin //
+  puts "\n--- Visitor call on module object: $module"
+  set visitor [HTMLVisitor new]
+  set r2 [$visitor evaluate $module]
+  puts "\n rResult from visitor:\n[$r2 asHTML]"
+  #// visitor - end //
 
   #
   # Tests
