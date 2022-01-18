@@ -191,7 +191,9 @@ namespace eval StoryBoard {
 				}
 			} else {
 				${:bodyNode} appendFromScript {
-					html::iframe -src [$e URL get] {
+					html::p {
+						html::iframe -src [$e URL get] {
+						}
 					}
 					html::p {
 						html::t Timestamps:
