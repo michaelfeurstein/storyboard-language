@@ -442,13 +442,15 @@ nx::Class create StoryboardBuilder {
 	# p = -param2
 	# returns {multiple values of interest}
 	#
-	# TODO
-	# error handling, param not found
+	# if parameter not found (-1) it raises an error
 	#
 	###
 
 	:method lget {c p} {
 		set x [lsearch $c $p]
+		if {$x eq -1} {
+			error "parameter $p not found in [lindex $c 0]"
+		}
 		incr x
 		return [lindex $c $x]
 	}
