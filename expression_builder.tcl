@@ -383,6 +383,10 @@ nx::Class create StoryboardBuilder {
 		set title [:lget $qcmd "-title"]
 		set type [:lget $qcmd "-type"]
 		set question [:lget $qcmd "-question"]
+		if {[catch {set feedback [:lget $qcmd "-feedback"]} e]} {
+			puts "feedback can stay empty"
+			set feedback "empty"
+		}
 
 		# handle multiple answers
 		# prepare answerblock START
@@ -416,8 +420,6 @@ nx::Class create StoryboardBuilder {
 		}
 		set ac 0
 		# prepare answerblock END
-
-		set feedback [:lget $qcmd "-feedback"]
 
 		# step 2
 		# based on djdsl/tutorials/patterns.tcl:727 ComputerBuilder
