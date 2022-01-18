@@ -1,42 +1,44 @@
 # Storyboard for a video-based learning module
 #
 # notation: controlled natural-language
-# date: 28-12-2021
-# status: in development
+# date: 28-12-2021 - 18-01-2022
+# status: working
 # cmd: tclsh seb_tester.tcl storyboards/syntax_B_module
 
-Module is titled "VBL Modul: Informationssystem"
+Create module titled "VBL Modul: Informationssystem"
 
 Create textpage with id textpage1
-Add title to textpage1 "Erklärvideo ..."
-Add body to textpage1 "Herzlich willkommen ..."
+Set title of textpage1 to "Erklärvideo: Was ist ein Informationssystem"
+Set body of textpage1 to "Herzlich willkommen zu dem videobasierten Lernmodul. Erstellt mit der storyboard language Notationsvariante: CNL"
 
-Create video with id video1
-Set URL of video1 to https://...
-Add timestamps to video1 (timestamp1, timestamp2)
+Create video with id infoSysVideo
+Set URL of infoSysVideo to https://www.youtube.com/embed/0siisFJUKh4
+Add timestamps (definition, example) to infoSysVideo
 
-Create timestamp with id timestamp1
-Add title to timestamp1 "Die Definition ..."
-Add time to timestamp1 83
+Create timestamp with id definition
+Set title of definition to "Die Definition eines Informationssystems"
+Set time of definition to 83
 
-Create timestamp with id timestamp2
-Set title of timestamp2 to "Beispiel ..."
-Set time of timestamp2 to 155
+Create timestamp with id example
+Set title of example to "Beispiel Bibliothek"
+Set time of example to 155
 
 Create question with id question1
-Set type of question1 singleChoice
-Add title to question1 "What is an information system?"
-Set question of question1 "Please explain ..."
-Add answer to question1 "Answer 1" which is wrong
-Add answer to question1 "Answer 2" which is correct
-Add answer to question1 "Answer 3" which is correct
-Add feedback to question1 "General feedback on ..."
+Set type of question1 to singleChoice
+Set title of question1 to "What is an information system?"
+Set question of question1 to "Please explain the concept of an information system."
+Set answer of question1 to "Answer 1" which is wrong
+Set answer of question1 to "Answer 2" which is correct
+Set answer of question1 to "Answer 3" which is correct
+Set feedback of question1 to "General feedback on this question"
 
-Create singlechoice question with id question2 and title "Bib"
-Add question to question2 "Please explain ..."
-Add answer to question2 "Answer X" which is correct
-Add answer to question2 "Answer Y" which is wrong
-Add answer to question2 "Answer Z" which is wrong
-Add feedback to question2 "General feedback on ..."
+Create single choice question with id question2
+Set title of question2 to "Bib"
+Set question of question2 to "Please explain another concept"
+Set answer of question2 to "Answer X" which is correct
+Set answer of question2 to "Answer Y" which is wrong
+Set answer of question2 to "Answer Z" which is wrong
+Set feedback of question2 to "General feedback on this question"
 
-Module has structure (textpage1, video1, question1, question2) 
+Set structure of module to (textpage1, infoSysVideo, question1, question2)
+
