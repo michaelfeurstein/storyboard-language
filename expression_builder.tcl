@@ -119,7 +119,9 @@ nx::Class create StoryboardBuilder {
 						set caller [dict get [dict get $options customOptions] "caller"]
 						set tslist [dict get [dict get $options customOptions] "tslist"]
 
+						set counter 0
 						foreach i $tslist {
+							incr counter
 
 							# -- BEGIN:NL-specific
 							if {${:natural-language}} {
@@ -163,6 +165,12 @@ nx::Class create StoryboardBuilder {
 								#set :storyboardDict ;# -> not sure what this does, leave commented
 
 								#puts new:[dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
+
+								# add index to timestamp
+								dict update :storyboardDict $tsKey $tsKey {
+									dict lappend $tsKey index $counter
+								}
+
 							} else {
 								# case 2 e.g. timestamp7 was referenced and is NOT in storyboard
 								# remove timestamp reference from video (i.e. set it to empty)
@@ -187,6 +195,7 @@ nx::Class create StoryboardBuilder {
 											puts "adding video parameter to timestamp command(s) in backlog"
 											:removeCmdFromStack $i :creationBacklogStack
 											lappend i "-video" [$caller id get]
+											lappend i "-index" $idxSE
 											puts i_new:$i
 											lappend :creationBacklogStack $i
 											puts "STATUS:BACKLOG_READD - $i"

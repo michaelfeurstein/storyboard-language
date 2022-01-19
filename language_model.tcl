@@ -76,10 +76,6 @@ nx::Class create Answer -superclasses Element {
 #
 # Video
 #
-# TODO
-# - refactor timestamp slot into a slot only accepting objects of type Timestamp
-# - this way the current bug of unordered (alphabetically) should be solved
-#
 
 nx::Class create Video -superclasses {ContentFragment Element} {
 	:property -accessor public {id:required}
@@ -140,8 +136,9 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 	  set a [$ts id get]
 	  set b [$ts time get]
 	  set c [$ts title get]
+	  set d [$ts index get]
 	  $ts destroy
-	  set theTS [:createTimestamp -id $a -time $b -title $c -video [self]]
+	  set theTS [:createTimestamp -id $a -time $b -title $c -index $d -video [self]]
 	  if {${:timestamp} eq "empty"} {
 		[self] timestamp set $theTS
 	  } else {
@@ -175,6 +172,7 @@ nx::Class create Timestamp -superclasses Element {
 	:property -accessor public {time:integer 0}
 	:property -accessor public {title empty}
 	:property -accessor public {video empty}
+	:property -accessor public {index:integer 0}
 
 
 	:public object method new {args} {

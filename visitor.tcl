@@ -27,9 +27,9 @@ namespace eval StoryBoard {
 				# -- a) a preview visitor (?)
 				# -- b) a html visitor exporting generated.html
 				#
-				#set outfile [open "storyboards/result/html/generated.html" w+]
-				#puts $outfile [${:doc} asHTML]
-				#close $outfile
+				set outfile [open "storyboards/result/html/generated.html" w+]
+				puts $outfile [${:doc} asHTML]
+				close $outfile
 
 				# leave only next line for xowfstoryboard
 				set res ${:doc}
@@ -203,11 +203,31 @@ namespace eval StoryBoard {
 				}
 
 				set :tsNode [${:bodyNode} appendChild [${:doc} createElement ul]]
+
+				## a hacky way of sorting the timestamps
+				## but it works
+				#
+				# pseudo:
+				# 1) go through timestamps and create new list with <timestamp index> pair
+				# 2) sort this list based on index with lsort
+				# 3) go through sorted list and continue traverse only for Timestamp objects
+				#
+				set ts_sort [list]
+				foreach i [$e timestamp get] {
+					set ts_index [$i index get]
+					lappend ts_sort $i $ts_index
+				}
+
+				# sort timestamps here
+				set sorted_ts [lsort -stride 2 -index 1 -integer $ts_sort]
+				foreach i $sorted_ts {
+					if {![catch {[$i info class]} e]} {
+						$i accept [self]
+					}
+				}
 			}
 
-			foreach i [$e timestamp get] {
-				$i accept [self]
-			}
+
 		}
 
 		:method "traverse Timestamp" {e} {
