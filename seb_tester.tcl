@@ -142,23 +142,6 @@ namespace eval ::se {
 		}
 	}
 
-	# get main key (=return value) of key value pair k v in dict d
-	# dict sample structure: mk {k v a b ... ...}
-	#
-	:method getMainKey {d k v} {
-		#puts "looking for $k $v"
-		set rd [lreverse $d]
-		#puts rd:$rd
-		foreach e [dict keys $rd] {
-			if {[dict get $e $k] eq $v} {
-			  #puts "$k: [dict get $e $k] --> [dict get $rd $e]"
-			  return [dict get $rd $e]
-			} else {
-				# not found / do nothing / continue
-			}
-		}
-	}
-
 	# append value v to subkey sk in dict d for key
 	#
 	:method appendValue {d k sk v} {
@@ -363,8 +346,7 @@ namespace eval ::seb::tests {
 	set keyName "question$no_of_keys"
 
 	switch -glob -- $0 {
-		"single"
-		{
+		"single" {
 			puts "single choice question"
 
 			# id
@@ -375,8 +357,7 @@ namespace eval ::seb::tests {
 			set ele "$keyName type singleChoice"
 			dict set :stackDict {*}$ele
 		}
-		"multiple"
-		{
+		"multiple" {
 			puts "multiple choice question"
 
 			# id
@@ -387,19 +368,16 @@ namespace eval ::seb::tests {
 			set ele "$keyName type multipleChoice"
 			dict set :stackDict {*}$ele
 		}
-		"single*"
-		{
-			puts "question type: $0 seems misspelled. Try Create single choice question with id $1. $errMsg"
+		"single*" {
+			puts stderr "question type: $0 seems misspelled. Try Create single choice question with id $1. $errMsg"
 			exit 1
 		}
-		"multiple*"
-		{
-			puts "question type: $0 seems misspelled. Try Create multiple choice question with id $1. $errMsg"
+		"multiple*" {
+			puts stderr "question type: $0 seems misspelled. Try Create multiple choice question with id $1. $errMsg"
 			exit 1
 		}
-		default
-		{
-			puts "question type: \"$0\" not supported. $errMsg"
+		default {
+			puts stderr "question type: \"$0\" not supported. $errMsg"
 			exit 1
 		}
 	}
@@ -447,7 +425,7 @@ namespace eval ::seb::tests {
 			exit 1
 		}
 	} else {
-		set keyName [:getMainKey ${:stackDict} "id" $1]
+		set keyName [Helper getMainKey ${:stackDict} "id" $1]
 	}
 
 	if {$keyName eq ""} {
@@ -501,7 +479,7 @@ namespace eval ::seb::tests {
 	puts "---\nstep definition 03 ADD TIMESTAMP"
 	puts "0:$0 1:$1"
 
-	set keyName [:getMainKey ${:stackDict} "id" $1]
+	set keyName [Helper getMainKey ${:stackDict} "id" $1]
 	if {$keyName eq ""} {
 		puts stderr "Cannot add timestamp to \"$1\" because it has not been defined yet. Use Create command first."
 		exit 1
@@ -525,7 +503,7 @@ namespace eval ::seb::tests {
 		set timestamps [string map {, ""} $0]
 		puts timestamps:$timestamps
 
-		set keyName [:getMainKey ${:stackDict} "id" $1]
+		set keyName [Helper getMainKey ${:stackDict} "id" $1]
 		set ele "$keyName timestamp {$timestamps}"
 		puts ele:$ele
 		dict set :stackDict {*}$ele

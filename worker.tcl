@@ -83,24 +83,18 @@ nx::Class create Helper {
 	# dict sample structure: mk {k v a b ... ...}
 	#
 	:public object method getMainKey {d k v} {
-		puts "looking for $k $v"
 		set rd [lreverse $d]
 		#puts rd:$rd
 		foreach e [dict keys $rd] {
-			puts "foreach $e"
 			try {
 			  set value [dict get $e $k]
-			  puts "value:$value"
 			} on error {msg} {
-				puts "continue: $msg"
 				continue
 			}
 			if {[dict get $e $k] eq $v} {
-			  puts "found"
 			  #puts "$k: [dict get $e $k] --> [dict get $rd $e]"
 			  return [dict get $rd $e]
 			} else {
-				puts "not found"
 				# not found / do nothing / continue
 			}
 		}

@@ -35,21 +35,11 @@ nx::Class create StoryboardBuilder {
 	}
 
 	:method init {} {
+		puts "notation: ${:notation}"
 		switch -glob -- ${:notation} {
-			"key-value"
-			{
-				# ok
-				puts "notation: key-value"
-				set :key-value 1
-			}
-			"natural-language"
-			{
-				# ok
-				puts "notation: natural-language"
-				set :natural-language 1
-			}
-			default
-			{
+			"key-value" {set :key-value 1}
+			"natural-language" {set :natural-language 1}
+			default {
 				# complain
 				puts stderr "notation: ${:notation} not supported"
 				exit 1
@@ -98,13 +88,13 @@ nx::Class create StoryboardBuilder {
 		set creation [list $class new -id ${:className} {*}$intersectLists]
 		puts "creationCmd: $creation"
 
-		if {$class eq "Module"} {
-			lappend :moduleStack $creation
-		} elseif {$class eq "Question"} {
-			:handleQuestionCmd $creation
-		} else {
-			lappend :creationStack $creation
-			:tryCmdStack
+		switch -glob -- $class {
+			"Module" {lappend :moduleStack $creation}
+			"Question" {:handleQuestionCmd $creation}
+			default {
+				lappend :creationStack $creation
+				:tryCmdStack
+			}
 		}
 	}
 
