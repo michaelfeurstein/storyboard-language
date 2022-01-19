@@ -129,7 +129,8 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 	}
 
 	:method createTimestamp {args} {
-		${:timestampClass} new -childof [current] {*}$args
+		set videoTS [${:timestampClass} new -childof [current] {*}$args]
+		return $videoTS
 	}
 
 	:public method addTimestamp {
@@ -139,13 +140,13 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 	  set a [$ts id get]
 	  set b [$ts time get]
 	  set c [$ts title get]
-	  if {${:timestamp} eq "empty"} {
-		[self] timestamp set $a
-	  } else {
-		[self] timestamp add $a
-	  }
 	  $ts destroy
-	  :createTimestamp -id $a -time $b -title $c -video [self]
+	  set theTS [:createTimestamp -id $a -time $b -title $c -video [self]]
+	  if {${:timestamp} eq "empty"} {
+		[self] timestamp set $theTS
+	  } else {
+		[self] timestamp add $theTS
+	  }
 	}
 
 	:public method addTimestampList {

@@ -205,11 +205,7 @@ namespace eval StoryBoard {
 				set :tsNode [${:bodyNode} appendChild [${:doc} createElement ul]]
 			}
 
-			# Design question: use timestamp slot instead of children
-			# currently timestamp slot is not of type=Timestamp
-			# therefore I am now resorting to info children
-			# instead of [$e timestamp get]
-			foreach i [$e info children] {
+			foreach i [$e timestamp get] {
 				$i accept [self]
 			}
 		}
