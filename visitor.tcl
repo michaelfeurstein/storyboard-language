@@ -27,9 +27,9 @@ namespace eval StoryBoard {
 				# -- a) a preview visitor (?)
 				# -- b) a html visitor exporting generated.html
 				#
-				set outfile [open "storyboards/result/html/generated.html" w+]
-				puts $outfile [${:doc} asHTML]
-				close $outfile
+				#set outfile [open "storyboards/result/html/generated.html" w+]
+				#puts $outfile [${:doc} asHTML]
+				#close $outfile
 
 				# leave only next line for xowfstoryboard
 				set res ${:doc}
