@@ -1,5 +1,3 @@
-source definition_builder.tcl
-
 namespace import StoryBoard::*
 
 namespace eval StoryBoard {
