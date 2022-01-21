@@ -1,12 +1,24 @@
 # storyboard-language
 
-tclsh model_tester.tcl storyboards/dict_structure_A
+**Key-Value Notation:**
 
-## Structure
+`tclsh kv_tester.tcl storyboards/key-value/tester_module`
 
-| Syntax                | parser.tcl     |              | expression_builder.tcl     |                |
-| :---------------------|:---------------| :------------| :--------------------------|:---------------|
-| Syntax A / B          | creates dict   | --> dict --> | reads dict and instantiates| ---> instances |
+**Call Structure**
+
+| Notation              | parser.tcl     |              | expression_builder.tcl     |                | visitor.tcl                               |
+| :---------------------|:---------------| :------------| :--------------------------|:---------------|:------------------------------------------|
+| Key-Value             | creates dict   | --> dict --> | reads dict and instantiates| --> instances --> | transforms into *HTML*                    |
+
+**Natural-Language Notation:**
+
+`tclsh nl_tester.tcl storyboards/natural-language/syntax_B_module`
+
+**Call Structure**
+
+| Notation              | definition_builder.tcl     | step_definitions.tcl             | |expression_builder.tcl     |                | visitor.tcl                               |
+| :---------------------|:---------------------------| :--------------------------------|:----- |:--------------------------|:---------------|:------------------------------------------|
+| Natural-Language      | creates Interpreter        | defines regular expressions      | --> dict --> | reads dict and instantiates| --> instances --> | transforms into *HTML*                    |
 
 ---
 
