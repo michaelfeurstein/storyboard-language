@@ -1,5 +1,3 @@
-package req nx
-
 namespace eval StoryBoard {
 
 # Based on djdsl/tutorials/intro.tcl:129 AleBuilder

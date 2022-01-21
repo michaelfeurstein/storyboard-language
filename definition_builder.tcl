@@ -1,4 +1,3 @@
-
 namespace eval StoryBoard {
 
   nx::Class create Interp {
@@ -18,7 +17,6 @@ namespace eval StoryBoard {
     :public method eval {script} {
       ${:interp} eval $script
     }
-
   }
 
   nx::Class create DefinitionBuilder {
@@ -170,5 +168,4 @@ namespace eval StoryBoard {
   }
 
   namespace export DefinitionBuilder
-
 }

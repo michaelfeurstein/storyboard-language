@@ -1,4 +1,3 @@
-package req nx
 package req tdom
 
 namespace eval StoryBoard {
@@ -226,8 +225,6 @@ namespace eval StoryBoard {
 					}
 				}
 			}
-
-
 		}
 
 		:method "traverse Timestamp" {e} {
@@ -248,7 +245,6 @@ namespace eval StoryBoard {
 				}
 			}
 			#namespace path $oldp
-
 		}
 
 		:method id {e} {

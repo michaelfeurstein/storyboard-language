@@ -1,5 +1,3 @@
-package req nx
-
 namespace eval StoryBoard {
 
 # Parser

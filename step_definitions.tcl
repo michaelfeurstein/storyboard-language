@@ -1,5 +1,3 @@
-namespace import StoryBoard::*
-
 namespace eval StoryBoard {
 
   nx::Class create StepDefinitions {
@@ -95,7 +93,7 @@ namespace eval StoryBoard {
 		puts "---\nstep definition 01 CREATE"
 		puts "0:$0 1:$1"
 
-		set type [Helper matchClass $0 ::StoryBoard::*]
+		set type [::StoryBoard::Helper matchClass $0 ::StoryBoard::*]
 		set no_of_keys [:countKeys ${:stackDict} $type]
 		incr no_of_keys
 		set keyName $type$no_of_keys
@@ -110,7 +108,7 @@ namespace eval StoryBoard {
 		puts "0:$0 1:$1 2:$2"
 
 		if {$0 eq "video"} {
-			set type [Helper matchClass $0 ::StoryBoard::*]
+			set type [::StoryBoard::Helper matchClass $0 ::StoryBoard::*]
 			set no_of_keys [:countKeys ${:stackDict} $type]
 			incr no_of_keys
 			set keyName $type$no_of_keys
@@ -205,7 +203,7 @@ namespace eval StoryBoard {
 
 		if {$1 eq "module"} {
 			# check if there is a module
-			set no_of_modules [:countKeys ${:stackDict} [Helper matchClass module ::StoryBoard::*]]
+			set no_of_modules [:countKeys ${:stackDict} [::StoryBoard::Helper matchClass module ::StoryBoard::*]]
 			if {$no_of_modules ne 0} {
 				set keyName "module"
 				# polishing only here, because I want to
@@ -219,7 +217,7 @@ namespace eval StoryBoard {
 				exit 1
 			}
 		} else {
-			set keyName [Helper getMainKey ${:stackDict} "id" $1]
+			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 		}
 
 		if {$keyName eq ""} {
@@ -273,7 +271,7 @@ namespace eval StoryBoard {
 		puts "---\nstep definition 03 ADD TIMESTAMP"
 		puts "0:$0 1:$1"
 
-		set keyName [Helper getMainKey ${:stackDict} "id" $1]
+		set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 		if {$keyName eq ""} {
 			puts stderr "Cannot add timestamp to \"$1\" because it has not been defined yet. Use Create command first."
 			exit 1

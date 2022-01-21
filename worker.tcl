@@ -1,5 +1,3 @@
-package req nx
-
 namespace eval StoryBoard {
 
 #
@@ -98,9 +96,7 @@ nx::Class create Helper {
 				# not found / do nothing / continue
 			}
 		}
-
 	}
-
 }
 
 namespace export Helper
