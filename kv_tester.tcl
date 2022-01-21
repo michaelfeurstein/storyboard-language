@@ -13,8 +13,8 @@ namespace import StoryBoard::*
 set storyboardFile ""
 
 if { $argc != 1 } {
-  	puts "model_tester.tcl requires a storyboard as input"
-	puts "For example, tclsh model_tester.tcl storyboard_example_A_01_blank"
+  	puts "kv_tester.tcl requires a storyboard as input"
+	puts "For example, tclsh kv_tester.tcl storyboard_example_A_01_blank"
 	exit
 } else {
 	set storyboardFile [lindex $argv 0]
@@ -22,7 +22,7 @@ if { $argc != 1 } {
 
 #puts storyboardFile:$storyboardFile
 
-puts "\n--- Direct instantiations from model_tester.tcl\n"
+puts "\n--- Direct instantiations from kv_tester.tcl\n"
 
 #set id "question1"
 #set title "Information Systems"

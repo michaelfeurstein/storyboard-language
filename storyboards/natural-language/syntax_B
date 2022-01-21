@@ -2,7 +2,7 @@
 #
 # created 21-12-2021
 # status: working / in development
-# cmd: tclsh seb_tester.tcl storyboards/syntax_B
+# cmd: tclsh nl_tester.tcl storyboards/natural-language/syntax_B
 
 # 01 # - works
 # create objects with ids

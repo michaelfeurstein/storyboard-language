@@ -4,7 +4,7 @@
 #
 # date: 21-12-2021
 # status: working
-# cmd: tclsh model_tester.tcl storyboards/key-value/tester
+# cmd: tclsh kv_tester.tcl storyboards/key-value/tester
 
 # 08 # - works
 # defining module title at the top

@@ -3,7 +3,7 @@
 # notation: controlled natural-language
 # date: 28-12-2021 - 18-01-2022
 # status: working
-# cmd: tclsh seb_tester.tcl storyboards/syntax_B_module
+# cmd: tclsh nl_tester.tcl storyboards/natural-language/syntax_B_module
 
 Create module titled "VBL Modul: Informationssystem"
 
@@ -40,5 +40,5 @@ Set answer of question2 to "Answer Y" which is wrong
 Set answer of question2 to "Answer Z" which is wrong
 Set feedback of question2 to "General feedback on this question"
 
-Set structure of module to (textpage1, infoSysVideo, question1, question2)
+Set structure of module to (textpage1, infoSysVideo, question1, question2, question3)
 

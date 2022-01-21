@@ -3,12 +3,12 @@
 # notation: key-value
 # date: 21-12-2021
 # status: working
-# cmd: tclsh model_tester.tcl storyboards/key-value/tester_module
+# cmd: tclsh kv_tester.tcl storyboards/key-value/tester_module
 
 module title "VBL Modul: Informationssystem "
 
 textpage1 title "Erklärvideo: Was ist ein Informationssystem"
-textpage1 body "Herzlich willkommen zu dem videobasierten Lernmodul."
+textpage1 body "Herzlich willkommen zu dem videobasierten Lernmodul. Erstellt mit der storyboard language Notationsvariante: KV"
 
 video1 URL https://www.youtube.com/embed/0siisFJUKh4
 video1 timestamp (timestamp1, timestamp2)
