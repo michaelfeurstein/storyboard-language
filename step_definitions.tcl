@@ -295,7 +295,7 @@ namespace eval StoryBoard {
 			set timestamps [string map {, ""} $0]
 			puts timestamps:$timestamps
 
-			set keyName [Helper getMainKey ${:stackDict} "id" $1]
+			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 			set ele "$keyName timestamp {$timestamps}"
 			puts ele:$ele
 			dict set :stackDict {*}$ele
