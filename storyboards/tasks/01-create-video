@@ -1,0 +1,15 @@
+# Authoring task for experiment
+# 
+# 01 - Video
+# Create a video with
+# - an URL: https://www.youtube.com/embed/0siisFJUKh4
+# - an ID: video_infosys
+
+# Key-Value
+
+video_infosys URL https://www.youtube.com/embed/0siisFJUKh4
+
+# Natural-Language
+
+Create video with ID video_infosys
+Set URL of video_infosys to https://www.youtube.com/embed/0siisFJUKh4

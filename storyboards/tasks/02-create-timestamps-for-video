@@ -1,0 +1,36 @@
+# Authoring task for experiment
+#
+# 02 - Timestamp
+# Create three timestamps for the video called video_infosys.
+# Name the timestamps as you wish but so that you can reference them.
+# The first timestamp starts at 60 seconds and is titled "Introduction".
+# The second timestamp starts at 180 seconds and is titled "Definition: Information Systems"
+# The third timestamp starts at 300 seconds and is titled "Example: Library"
+
+# Key-Value
+
+timestamp1 title "Introduction"
+timestamp1 time 60
+timestamp1 video video_infosys
+
+timestamp2 title "Definition: Information Systems"
+timestamp2 time 180
+timestamp2 video video_infosys
+
+timestamp3 title "Example: Library"
+timestamp3 time 300
+timestamp3 video video_infosys
+
+# Natural-Language
+
+Create timestamp with id timestamp1
+Set title of timestamp1 to "Introduction"
+Set time of timestamp1 60
+
+Create timestamp with id timestamp2
+Set title of timestamp2 to "Definition: Information Systems"
+Set time of timestamp2 180
+
+Create timestamp with id timestamp3
+Set title of timestamp3 to "Example: Library"
+Set time of timestamp3 to 300
