@@ -1,0 +1,16 @@
+# Authoring task for experiment
+#
+# 03 - Textpage
+# Create a textpage with a title and a short body of text
+# The textpage should be referencable as textpage1
+
+# Key-Value
+
+textpage1 title "This is an example title"
+textpage1 body "Some lorem ipsum text to generate some text to be added on the page as an example of illustratin the textpage"
+
+# Natural-Language
+
+Create textpage with id textpage1
+Set title of textpage1 to "This is an example title"
+Set body of textpage1 to "Some lorem ipsum text to generate some text to be added on the page as an example of illustratin the textpage" 

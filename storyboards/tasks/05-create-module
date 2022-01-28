@@ -1,0 +1,17 @@
+# Authoring task for experiment
+#
+# 05 - Module
+# Create a module with the following title
+# "Modul: Informationssysteme"
+# and structure textpage1, video1, question1
+
+# Key-Value
+
+module title "Modul: Informationssysteme"
+module structure (textpage1, video1, question1)
+
+# Natural-Language
+
+Create module titled "Modul: Informationssysteme"
+Set structure of module to (textpage1, video1, question1)
+

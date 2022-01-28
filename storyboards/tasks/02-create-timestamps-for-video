@@ -6,31 +6,34 @@
 # The first timestamp starts at 60 seconds and is titled "Introduction".
 # The second timestamp starts at 180 seconds and is titled "Definition: Information Systems"
 # The third timestamp starts at 300 seconds and is titled "Example: Library"
+# Add all three timestamps to the video video_infosys
 
-# Key-Value
+# Key-Value Option 1
 
 timestamp1 title "Introduction"
 timestamp1 time 60
-timestamp1 video video_infosys
 
 timestamp2 title "Definition: Information Systems"
 timestamp2 time 180
-timestamp2 video video_infosys
 
 timestamp3 title "Example: Library"
 timestamp3 time 300
-timestamp3 video video_infosys
 
-# Natural-Language
+video_infosys timestamp (timestamp1, timestamp2, timestamp3)
+
+# Natural-Language Option 1
 
 Create timestamp with id timestamp1
 Set title of timestamp1 to "Introduction"
-Set time of timestamp1 60
+Set time of timestamp1 to 60
 
 Create timestamp with id timestamp2
 Set title of timestamp2 to "Definition: Information Systems"
-Set time of timestamp2 180
+Set time of timestamp2 to 180
 
 Create timestamp with id timestamp3
 Set title of timestamp3 to "Example: Library"
 Set time of timestamp3 to 300
+
+Add timestamps (timestamp1, timestamp2, timestamp3) to video_infosys
+

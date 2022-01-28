@@ -1,0 +1,28 @@
+# Authoring task for experiment
+#
+# 04 - Question
+# Create a single choice question
+# The question needs to be referencable via question1
+# The title of the question should be "What is an information system"
+# The question should state the following "Please explain the concept of an information system."
+# The question has 4 answers
+# Mark the third answer as correct
+
+# Key-Value
+
+question1 title "What is an information system"
+question1 type singleChoice
+question1 question "Please explain the concept of an information system."
+question1 answers ("Answer 1", wrong, "Answer 2", wrong, "Answer 3", correct, "Answer 4", wrong)
+
+# Natural-Language
+
+Create question with id question1
+Set type of question1 to singleChoice
+Set title of question1 to "What is an information system?"
+Set question of question1 to "Please explain the concept of an information system."
+Set answer of question1 to "Answer 1" which is wrong
+Set answer of question1 to "Answer 2" which is wrong
+Set answer of question1 to "Answer 3" which is correct
+Set answer of question1 to "Answer 4" which is wrong
+
