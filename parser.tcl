@@ -22,7 +22,7 @@ nx::Class create StoryboardParser {
 			set sbdata [read -nonewline $sbfile]
 			close $sbfile
 		} else {
-			puts "parser -- storyboard is not a file"
+			puts "parser -- storyboard is not a File"
 			set sbdata [:storyboard get]
 		}
 
