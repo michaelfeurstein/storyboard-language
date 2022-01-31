@@ -26,8 +26,13 @@ nx::Class create StoryboardParser {
 			set sbdata [:storyboard get]
 		}
 
+		if {[string is space $sbdata]} {
+			error "storyboard is empty"
+		}
+
 		puts "parser -- sbdata:$sbdata"
 		set lines [split $sbdata "\n"]
+		set :storyboardLinesList [list]
 		foreach line $lines {
 			# remove comments
 			regsub -all -line "#.*$" $line "" line
