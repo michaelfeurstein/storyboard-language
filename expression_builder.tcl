@@ -38,9 +38,7 @@ nx::Class create StoryboardBuilder {
 			"key-value" {set :key-value 1}
 			"natural-language" {set :natural-language 1}
 			default {
-				# complain
-				puts stderr "notation: ${:notation} not supported"
-				exit 1
+				[ErrorHandler raise_generic_error "notation: ${:notation} not supported. Use: \"key-value\" or \"natural-language\""]
 			}
 		}
 		next
@@ -262,8 +260,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					puts "STATUS:ERROR: $msg"
-					error $msg
+					[ErrorHandler raise_generic_error "ERROR in tryCmdStack:$msg command:$c"]
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg"
 					:removeCmdFromStack $c :creationStack
@@ -332,8 +329,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					puts "STATUS:ERROR: $msg"
-					error $msg
+					[ErrorHandler raise_generic_error "ERROR in handleBacklogStack:$msg command:$c"]
 				} on ok {} {
 					puts "(@[current method]) STATUS:OK COMMAND: $c"
 					:removeCmdFromStack $c :creationBacklogStack
@@ -348,6 +344,10 @@ nx::Class create StoryboardBuilder {
 
 	:method handleModuleStack {} {
 		set moduleCmd [lindex ${:moduleStack} 0]
+
+		if {$moduleCmd eq ""} {
+			[ErrorHandler no_module]
+		}
 
 		# look into structure and find instances from structure
 		set structure [:lget $moduleCmd "-structure"]
@@ -448,7 +448,7 @@ nx::Class create StoryboardBuilder {
 	:method lget {c p} {
 		set x [lsearch $c $p]
 		if {$x eq -1} {
-			error "parameter $p not found in [lindex $c 0]"
+			[ErrorHandler parameter_not_found $p $c]
 		}
 		incr x
 		return [lindex $c $x]

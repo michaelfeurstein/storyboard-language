@@ -95,7 +95,7 @@ namespace eval StoryBoard {
           apply [list {re str} $body ::] $r [concat $args]
         }
       } else {
-        puts stderr "handleUnknown: $firstWord (no match sentence!)"
+		[ErrorHandler handle_unknown_first_word $firstWord]
       }
     }
 

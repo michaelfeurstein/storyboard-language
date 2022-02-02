@@ -5,6 +5,7 @@ package require nx
 source language_model.tcl
 source expression_builder.tcl
 source worker.tcl
+source error_handler.tcl
 source visitor.tcl
 source definition_builder.tcl
 source step_definitions.tcl

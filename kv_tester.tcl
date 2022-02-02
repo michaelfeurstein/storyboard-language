@@ -6,6 +6,7 @@ source language_model.tcl
 source parser.tcl
 source visitor.tcl
 source worker.tcl
+source error_handler.tcl
 source expression_builder.tcl
 
 namespace import StoryBoard::*
