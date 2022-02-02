@@ -26,7 +26,7 @@ nx::Class create StoryboardParser {
 			set sbdata [:storyboard get]
 		}
 
-		if {[string is space $sbdata]} {
+		if {[string is space $sbdata] || $sbdata eq ""} {
 			error "storyboard is empty"
 		}
 
@@ -62,13 +62,19 @@ nx::Class create StoryboardParser {
 		}
 
 	:method createDictFromList {l} {
+		set lc 0
 		foreach ele $l {
 			#puts "element:[string trim $ele]"
 			#puts "element: $ele"
 			# create a dict based on the line elements
 			# this depends on the final syntax of storyboardfile
 			# for now - until syntax variant a is decided on - .
-			dict set :storyboardDict {*}$ele
+			incr lc
+			try {
+				dict set :storyboardDict {*}$ele
+			} on error {errorMsg} {
+				error "Line $lc: \"$ele\" is not formed well.\nUse the following structure:\n\nExample Video:\nvideo<uniqueID> URL http://..."
+			}
 		}
 	}
 }
