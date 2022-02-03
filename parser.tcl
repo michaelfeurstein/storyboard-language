@@ -16,15 +16,7 @@ nx::Class create StoryboardParser {
 	:method readStoryboard {} {
 		#puts "storyboardFile [:storyboardFile get]"
 		#puts "storyboardFile ${:storyboardFile} or [[self] storyboardFile get] or [:storyboardFile get]"
-		if {[file isfile [:storyboard get]]} {
-			puts "parser -- storyboard is regular file"
-			set sbfile [open [:storyboard get] r]
-			set sbdata [read -nonewline $sbfile]
-			close $sbfile
-		} else {
-			puts "parser -- storyboard is not a File"
-			set sbdata [:storyboard get]
-		}
+		set sbdata ${:storyboard}
 
 		if {[string is space $sbdata] || $sbdata eq ""} {
 			error "storyboard is empty"

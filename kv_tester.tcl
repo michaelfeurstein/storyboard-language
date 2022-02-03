@@ -1,6 +1,7 @@
 #!/usr/bin/env tclsh
 package require Tcl 8.6
 package require nx
+package require tcltest
 
 source language_model.tcl
 source parser.tcl
@@ -10,16 +11,32 @@ source error_handler.tcl
 source expression_builder.tcl
 
 namespace import StoryBoard::*
+namespace import ::tcltest::*
+
+set ::argv [lassign $argv f]
+::tcltest::configure {*}$::argv
 
 set storyboardFile ""
 
 if { $argc != 1 } {
-  	puts "kv_tester.tcl requires a storyboard as input"
-	puts "For example, tclsh kv_tester.tcl storyboard_example_A_01_blank"
-	exit
+	puts stderr "[info script] requires a storyboard as input"
+	puts stderr "For example, tclsh [info script] storyboards/my_storyboard"
+	exit 1
 } else {
-	set storyboardFile [lindex $argv 0]
+    set storyboardFile $f
+    if {![file exists $storyboardFile] || ![file readable $storyboardFile]} {
+      puts stderr "File '$storyboardFile' not present or accessible."
+      exit 1
+    }
 }
+
+set ch [open $storyboardFile r]
+try {
+	set sbdata [read -nonewline $ch]
+} finally {
+	catch {close $ch}
+}
+
 
 #puts storyboardFile:$storyboardFile
 
@@ -111,7 +128,7 @@ puts "\n--- Direct instantiations from kv_tester.tcl\n"
 #// storyboardbuilder //
 puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 # Setup Parser
-set internalParser [StoryboardParser new -storyboard $storyboardFile]
+set internalParser [StoryboardParser new -storyboard $sbdata]
 # Setup Expression Builder
 set internalBuilder [StoryboardBuilder new -notation key-value]
 # Call method from with a storyboard
