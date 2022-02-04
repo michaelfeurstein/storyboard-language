@@ -58,17 +58,17 @@ namespace eval StoryBoard {
       puts "\n--- After eval storyboardScript"
 
 	  # prepare dict
-	  puts "\nchecking stackDict"
-	  if {[info exists :stackDict]} {
-		puts "stackDict size:[dict size ${:stackDict}]"
-		puts stackDict:${:stackDict}
-		foreach id [dict keys ${:stackDict}] {
-			puts keys:$id
-		}
+	  #puts "\nchecking stackDict"
+	  if {[dict size ${:stackDict}] ne 0 && ${:stackDict} ne "" && ![string is space ${:stackDict}]} {
+		#puts "stackDict size:[dict size ${:stackDict}]"
+		#puts stackDict:${:stackDict}
+		#foreach id [dict keys ${:stackDict}] {
+		#	puts keys:$id
+		#}
 		set r ${:stackDict}
 	  } else {
-		puts "no result for stackDict"
-		set r ""; # TODO: compensation action required?
+		set r "";# TODO: compensation action required?
+		[ErrorHandler emptyStoryboard]
 	  }
 
 	  # prepare result

@@ -19,7 +19,7 @@ nx::Class create StoryboardParser {
 		set sbdata ${:storyboard}
 
 		if {[string is space $sbdata] || $sbdata eq ""} {
-			error "storyboard is empty"
+			[ErrorHandler emptyStoryboard]
 		}
 
 		puts "parser -- sbdata:$sbdata"

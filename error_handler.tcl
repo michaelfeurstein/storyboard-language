@@ -8,6 +8,10 @@ nx::Class create ErrorHandler {
 	
 	:public object method raise_generic_error {msg} {
 		error "ERROR: $msg"
+	}
+
+	:public object method emptyStoryboard {} {
+		error "ERROR: Your storyboard seems to be empty"
 	}	  
 
 	:public object method no_module args {
