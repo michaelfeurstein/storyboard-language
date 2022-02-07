@@ -67,7 +67,7 @@ nx::Class create Helper {
 	  }
 
 	  if {$matchedClass eq ""} {
-		[ErrorHandler handle_no_matching_class $id]
+		[::StoryBoard::ErrorHandler handle_no_matching_class $id]
 	  }
 
 	  return $matchedClass
