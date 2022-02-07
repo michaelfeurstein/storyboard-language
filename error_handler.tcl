@@ -12,6 +12,18 @@ nx::Class create ErrorHandler {
 
 	:public object method emptyStoryboard {} {
 		error "ERROR: Your storyboard seems to be empty"
+	}
+
+	:public object method handle_no_matching_class {no_match} {
+		set avail_cmds [::StoryBoard::StoryBoardElement info subclasses]
+		set avail [list]
+		foreach c $avail_cmds {
+			set tc [string trimleft $c ::StoryBoard::]
+			set lt [string tolower $tc]
+			lappend avail $lt
+		}
+		# TODO: provide more feedback (merge with handle_unknown_first_word)
+		error "ERROR: unknown \"$no_match\".\n\nAvailable classes: $avail"
 	}	  
 
 	:public object method no_module args {
@@ -56,7 +68,8 @@ nx::Class create ErrorHandler {
 	#
 	
 	:public object method handle_unknown_first_word {firstWord} {
-		error "handleUnknown: $firstWord (no match sentence!)"
+		# TODO: provide more feedback (merge with handle_no_matching_class)
+		error "ERROR: unknown \"$firstWord\" (no match sentence!)"
 	}
 }
 

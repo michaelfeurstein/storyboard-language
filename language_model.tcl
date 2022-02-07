@@ -23,10 +23,19 @@ nx::Class create ContentFragment {
 }
 
 #
+# StoryBoardElement
+#
+# Dummy class to identify usable storyboard elements for user
+#
+
+nx::Class create StoryBoardElement {
+}
+
+#
 # TextPage
 #
 
-nx::Class create TextPage -superclasses {ContentFragment Element} {
+nx::Class create TextPage -superclasses {ContentFragment Element StoryBoardElement} {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
 	:property -accessor public {body empty}
@@ -43,7 +52,7 @@ nx::Class create TextPage -superclasses {ContentFragment Element} {
 # Question new -id question1 -type multipleChoice -title "Information Systems" -question "Explain the concept of an information system" -answers ("", 1, ...) -feedback "Find more information in Wirtschaftsinformatik 1"
 #
 
-nx::Class create Question -superclasses {ContentFragment Element} {
+nx::Class create Question -superclasses {ContentFragment Element StoryBoardElement} {
 	:property -accessor public {title empty}
 	:property -accessor public {type multipleChoice}
 	:property -accessor public {question empty}
@@ -75,7 +84,7 @@ nx::Class create Answer -superclasses Element {
 # Video
 #
 
-nx::Class create Video -superclasses {ContentFragment Element} {
+nx::Class create Video -superclasses {ContentFragment Element StoryBoardElement} {
 	:property -accessor public {id:required}
 	:property -accessor public {URL:required}
 	:property -accessor public {timestamp:0..* empty}
@@ -165,7 +174,7 @@ nx::Class create Video -superclasses {ContentFragment Element} {
 # Timestamp
 #
 
-nx::Class create Timestamp -superclasses Element {
+nx::Class create Timestamp -superclasses {Element StoryBoardElement} {
 	:property -accessor public {id empty}
 	:property -accessor public {time:integer 0}
 	:property -accessor public {title empty}
@@ -224,7 +233,7 @@ nx::Class create Timestamp -superclasses Element {
 # Module
 #
 
-nx::Class create Module -superclasses Element {
+nx::Class create Module -superclasses {Element StoryBoardElement} {
 	:property -accessor public {id empty}
 	:property -accessor public {title empty}
 	:property -accessor public {structure:1..*,object,type=ContentFragment}
@@ -246,6 +255,6 @@ nx::Class create Module -superclasses Element {
 	}
 }
 
-namespace export Element ContentFragment TextPage Video Timestamp Module Question Answer Feedback
+namespace export Element ContentFragment StoryBoardElement TextPage Video Timestamp Module Question Answer Feedback
 }
 

@@ -67,8 +67,7 @@ nx::Class create Helper {
 	  }
 
 	  if {$matchedClass eq ""} {
-		# ALSO CONTINUE HERE: refine error response - only warning and continue empty ?
-		error "ERROR: matchClass could not match $id in $availableClasses"
+		[ErrorHandler handle_no_matching_class $id]
 	  }
 
 	  return $matchedClass
