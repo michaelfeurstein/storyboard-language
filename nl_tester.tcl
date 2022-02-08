@@ -76,7 +76,7 @@ namespace eval ::seb::tests {
   #
   # foreach i [info commands ::StoryBoard::*] {
   #   puts "\n$i"
-  # 	foreach el [$i info instances -closure] {
+  #		foreach el [$i info instances -closure] {
   #     ? {$el info class} $i
   #   }
   #   cleanupTests

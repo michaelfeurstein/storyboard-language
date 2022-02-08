@@ -39,7 +39,7 @@ nx::Class create StoryboardParser {
 			set line [string map {\( "{" \) "}"} $line]
 			set line [string map {, ""} $line]
 
-			puts line:$line
+			#puts line:$line
 			lappend :storyboardLinesList $line
 		}
 
@@ -50,7 +50,7 @@ nx::Class create StoryboardParser {
 		# - check for overwritings e.g. time defined twice in timestamp - see case 11
 
 		:createDictFromList ${:storyboardLinesList}
-		puts "\nparser -- storyboardDict:\n${:storyboardDict}"
+		#puts "\nparser -- storyboardDict:\n${:storyboardDict}"
 		}
 
 	:method createDictFromList {l} {
