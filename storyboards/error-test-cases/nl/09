@@ -1,0 +1,7 @@
+# nl test case for: no_module
+# trying to set structure without a module
+
+Create video with id infoSysVideo
+Set URL of infoSysVideo to https://www.youtube.com/embed/0siisFJUKh4
+
+Set structure of module to (infoSysVideo)
