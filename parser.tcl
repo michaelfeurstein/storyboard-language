@@ -63,7 +63,7 @@ nx::Class create StoryboardParser {
 			try {
 				dict set :storyboardDict {*}$ele
 			} on error {errorMsg} {
-				[ErrorHandler raise_generic_error "Line: \"$ele\" is not formed well.\nUse the following structure:\n\nExample Video:\nvideo<uniqueID> URL http://..."]
+				[ErrorHandler line_not_formed_well $ele]
 			}
 		}
 	}

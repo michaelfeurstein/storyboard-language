@@ -38,7 +38,7 @@ nx::Class create StoryboardBuilder {
 			"key-value" {set :key-value 1}
 			"natural-language" {set :natural-language 1}
 			default {
-				[ErrorHandler raise_generic_error "notation: ${:notation} not supported. Use: \"key-value\" or \"natural-language\""]
+				[ErrorHandler raise_generic_error "Notation: ${:notation} not supported.\n\nUse: \"key-value\" or \"natural-language\""]
 			}
 		}
 		next
@@ -260,7 +260,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[ErrorHandler raise_generic_error "ERROR in tryCmdStack:$msg command:$c"]
+					[ErrorHandler raise_generic_error "tryCmdStack failed with the following message: $msg \n\nCommand raising error: $c"]
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg"
 					:removeCmdFromStack $c :creationStack
@@ -329,7 +329,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[ErrorHandler raise_generic_error "ERROR in handleBacklogStack:$msg command:$c"]
+					[ErrorHandler raise_generic_error "handleBacklogStack failed with the following message: $msg \n\nCommand raising error: $c"]
 				} on ok {} {
 					puts "(@[current method]) STATUS:OK COMMAND: $c"
 					:removeCmdFromStack $c :creationBacklogStack

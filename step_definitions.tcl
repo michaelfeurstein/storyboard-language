@@ -213,8 +213,7 @@ namespace eval StoryBoard {
 				set 2 [string map {, ""} $2]
 				puts "new 2:$2"
 			} else {
-				puts stderr "No module available. Use Create command first."
-				exit 1
+				[ErrorHandler no_module]
 			}
 		} else {
 			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
