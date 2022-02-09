@@ -73,7 +73,7 @@ nx::Class create ErrorHandler {
 					"-title" {
 						set title_help "is missing parameter title.\n\nYou need to set the parameter title."
 						if {[[current callingobject] notation get] eq "key-value"} {
-							set paramErrMsg "$title_help\n\nExample:\n\nmodule title \"My first module\""
+							set paramErrMsg "$title_help\n\nExample:\nmodule title \"My first module\""
 						} elseif {[[current callingobject] notation get] eq "natural-language"} {
 							set paramErrMsg "$title_help\n\nExample:\nCreate module titled \"My first module\""
 						}
