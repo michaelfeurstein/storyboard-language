@@ -96,6 +96,10 @@ nx::Class create ErrorHandler {
 		# TODO: provide more feedback (merge with handle_no_matching_class)
 		error "\n\nERROR: unknown keyword \"$firstWord\""
 	}
+
+	:public object method cannot_set {keyname parameter} {
+		error "\n\nERROR: Cannot set \"$parameter\" of \"$keyname\" because \"$keyname\" has not been defined yet.\n\nUse Create keyword to define \"$keyname\" first.\n\nExample:\nCreate <object> with id $keyname"
+	}
 }
 
 namespace export ErrorHandler

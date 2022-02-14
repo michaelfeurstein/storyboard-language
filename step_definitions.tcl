@@ -220,8 +220,7 @@ namespace eval StoryBoard {
 		}
 
 		if {$keyName eq ""} {
-			puts stderr "Cannot set $0 of \"$1\" because it has not been defined yet. Use Create command first."
-			exit 1
+			[ErrorHandler cannot_set $1 $0]
 		} else {
 			switch -glob -- $0 {
 				"timestamp"

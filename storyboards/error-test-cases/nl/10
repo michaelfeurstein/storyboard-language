@@ -1,0 +1,5 @@
+# nl test case for: cannot_set {keyname parameter}
+# trying to set a parameter of an undefined object
+
+Set URL of infoSysVideo to https://www.youtube.com/embed/0siisFJUKh4
+
