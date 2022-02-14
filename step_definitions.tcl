@@ -3,7 +3,7 @@ namespace eval StoryBoard {
   nx::Class create StepDefinitions {
 
 	##
-	## setup step definitions 
+	## setup step definitions
 	##
 	#
 	# create DefinitionBuilder
@@ -299,7 +299,7 @@ namespace eval StoryBoard {
 			puts ele:$ele
 			dict set :stackDict {*}$ele
 	  }
-	  
+
 	  return $seBuilder
 	}
   }
