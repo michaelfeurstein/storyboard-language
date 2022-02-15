@@ -225,8 +225,7 @@ namespace eval StoryBoard {
 			switch -glob -- $0 {
 				"timestamp"
 				{
-					puts stderr "Adding timestamp via Set command is not allowed. Use \"Add timestamp\" command instead."
-					exit 1
+					[ErrorHandler cannot_add_ts_via_set]
 				}
 				"answer"
 				{

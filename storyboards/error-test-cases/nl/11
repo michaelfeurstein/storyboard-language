@@ -1,0 +1,7 @@
+# nl test case for: cannot_add_ts_via_set
+# trying to add a timestamp to video with set keyword
+
+Create video with id myVideo
+Set URL of myVideo to https://www.youtube.com/embed/0siisFJUKh4
+
+Set timestamp of myVideo to timesstamp1
