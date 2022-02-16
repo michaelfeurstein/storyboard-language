@@ -200,6 +200,7 @@ namespace eval StoryBoard {
 
 		puts "---\nstep definition 02 SET"
 		puts "0:$0 1:$1 2:$2"
+		set theSentence "Set $0 of $1 to $2"
 
 		if {$1 eq "module"} {
 			# check if there is a module
@@ -233,8 +234,7 @@ namespace eval StoryBoard {
 					# source: https://www.tcl.tk/man/tcl8.5/tutorial/Tcl20.html
 					set result [regexp {{(.+)} which is ([wrong|correct]+)} $2 match sub1 sub2]
 					if {!$result} {
-						puts stderr "Parts of your sentence are not formulated correctly.\nPlease review the following part:\n$2\nUse:\n\"<answer>\" which is wrong\n\"<answer>\" which is correct"
-						exit 1
+						[ErrorHandler answer_logic_wrong $theSentence $2]
 					} else {
 						# add or append answers
 						puts "Result: $result Match: $match 1: $sub1 2: $sub2"

@@ -104,6 +104,12 @@ nx::Class create ErrorHandler {
 	:public object method cannot_add_ts_via_set {} {
 		error "\n\nERROR: Adding timestamp via Set keyword is not allowed. \n\nUse \"Add\" keyword instead.\n\nExample:\nAdd timestamp <timestamp name> to <video name>"
 	}
+
+	:public object method answer_logic_wrong {sentence part} {
+		set sentence [string map {"{" "\"" "}" "\""} $sentence]
+		set part [string map {"{" "\"" "}" "\""} $part]
+		error "\n\nERROR: The sentence \"$sentence\" is not formulated correctly.\n\nPlease review the following part: $part\n\nExample:\nSet answer of <question id> to \"answer string\" which is <correct|wrong>"
+	}
 }
 
 namespace export ErrorHandler
