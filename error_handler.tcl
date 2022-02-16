@@ -101,6 +101,10 @@ nx::Class create ErrorHandler {
 		error "\n\nERROR: Cannot set \"$parameter\" of \"$keyname\" because \"$keyname\" has not been defined yet.\n\nUse Create keyword to define \"$keyname\" first.\n\nExample:\nCreate <object> with id $keyname"
 	}
 
+	:public object method cannot_add {keyname} {
+		error "\n\nERROR: Cannot add timestamp to \"$keyname\" because \"$keyname\" has not been defined yet.\n\nUse Create keyword to define \"$keyname\" first.\n\nExample:\nCreate <object> with id $keyname"
+	}
+
 	:public object method cannot_add_ts_via_set {} {
 		error "\n\nERROR: Adding timestamp via Set keyword is not allowed. \n\nUse \"Add\" keyword instead.\n\nExample:\nAdd timestamp <timestamp name> to <video name>"
 	}

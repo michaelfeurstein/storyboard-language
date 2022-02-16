@@ -1,0 +1,5 @@
+# nl test case for: cannot_add
+# trying to add timestamp to video which is not defined
+
+Add timestamp timestamp1 to myVideo
+

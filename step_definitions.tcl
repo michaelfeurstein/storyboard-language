@@ -270,8 +270,7 @@ namespace eval StoryBoard {
 
 		set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 		if {$keyName eq ""} {
-			puts stderr "Cannot add timestamp to \"$1\" because it has not been defined yet. Use Create command first."
-			exit 1
+			[ErrorHandler cannot_add $1]
 		} else {
 			if {[:checkTimestamp ${:stackDict} $keyName]} {
 				puts "appending timestamp $0 to timestamp of $keyName"
