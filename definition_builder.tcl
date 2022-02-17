@@ -153,12 +153,11 @@ namespace eval StoryBoard {
 
 	# module creator
 	#
-	:method createModule {title} {
+	:method createModule {title sentence} {
 		set type [Helper matchClass module ::StoryBoard::*]
 		set no_of_keys [:countKeys ${:stackDict} $type]
 		if {$no_of_keys ne 0} {
-			puts stderr "There seems to be a module already"
-			exit 1
+			[ErrorHandler duplicate_module $sentence]
 		} else {
 			set ele "module title $title"
 			puts ele:$ele

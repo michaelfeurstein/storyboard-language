@@ -1,0 +1,5 @@
+# nl test case for: duplicate_module
+# define two modules, which is not allowed
+
+Create module titled "VBL Modul: Informationssystem"
+Create module titled "The second"

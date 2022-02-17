@@ -121,8 +121,7 @@ namespace eval StoryBoard {
 			set ele "$keyName URL $2"
 			dict set :stackDict {*}$ele
 		} else {
-			puts stderr "Creating $0 with URL \"$2\" is not allowed. Use Set URL."
-			exit 1
+			[ErrorHandler not_allowed $0 {URL}]
 		}
 	  }
 
@@ -161,12 +160,10 @@ namespace eval StoryBoard {
 				dict set :stackDict {*}$ele
 			}
 			"single*" {
-				puts stderr "question type: $0 seems misspelled. Try Create single choice question with id $1. $errMsg"
-				exit 1
+				[ErrorHandler spelling_error $0 $example]
 			}
 			"multiple*" {
-				puts stderr "question type: $0 seems misspelled. Try Create multiple choice question with id $1. $errMsg"
-				exit 1
+				[ErrorHandler spelling_error $0 $example]
 			}
 			default {
 				[ErrorHandler question_type_not_supported $0 $example]
@@ -178,14 +175,16 @@ namespace eval StoryBoard {
 		puts "---\nstep definition 01c CREATE module with title <title of module>"
 		puts "0:$0"
 
-		:createModule $0
+		set theSentence "Create module with title $0"
+		:createModule $0 $theSentence
 	  }
 
 	  $seBuilder define Create {^module titled (.+)$} {
 		puts "---\nstep definition 01d CREATE module titled <title of module>"
 		puts "0:$0"
 
-		:createModule $0
+		set theSentence "Create module titled $0"
+		:createModule $0 $theSentence
 	  }
 
 	  $seBuilder define Set {^([^\s]*) of ([^\s]*) to (.+)$} {

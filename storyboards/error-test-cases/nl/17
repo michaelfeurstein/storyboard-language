@@ -1,0 +1,11 @@
+# nl test case for: spelling_error
+# spelling single choice question type wrong
+# for both types singlechoice & single choice
+
+Create sdsadfaschoice question with id question1
+Set title of question1 to "What is an information system?"
+Set question of question1 to "Please explain the concept of an information system."
+Set answer of question1 to "Answer 1" which is wrong
+Set answer of question1 to "Answer 2" which is correct
+Set answer of question1 to "Answer 3" which is correct
+Set feedback of question1 to "General feedback on this question"

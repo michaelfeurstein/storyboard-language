@@ -118,6 +118,19 @@ nx::Class create ErrorHandler {
 	:public object method question_type_not_supported {type example} {
 		error "\n\nERROR: Question type \"$type\" not supported.\n\nUse single choice or multiple choice instead.\n\nExample:\n$example"
 	}
+
+	:public object method duplicate_module {sentence} {
+		set sentence [string map {"{" "\"" "}" "\""} $sentence]
+		error "\n\nERROR: You are creating more than one module.\n\nCurrently only one module is supported. Remove line: \"$sentence\""
+	}
+
+	:public object method spelling_error {spellingError example} {
+		error "\n\nSPELLING ERROR: \"$spellingError\" is not spelled correctly.\"\n\nExample:\n$example"
+	}
+
+	:public object method not_allowed {object parameter} {
+		error "\n\nERROR: Creating \"$object\" with \"$parameter\" is not allowed."
+	}
 }
 
 namespace export ErrorHandler
