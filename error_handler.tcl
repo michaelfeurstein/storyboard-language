@@ -114,6 +114,10 @@ nx::Class create ErrorHandler {
 		set part [string map {"{" "\"" "}" "\""} $part]
 		error "\n\nERROR: The sentence \"$sentence\" is not formulated correctly.\n\nPlease review the following part: $part\n\nExample:\nSet answer of <question id> to \"answer string\" which is <correct|wrong>"
 	}
+
+	:public object method question_type_not_supported {type example} {
+		error "\n\nERROR: Question type \"$type\" not supported.\n\nUse single choice or multiple choice instead.\n\nExample:\n$example"
+	}
 }
 
 namespace export ErrorHandler

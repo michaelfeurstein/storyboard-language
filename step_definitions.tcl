@@ -131,7 +131,7 @@ namespace eval StoryBoard {
 		puts "---\nstep definition 01b CREATE <type of> question with id"
 		puts "[self] 0:$0 1:$1"
 
-		set errMsg "\n\nSentence formulation: Create <type of> question with id <id>\n\nSupported question types and formulations are:\n\n- single choice / singleChoice\n- multiple choice / multipleChoice"
+		set example "Create <type of> question with id <id>\n\nSupported question types and formulations are:\n- single choice | singleChoice\n- multiple choice | multipleChoice"
 
 		set no_of_keys [:countKeys ${:stackDict} question]
 		incr no_of_keys
@@ -169,8 +169,7 @@ namespace eval StoryBoard {
 				exit 1
 			}
 			default {
-				puts stderr "question type: \"$0\" not supported. $errMsg"
-				exit 1
+				[ErrorHandler question_type_not_supported $0 $example]
 			}
 		}
 	  }
