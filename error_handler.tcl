@@ -30,13 +30,7 @@ nx::Class create ErrorHandler {
 	}
 
 	:public object method handle_no_matching_class {no_match} {
-		set avail_cmds [::StoryBoard::StoryBoardElement info subclasses]
-		set avail [list]
-		foreach c $avail_cmds {
-			set tc [string trimleft $c ::StoryBoard::]
-			set lt [string tolower $tc]
-			lappend avail $lt
-		}
+		set avail [Helper getStoryboardElements]
 		# TODO: provide more feedback (merge with handle_unknown_first_word)
 		error "\n\nERROR: unknown keyword \"$no_match\".\n\nYou need to use one of the following keywords.\n\nAvailable keywords:\n$avail"
 	}

@@ -96,6 +96,17 @@ nx::Class create Helper {
 			}
 		}
 	}
+
+	:public object method getStoryboardElements {} {
+		set avail_cmds [::StoryBoard::StoryBoardElement info subclasses]
+		set avail [list]
+		foreach c $avail_cmds {
+			set tc [string trimleft $c ::StoryBoard::]
+			set lt [string tolower $tc]
+			lappend avail $lt
+		}
+		return $avail
+	}
 }
 
 namespace export Helper
