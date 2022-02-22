@@ -38,7 +38,7 @@ nx::Class create StoryboardBuilder {
 			"key-value" {set :key-value 1}
 			"natural-language" {set :natural-language 1}
 			default {
-				[ErrorHandler raise_generic_error "Notation: ${:notation} not supported.\n\nUse: \"key-value\" or \"natural-language\""]
+				[::StoryBoard::ErrorHandler raise_generic_error "Notation: ${:notation} not supported.\n\nUse: \"key-value\" or \"natural-language\""]
 			}
 		}
 		next
@@ -260,7 +260,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[ErrorHandler raise_generic_error "tryCmdStack failed with the following message: $msg \n\nCommand raising error: $c"]
+					[::StoryBoard::ErrorHandler raise_generic_error "tryCmdStack failed with the following message: $msg \n\nCommand raising error: $c"]
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg"
 					:removeCmdFromStack $c :creationStack
@@ -329,7 +329,7 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[ErrorHandler raise_generic_error "handleBacklogStack failed with the following message: $msg \n\nCommand raising error: $c"]
+					[::StoryBoard::ErrorHandler raise_generic_error "handleBacklogStack failed with the following message: $msg \n\nCommand raising error: $c"]
 				} on ok {} {
 					puts "(@[current method]) STATUS:OK COMMAND: $c"
 					:removeCmdFromStack $c :creationBacklogStack
@@ -346,7 +346,7 @@ nx::Class create StoryboardBuilder {
 		set moduleCmd [lindex ${:moduleStack} 0]
 
 		if {$moduleCmd eq ""} {
-			[ErrorHandler no_module]
+			[::StoryBoard::ErrorHandler no_module]
 		}
 
 		# look into structure and find instances from structure
@@ -448,7 +448,7 @@ nx::Class create StoryboardBuilder {
 	:method lget {c p} {
 		set x [lsearch $c $p]
 		if {$x eq -1} {
-			[ErrorHandler parameter_not_found $p $c]
+			[::StoryBoard::ErrorHandler parameter_not_found $p $c]
 		}
 		incr x
 		return [lindex $c $x]

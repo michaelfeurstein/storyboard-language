@@ -68,7 +68,7 @@ namespace eval StoryBoard {
 		set r ${:stackDict}
 	  } else {
 		set r "";# TODO: compensation action required?
-		[ErrorHandler emptyStoryboard]
+		[::StoryBoard::ErrorHandler emptyStoryboard]
 	  }
 
 	  # prepare result
@@ -95,7 +95,7 @@ namespace eval StoryBoard {
           apply [list {re str} $body ::] $r [concat $args]
         }
       } else {
-		[ErrorHandler handle_unknown_first_word $firstWord]
+		[::StoryBoard::ErrorHandler handle_unknown_first_word $firstWord]
       }
     }
 
@@ -154,10 +154,10 @@ namespace eval StoryBoard {
 	# module creator
 	#
 	:method createModule {title sentence} {
-		set type [Helper matchClass module ::StoryBoard::*]
+		set type [::StoryBoard::Helper matchClass module ::StoryBoard::*]
 		set no_of_keys [:countKeys ${:stackDict} $type]
 		if {$no_of_keys ne 0} {
-			[ErrorHandler duplicate_module $sentence]
+			[::StoryBoard::ErrorHandler duplicate_module $sentence]
 		} else {
 			set ele "module title $title"
 			puts ele:$ele

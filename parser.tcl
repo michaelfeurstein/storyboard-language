@@ -19,7 +19,7 @@ nx::Class create StoryboardParser {
 		set sbdata ${:storyboard}
 
 		if {[string is space $sbdata] || $sbdata eq ""} {
-			[ErrorHandler emptyStoryboard]
+			[::StoryBoard::ErrorHandler emptyStoryboard]
 		}
 
 		puts "parser -- sbdata:$sbdata"
@@ -63,7 +63,7 @@ nx::Class create StoryboardParser {
 			try {
 				dict set :storyboardDict {*}$ele
 			} on error {errorMsg} {
-				[ErrorHandler line_not_formed_well $ele]
+				[::StoryBoard::ErrorHandler line_not_formed_well $ele]
 			}
 		}
 	}

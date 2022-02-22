@@ -121,7 +121,7 @@ namespace eval StoryBoard {
 			set ele "$keyName URL $2"
 			dict set :stackDict {*}$ele
 		} else {
-			[ErrorHandler not_allowed $0 {URL}]
+			[::StoryBoard::ErrorHandler not_allowed $0 {URL}]
 		}
 	  }
 
@@ -160,13 +160,13 @@ namespace eval StoryBoard {
 				dict set :stackDict {*}$ele
 			}
 			"single*" {
-				[ErrorHandler spelling_error $0 $example]
+				[::StoryBoard::ErrorHandler spelling_error $0 $example]
 			}
 			"multiple*" {
-				[ErrorHandler spelling_error $0 $example]
+				[::StoryBoard::ErrorHandler spelling_error $0 $example]
 			}
 			default {
-				[ErrorHandler question_type_not_supported $0 $example]
+				[::StoryBoard::ErrorHandler question_type_not_supported $0 $example]
 			}
 		}
 	  }
@@ -212,19 +212,19 @@ namespace eval StoryBoard {
 				set 2 [string map {, ""} $2]
 				puts "new 2:$2"
 			} else {
-				[ErrorHandler no_module]
+				[::StoryBoard::ErrorHandler no_module]
 			}
 		} else {
 			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 		}
 
 		if {$keyName eq ""} {
-			[ErrorHandler cannot_set $1 $0]
+			[::StoryBoard::ErrorHandler cannot_set $1 $0]
 		} else {
 			switch -glob -- $0 {
 				"timestamp"
 				{
-					[ErrorHandler cannot_add_ts_via_set]
+					[::StoryBoard::ErrorHandler cannot_add_ts_via_set]
 				}
 				"answer"
 				{
@@ -232,7 +232,7 @@ namespace eval StoryBoard {
 					# source: https://www.tcl.tk/man/tcl8.5/tutorial/Tcl20.html
 					set result [regexp {{(.+)} which is ([wrong|correct]+)} $2 match sub1 sub2]
 					if {!$result} {
-						[ErrorHandler answer_logic_wrong $theSentence $2]
+						[::StoryBoard::ErrorHandler answer_logic_wrong $theSentence $2]
 					} else {
 						# add or append answers
 						puts "Result: $result Match: $match 1: $sub1 2: $sub2"
@@ -268,7 +268,7 @@ namespace eval StoryBoard {
 
 		set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
 		if {$keyName eq ""} {
-			[ErrorHandler cannot_add $1]
+			[::StoryBoard::ErrorHandler cannot_add $1]
 		} else {
 			if {[:checkTimestamp ${:stackDict} $keyName]} {
 				puts "appending timestamp $0 to timestamp of $keyName"
