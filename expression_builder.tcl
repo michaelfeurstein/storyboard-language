@@ -76,6 +76,18 @@ nx::Class create StoryboardBuilder {
 		}
 		# -- END:NL-specific
 
+		# -- BEGIN:KV-specific
+		if {${:key-value}} {
+			set type [::StoryBoard::Helper matchClass ${:className} ::StoryBoard::*]
+			if {$type eq "module"} {
+				puts "module will use className:${:className}"
+			} else {
+				set :className [string range ${:className} [string length $type] end]
+				puts "using className:${:className}"
+			}
+		}
+		# -- END:KV-specific
+
 		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
 		set intersectLists [:intersectLists $configInfo ${:stack}]
@@ -134,6 +146,13 @@ nx::Class create StoryboardBuilder {
 								}
 							}
 							# -- END:NL-specific
+
+							# -- BEGIN:KV-specific
+							if {${:key-value}} {
+								# for searching we need to use the prefix naming convention
+								set i "timestamp$i"
+							}
+							# -- END:KV-specific
 
 							set idx [lsearch ${:storyboardDict} $i]
 							if {$idx ne "-1"} {

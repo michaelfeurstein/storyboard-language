@@ -40,6 +40,7 @@ nx::Class create StoryboardParser {
 			set line [string map {, ""} $line]
 
 			#puts line:$line
+			set line [:prepareLine $line]
 			lappend :storyboardLinesList $line
 		}
 
@@ -52,6 +53,26 @@ nx::Class create StoryboardParser {
 		:createDictFromList ${:storyboardLinesList}
 		#puts "\nparser -- storyboardDict:\n${:storyboardDict}"
 		}
+
+	:method prepareLine {the_line} {
+		set result ""
+
+		# match the first word with available classes
+		set type [::StoryBoard::Helper matchClass $the_line ::StoryBoard::*]
+
+		if {$type eq "module"} {
+			return $the_line
+		}
+
+		set result $type
+
+		# trimleft away the type (2 times for whitespace)
+		set the_line [string trimleft [string trimleft $the_line $type]]
+
+		# add type with space (i know, this is hacky)
+		append result $the_line
+		return $result
+	}
 
 	:method createDictFromList {l} {
 		foreach ele $l {

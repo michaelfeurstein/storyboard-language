@@ -7,29 +7,29 @@
 
 module title "VBL Modul: Informationssystem "
 
-textpage1 title "Erklärvideo: Was ist ein Informationssystem"
-textpage1 body "Herzlich willkommen zu dem videobasierten Lernmodul. Erstellt mit der storyboard language Notationsvariante: KV"
+textpage tp1 title "Erklärvideo: Was ist ein Informationssystem"
+textpage tp1 body "Herzlich willkommen zu dem videobasierten Lernmodul. Erstellt mit der storyboard language Notationsvariante: KV"
 
-video1 URL https://www.youtube.com/embed/0siisFJUKh4
-video1 timestamp (timestamp1, timestamp2)
+video v1 URL https://www.youtube.com/embed/0siisFJUKh4
+video v1 timestamp (ts1, ts2)
 
-timestamp1 title "Die Definition eines Informationssystems"
-timestamp1 time 83
+timestamp ts1 title "Die Definition eines Informationssystems"
+timestamp ts1 time 83
 
-timestamp2 title "Beispiel Bibliothek"
-timestamp2 time 155
+timestamp ts2 title "Beispiel Bibliothek"
+timestamp ts2 time 155
 
-question1 title "What is an information system?"
-question1 type singleChoice
-question1 question "Please explain the concept of an information system."
-question1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
-question1 feedback "General feedback on this question"
+question q1 title "What is an information system?"
+question q1 type singleChoice
+question q1 question "Please explain the concept of an information system."
+question q1 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
+question q1 feedback "General feedback on this question"
 
-question2 title "Bib"
-question2 type singleChoice
-question2 question "Please explain another concept"
-question2 answers ("Answer X", correct, "Answer Y", wrong, "Answer Z", wrong)
-question2 feedback "General feedback on this question"
+question q2 title "Bib"
+question q2 type singleChoice
+question q2 question "Please explain another concept"
+question q2 answers ("Answer X", correct, "Answer Y", wrong, "Answer Z", wrong)
+question q2 feedback "General feedback on this question"
 
-module structure (textpage1, video1, question1, question2)
+module structure (tp1, v1, q1, q2)
 
