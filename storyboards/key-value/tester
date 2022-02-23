@@ -15,148 +15,148 @@ module title "My Test Module"
 # 01 # - works
 # creates video1
 
-video1 URL http://www.myvideo.com
+video v1 URL http://www.myvideo.com
 
 # 02 # - works
 # creates video2
 # timestamp1 is not valid, because no reference to video
 
-video2 URL http://www.anothervideo.com
+video v2 URL http://www.anothervideo.com
 
-timestamp1 time 0123
-timestamp1 title "timestamp should not show up as it is not referenced"
+timestamp ts1 time 0123
+timestamp ts1 title "timestamp should not show up as it is not referenced"
 
 # 03 # - works
 # creates video3, puts it on backlog as timestamp not there yet
 # creates timestamp, after checking for reference in storyboard (this is where the timestamp comes into existence before the video)
 # backlog creates video3 again, this time with timestamp (this is where the idea comes from adding a timestamp instance to the video instance)
 
-video3 URL http://www.third.com
-video3 timestamp timestamp2
+video v3 URL http://www.third.com
+video v3 timestamp ts2
 
-timestamp2 time 4567
-timestamp2 title "second"
+timestamp ts2 time 4567
+timestamp ts2 title "second"
 
 # 03.a # - works
 
-video3a URL http://www.3a.com
+video v3a URL http://www.3a.com
 
-timestamp3a time 8769
-timestamp3a title "Three A"
+timestamp ts3a time 8769
+timestamp ts3a title "Three A"
 
-video3a timestamp timestamp3a
+video v3a timestamp ts3a
 
 ## 04 # - works
 
-video4 URL http://www.four.com
+video v4 URL http://www.four.com
 
-timestamp3 time 6789
-timestamp3 title "third"
-timestamp3 video video4
+timestamp ts3 time 6789
+timestamp ts3 title "third"
+timestamp ts3 video v4
 
 ## 05 # - works
 
-timestamp4 time 444
-timestamp4 title "Four"
+timestamp ts4 time 444
+timestamp ts4 title "Four"
 
-video5 URL http://www.five.com
-video5 timestamp timestamp4
+video v5 URL http://www.five.com
+video v5 timestamp ts4
 
 # 06 # - works
 
-timestamp5 time 444
-timestamp5 title "Four"
-timestamp5 video video6
+timestamp ts5 time 444
+timestamp ts5 title "Four"
+timestamp ts5 video v6
 
-video6 URL http://www.six.com
+video v6 URL http://www.six.com
 
 # 07.pre # - works
 
-video7pre URL http://www.sevenPre.com
+video 7pre URL http://www.sevenPre.com
 
-timestamp12 time 12
-timestamp12 title "twelve"
-timestamp12 video video7pre
+timestamp ts12 time 12
+timestamp ts12 title "twelve"
+timestamp ts12 video 7pre
 
-timestamp13 time 13
-timestamp13 title "thirteen"
-timestamp13 video video7pre
+timestamp ts13 time 13
+timestamp ts13 title "thirteen"
+timestamp ts13 video 7pre
 
-timestamp14 time 14
-timestamp14 title "fourteen"
-timestamp14 video video7pre
+timestamp ts14 time 14
+timestamp ts14 title "fourteen"
+timestamp ts14 video 7pre
 
 # 07 # - works
 
-video7 URL http://www.seven.com
-video7 timestamp (timestamp6, timestamp7, timestamp8, timestamp9, timestamp10, timestamp11)
+video v7 URL http://www.seven.com
+video v7 timestamp (ts6, ts7, ts8, ts9, ts10, ts11)
 
-timestamp6 time 666
-timestamp6 title "Six"
+timestamp ts6 time 666
+timestamp ts6 title "Six"
 
-timestamp7 time 777
-timestamp7 title "Seven"
+timestamp ts7 time 777
+timestamp ts7 title "Seven"
 
-timestamp8 time 888
-timestamp8 title "Eight"
+timestamp ts8 time 888
+timestamp ts8 title "Eight"
 
-timestamp10 time 010
-timestamp10 title "Ten"
+timestamp ts10 time 010
+timestamp ts10 title "Ten"
 
 ## 07.a # - works
 
-video7a URL http://www.seven.com
+video v7a URL http://www.seven.com
 
-timestamp6a time 666
-timestamp6a title "Six"
+timestamp ts6a time 666
+timestamp ts6a title "Six"
 
-timestamp7a time 777
-timestamp7a title "Seven"
+timestamp ts7a time 777
+timestamp ts7a title "Seven"
 
-timestamp8a time 888
-timestamp8a title "Eight"
+timestamp ts8a time 888
+timestamp ts8a title "Eight"
 
-video7a timestamp (timestamp6a, timestamp7a, timestamp8a, timestamp10a)
+video v7a timestamp (ts6a, ts7a, ts8a, ts10a)
 
 # 07.b # - works
 
-timestamp6b time 666
-timestamp6b title "Six"
+timestamp ts6b time 666
+timestamp ts6b title "Six"
 
-video7b URL http://www.eight.com
-video7b timestamp (timestamp6b, timestamp7b, timestamp8b)
+video v7b URL http://www.eight.com
+video v7b timestamp (ts6b, ts7b, ts8b)
 
-timestamp7b time 777
-timestamp7b title "Seven"
+timestamp ts7b time 777
+timestamp ts7b title "Seven"
 
-timestamp8b time 888
-timestamp8b title "Eight"
+timestamp ts8b time 888
+timestamp ts8b title "Eight"
 
-timestamp9b time 999
-timestamp9b title "Should be deleted"
+timestamp ts9b time 999
+timestamp ts9b title "Should be deleted"
 
 # 08 # - works
 
-module structure (video7b, video3a, video1, timestamp7b, textpage1, question2)
+module structure (v7b, vi3a, v1, ts7b, tp1, q2)
 
 # 09 # - works
 
-textpage1 title "My Content Page"
-textpage1 body "Welcome to this video-based learning module"
+textpage tp1 title "My Content Page"
+textpage tp1 body "Welcome to this video-based learning module"
 
 # 10 # - works
 
-question2 title "What is an information system?"
-question2 type multipleChoice
-question2 question "Please explain the concept of an information system."
-question2 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
-question2 feedback "General feedback on this question"
+question q2 title "What is an information system?"
+question q2 type multipleChoice
+question q2 question "Please explain the concept of an information system."
+question q2 answers ("Answer 1", wrong, "Answer 2", correct, "Answer 3", correct)
+question q2 feedback "General feedback on this question"
 
 # 11 # - TODO catch this error
 
-timestamp10 title "This is a timestamp"
-timestamp10 time 1234
+timestamp ts10 title "This is a timestamp"
+timestamp ts10 time 1234
 
-timestamp11 title "Another timestamp"
-timestamp10 time 5678
+timestamp ts11 title "Another timestamp"
+timestamp ts10 time 5678
 

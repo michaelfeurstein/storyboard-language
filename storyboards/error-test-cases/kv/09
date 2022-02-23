@@ -1,6 +1,6 @@
 # error test case for: parameter_not_found
 # module is missing title
 
-video URL http://nm.wu.ac.at
+video v1 URL http://nm.wu.ac.at
 
-module structure (video)
+module structure (v1)
