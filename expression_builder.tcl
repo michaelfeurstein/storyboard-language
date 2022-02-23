@@ -23,17 +23,17 @@ nx::Class create StoryboardBuilder {
 	:forward question %self creator Question
 
 	:public object method new {args} {
-		puts "\nStoryboardBuilder::new call $args"
+		#puts "\nStoryboardBuilder::new call $args"
 		next
 	}
 
 	:public object method create {args} {
-		puts "\nStoryboardBuilder::create call $args"
+		#puts "\nStoryboardBuilder::create call $args"
 		next
 	}
 
 	:method init {} {
-		puts "notation: ${:notation}"
+		#puts "notation: ${:notation}"
 		switch -glob -- ${:notation} {
 			"key-value" {set :key-value 1}
 			"natural-language" {set :natural-language 1}
@@ -133,16 +133,16 @@ nx::Class create StoryboardBuilder {
 
 							# -- BEGIN:NL-specific
 							if {${:natural-language}} {
-								puts "trying to find main key of $i\n\nstoryboardDict:\n${:storyboardDict}"
+								#puts "trying to find main key of $i\n\nstoryboardDict:\n${:storyboardDict}"
 								set mainKey [Helper getMainKey ${:storyboardDict} "id" $i]
-								puts "mainKey: $mainKey i:$i"
+								#puts "mainKey: $mainKey i:$i"
 								if {$mainKey eq ""} {
-									puts "mainkey not found - continue"
+									#puts "mainkey not found - continue"
 									continue
 								} else {
-									puts "old i is $i"
+									#puts "old i is $i"
 									set i $mainKey
-									puts "new i is $i"
+									#puts "new i is $i"
 								}
 							}
 							# -- END:NL-specific
@@ -162,8 +162,8 @@ nx::Class create StoryboardBuilder {
 								set tsKey [lindex ${:storyboardDict} $idxo] ;# -> e.g. timestamp7
 								set tsParam [lindex ${:storyboardDict} $idxn] ;# -> time 777 title Seven
 
-								puts "tsKey: $tsKey"
-								puts "tsParam: $tsParam"
+								#puts "tsKey: $tsKey"
+								#puts "tsParam: $tsParam"
 
 								#set oldtsdata [dict get ${:storyboardDict} [lindex ${:storyboardDict} $idxo]]; # that's the timestamp data
 
@@ -173,7 +173,7 @@ nx::Class create StoryboardBuilder {
 								# insert/append video [$caller id get] into timestampX
 								# timestamp7 {time 777 title Seven} --> timestamp7 {time 777 title Seven video video8}
 								#
-								puts "adding video parameter to timestamp $tsKey in storyboard"
+								#puts "adding video parameter to timestamp $tsKey in storyboard"
 								dict update :storyboardDict $tsKey $tsKey {
 									dict lappend $tsKey video [$caller id get]
 								}
@@ -400,7 +400,7 @@ nx::Class create StoryboardBuilder {
 		set type [:lget $qcmd "-type"]
 		set question [:lget $qcmd "-question"]
 		if {[catch {set feedback [:lget $qcmd "-feedback"]} e]} {
-			puts "feedback can stay empty"
+			#puts "feedback can stay empty"
 			set feedback "empty"
 		}
 
@@ -431,7 +431,7 @@ nx::Class create StoryboardBuilder {
 				set answerBlock "$old\n[subst [list :answer {\n:id set answer$ac \n:text set {[lindex $al 0]} \n:correct set $isCorrect \n}]]"
 				set counter 0
 				set al [list]
-				puts "ab: $answerBlock"
+				#puts "ab: $answerBlock"
 			}
 		}
 		set ac 0
