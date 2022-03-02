@@ -279,7 +279,16 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[::StoryBoard::ErrorHandler raise_generic_error "tryCmdStack failed with the following message: $msg \n\nCommand raising error: $c"]
+					# TODO: merge with handlebacklog error (it's the same)
+					# pull this up into ErrorHandler
+					set result [regexp {(\S+)} $c match sub1]
+					if {$result} {
+						set sub1 [string tolower $sub1]
+						set type [::StoryBoard::Helper matchClass $sub1 ::StoryBoard::*]
+						[::StoryBoard::ErrorHandler raise_generic_error "storyboard failed.\n\nHave a look at your \"$type\" command."]
+					} else {
+						[::StoryBoard::ErrorHandler raise_generic_error "storyboard failed with the following message: $msg \n\nCommand raising error: $c"]
+					}
 				} on ok {msg} {
 					puts "STATUS:OK --> msg:$msg"
 					:removeCmdFromStack $c :creationStack
@@ -348,7 +357,16 @@ nx::Class create StoryboardBuilder {
 						}
 					}
 				} on error {msg} {
-					[::StoryBoard::ErrorHandler raise_generic_error "handleBacklogStack failed with the following message: $msg \n\nCommand raising error: $c"]
+					# TODO: merge with tryCmdStack error (it's the same)
+					# pull this up into ErrorHandler
+					set result [regexp {(\S+)} $c match sub1]
+					if {$result} {
+						set sub1 [string tolower $sub1]
+						set type [::StoryBoard::Helper matchClass $sub1 ::StoryBoard::*]
+						[::StoryBoard::ErrorHandler raise_generic_error "storyboard failed.\n\nHave a look at your \"$type\" command."]
+					} else {
+						[::StoryBoard::ErrorHandler raise_generic_error "storyboard failed with the following message: $msg \n\nCommand raising error: $c"]
+					}
 				} on ok {} {
 					puts "(@[current method]) STATUS:OK COMMAND: $c"
 					:removeCmdFromStack $c :creationBacklogStack
