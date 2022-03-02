@@ -37,8 +37,8 @@ nx::Class create StoryBoardElement {
 
 nx::Class create TextPage -superclasses {ContentFragment Element StoryBoardElement} {
 	:property -accessor public {id empty}
-	:property -accessor public {title empty}
-	:property -accessor public {body empty}
+	:property -accessor public {title:required}
+	:property -accessor public {body:required}
 
 	:public method accept {visitor} {
 		puts "TextPage::visit"
