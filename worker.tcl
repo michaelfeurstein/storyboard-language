@@ -107,6 +107,11 @@ nx::Class create Helper {
 		}
 		return $avail
 	}
+
+	:public object method getNaturalLanguageKeywords {} {
+		set avail_keywords [list create set add]
+		return $avail_keywords
+	}
 }
 
 namespace export Helper
