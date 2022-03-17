@@ -88,7 +88,15 @@ nx::Class create ErrorHandler {
 
 	:public object method handle_unknown_first_word {firstWord} {
 		# TODO: provide more feedback (merge with handle_no_matching_class)
-		error "\n\nERROR: unknown keyword \"$firstWord\""
+		set errIntro "\n\nERROR: unknown keyword \"$firstWord\"."
+		switch -regexp -- $firstWord {
+			{[c|C][create]*} {error "$errIntro\n\nDid you mean the \"Create\" command.\n\nNote:\nCommands are case sensitive."}
+			{[s|S][set]*} {error "$errIntro\n\nDid you mean the \"Set\" command.\n\nNote:\nCommands are case sensitive."}
+			{[a|A][ad]*} {error "$errIntro\n\nDid you mean the \"Add\" command.\n\nNote:\nCommands are case sensitive."}
+			default {
+				error "$errIntro"
+			}
+		}
 	}
 
 	:public object method cannot_set {keyname parameter} {
