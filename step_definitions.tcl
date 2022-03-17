@@ -208,8 +208,9 @@ namespace eval StoryBoard {
 				# polishing only here, because I want to
 				# reduce the risk of a regular sentence
 				# to get polished where it shouldn't
-				set 2 [string map {\( "{" \) "}"} $2]
-				set 2 [string map {, ""} $2]
+				set 2 [string map {\( "{" \) "}"} $2]; # replace brackets with curlies
+				set 2 [string map {, " "} $2]; # replace comma with space
+				set 2 [string map {"  " " "} $2]; # replace double space - which is generated if ", " is present - with space
 				puts "new 2:$2"
 			} else {
 				[::StoryBoard::ErrorHandler no_module]
@@ -286,7 +287,8 @@ namespace eval StoryBoard {
 			puts "0:$0 1:$1"
 
 			# polishing
-			set timestamps [string map {, ""} $0]
+			set 0 [string map {, " "} $0]; # replace comma with space
+			set timestamps [string map {"  " " "} $0]; # replace double space - which is generated if ", " is present - with space
 			puts timestamps:$timestamps
 
 			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]

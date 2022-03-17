@@ -37,7 +37,8 @@ nx::Class create StoryboardParser {
 
 			# substitute all (*) with {*}
 			set line [string map {\( "{" \) "}"} $line]
-			set line [string map {, ""} $line]
+			set line [string map {, " "} $line]; # replace comma with space
+			set line [string map {"  " " "} $line]; # replace double space - which is generated if ", " is present - with space
 
 			#puts line:$line
 			set line [:prepareLine $line]
