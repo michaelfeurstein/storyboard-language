@@ -40,5 +40,5 @@ Set answer of question2 to "Answer Y" which is wrong
 Set answer of question2 to "Answer Z" which is wrong
 Set feedback of question2 to "General feedback on this question"
 
-Set structure of module to (textpage1, infoSysVideo, question1, question2, question3)
+Set structure of module to (textpage1,infoSysVideo,question1,question2)
 
