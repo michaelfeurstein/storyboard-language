@@ -1,0 +1,33 @@
+# Storyboard solution: NL period 1 
+#
+# notation: controlled natural-language
+# date: 25-05-2022
+# status: working
+# cmd: tclsh nl_tester.tcl storyboards/natural-language/nl_solution_period_01
+
+Create module titled "VBL Unit: Information Systems"
+Set structure of module to (tp, vid, qu)
+
+Create textpage with id tp
+Set title of tp to "Explainer Video: Information Systems"
+Set body of tp to "Watch the following video and answer the question below."
+
+Create video with id vid
+Set URL of vid to https://www.youtube.com/embed/0siisFJUKh4
+Add timestamps (ts1, ts2) to vid
+
+Create timestamp with id ts1
+Set title of ts1 to "Definition"
+Set time of ts1 to 63
+
+Create timestamp with id ts2
+Set title of ts2 to "Example"
+Set time of ts2 to 148
+
+Create question with id qu
+Set type of qu to singleChoice
+Set title of qu to "Comprehending Information Systems"
+Set question of qu to "Select the correct statement"
+Set answer of qu to "A library does not need an information system" which is wrong
+Set answer of qu to "Information systems can support the digitalization of libraries" which is correct
+ 

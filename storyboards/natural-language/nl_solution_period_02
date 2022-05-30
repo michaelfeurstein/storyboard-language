@@ -1,0 +1,33 @@
+# Storyboard solution: NL period 2 
+#
+# notation: controlled natural-language
+# date: 30-05-2022
+# status: working 
+# cmd: tclsh nl_tester.tcl storyboards/natural-language/nl_solution_period_02
+
+Create module titled "VBL Unit: Hash Values"
+Set structure of module to (tp, qu, vid)
+
+Create textpage with id tp
+Set title of tp to "Explainer Video: Hash Values"
+Set body of tp to "Answer the following question and watch the video below."
+
+Create video with id vid
+Set URL of vid to TODO
+Add timestamps (ts1, ts2) to vid
+
+Create timestamp with id ts1
+Set title of ts1 to "Concept"
+Set time of ts1 to 120
+
+Create timestamp with id ts2
+Set title of ts2 to "Requirements"
+Set time of ts2 to 201
+
+Create question with id qu
+Set type of qu to singleChoice
+Set title of qu to "Comprehending Hash Values"
+Set question of qu to "Select the correct statement"
+Set answer of qu to "A hash function produces a hash value" which is correct
+Set answer of qu to "A hash value is a random number" which is wrong
+

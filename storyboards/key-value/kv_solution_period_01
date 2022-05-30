@@ -1,0 +1,27 @@
+# Storyboard solution: KV period 1
+#
+# notation: key-value
+# date: 30-05-2022
+# status: working 
+# cmd: tclsh kv_tester.tcl storyboards/key-value/kv_solution_period_01
+
+module title "VBL Unit: Information Systems"
+module structure (tp, vid, qu)
+
+textpage tp title "Explainer Video: Information Systems"
+textpage tp body "Watch the following video and answer the question below."
+
+video vid URL TODO
+video vid timestamp (ts1, ts2)
+
+timestamp ts1 title "Definition"
+timestamp ts1 time 63
+
+timestamp ts2 title "Example"
+timestamp ts2 time 148
+
+question qu title "Comprehending Information Systems"
+question qu type singleChoice
+question qu question "Select the correct statement"
+question qu answers ("A library does not need an information system", wrong, "Information systems can support the digitalization of libraries", correct)
+
