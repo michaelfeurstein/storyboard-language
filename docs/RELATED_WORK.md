@@ -473,6 +473,8 @@ Example from LEARN [5] showing markup using XoWiki [8] for an external video as 
 
 Ronfard et al. (2013) [10] created the [Prose-Storyboard-Language], a natural language approach was used to describe camera movemenet and direction information for a movie. Syntax variant b leans towards this natural language descritpion in order to structure a video-based learning unit into highlights with assessments and other interaction elements. The motivation behind this is that markup-language my not be easy to grasp and that the creation process for video-based learning unit builds on a storyboard, which is mainly done through informal text (citation needed).
 
+MF 03.Jun.22: The implementation of this is influenced by the "gherkin syntax" https://docs.behat.org/en/v2.5/guides/1.gherkin.html 
+
 **Proposal: Natural language variant for storyboard-language proposal**
 
 ```
