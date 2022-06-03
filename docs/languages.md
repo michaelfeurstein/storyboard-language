@@ -55,3 +55,7 @@ And a lecture “PA042” with limited capacity of 20 students But the capacity 
 
 [1] Kuhn, T. (2014). A Survey and Classification of Controlled Natural Languages. Computational Linguistics, 40(1), 121–170. https://doi.org/10.1162/COLI_a_00168
 
+## References (not included yet / of possible value)
+
+Abbott 1983 Program Design by Informal English Descriptions https://dl.acm.org/doi/10.1145/182.358441 
+
