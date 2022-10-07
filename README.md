@@ -25,5 +25,6 @@
 ## A Language for Authoring Video-based Learning Content
 
 [Related Work](docs/RELATED_WORK.md)
+
 [Language Foundations](docs/languages.md)
 
