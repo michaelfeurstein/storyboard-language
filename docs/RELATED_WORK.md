@@ -89,6 +89,30 @@ When focusing further on a text-based approach for authoring there are some exam
      - Press button "Window Opener" at "rear left door" for "rear left window" in position "open"
      ```
 
+
+- **Domain of Software Architecture Diagramming - [D2 Declarative Diagramming]**: D2 stands for "Declarative Diagramming" and is a diagram scripting language that turns text into diagrams. It has been designed as an open-source DSL for software architecture diagrams- There is a github repository [github/D2] and an official company [terrastruct] offering product lines and professional tool integrations. The language itself resembles a declarative approach and looks like a JSON file combined with key-value pairs including special syntax options.
+
+     Excerpt from an example on github:
+     
+     ```
+     IBM CPU: {
+      Core 0
+      Core 1
+      Core 2
+      
+      Core 0 -> Bus Interface
+      Core 1 -> Bus Interface
+      Core 2 -> Bus Interface
+     }
+     
+     Latte GPU: {
+      Memory Bridge
+     }
+     
+     IBM CPU.Bus Interface -> Latte GPU.Memory Bridge
+     ```
+
+
 ### Context: Languages for Authoring Video
 
 5 examples with excerpts and 2 examples without details.
@@ -602,3 +626,9 @@ A generic example of the transformed instantiations with annotations describing 
 [Mascii]: https://mascii.org/
 
 [BPMN Sketch Miner]: https://www.bpmn-sketch-miner.ai/ 
+
+[D2 Declarative Diagramming]: https://d2lang.com/tour/intro/
+
+[github/D2]: https://github.com/terrastruct/d2
+
+[terrastruct]: https://terrastruct.com/
