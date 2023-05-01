@@ -1,0 +1,19 @@
+module title "VBL Unit: Information Systems"
+module structure (tp, vid, qu)
+
+textpage tp title "Explainer Video: Information Systems"
+textpage tp body "Watch the video and answer the question below."
+
+video vid URL https://www.youtube.com/embed/0siisFJUKh4
+video vid timestamp (ts1, ts2)
+
+timestamp ts1 title "Definition of an Information System"
+timestamp ts1 time 63
+
+timestamp ts2 title "Example of an Information System"
+timestamp ts2 time 148
+
+question qu title "Comprehension Quiz"
+question qu type singleChoice
+question qu question "Select the correct information system"
+question qu answers ("Library course", wrong, "ERP system", correct, "Text editor", wrong)
