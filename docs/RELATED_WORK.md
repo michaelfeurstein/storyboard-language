@@ -112,6 +112,24 @@ When focusing further on a text-based approach for authoring there are some exam
      IBM CPU.Bus Interface -> Latte GPU.Memory Bridge
      ```
 
+- **Domain of Diagramming - [Eraser.io Diagram-to-code]**: Eraser.io offers a diagram-to-code language ensuring easy maintainability of diagrams created. The company calls the language markup, it looks like JSON with key-value pairs including special notation for connnections of elements. Note that this product suite uses AI to prompt diagrams as well in combination with the actual diagram created and represented through code.
+
+     ```
+     // define groups and nodes
+     API gateway [icon: aws-api-gateway]
+     VPC Subnet [icon: aws-vpc] {
+        Main Server {
+         Server [icon: aws-ec2]
+         Data [icon: aws-rds]
+        }
+     }
+
+     // define connections
+     API gateway > Server > Data
+     Server > Queue
+     Queue > Worker1, Worker2, Worker3
+     ```
+
 
 ### Context: Languages for Authoring Video
 
@@ -632,3 +650,5 @@ A generic example of the transformed instantiations with annotations describing 
 [github/D2]: https://github.com/terrastruct/d2
 
 [terrastruct]: https://terrastruct.com/
+
+[Eraser.io Diagram-to-code]: https://www.eraser.io/
