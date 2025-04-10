@@ -555,6 +555,7 @@ nx::Class create StoryboardBuilder {
 		return $propertyList
 	}
 
+        ###
 	# DYNAMIC RECEPTION
 	#
 	# reminder to self: not using dynamic reception
@@ -564,7 +565,16 @@ nx::Class create StoryboardBuilder {
 	#  puts "unknown $v"
 	#  lappend :moduleStack $v
 	#}
+        ###
 
+        ###
+        # 
+        # Method from
+        # 
+        # this is the main entry point 
+        # reading the storyboard given as variable
+        #
+        ###
 	:public method from {storyboard} {
 	  set :storyboardDict $storyboard
 
