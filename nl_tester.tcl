@@ -51,6 +51,8 @@ namespace eval ::seb::tests {
 
   # // Definition Builder and Step Definitions //
   # create a definition builder (dictBuilder) with step definitions
+  # StepDefinitions returns a DefinitionBuilder object, containing defined step definitions
+  # This DefinitionBuilder object reads the storyboard with get method
   set dictBuilder [StepDefinitions setup]
   set storyboardDict [$dictBuilder get $sbdata]
   puts "\n--- Result\n$storyboardDict"
