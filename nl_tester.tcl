@@ -55,7 +55,7 @@ namespace eval ::seb::tests {
   # This DefinitionBuilder object reads the storyboard with get method
   set dictBuilder [StepDefinitions setup]
   set storyboardDict [$dictBuilder get $sbdata]
-  puts "\n--- Result\n$storyboardDict"
+  puts "\n--- Result: stackDict from DefinitionBuilder:\n$storyboardDict\n---"
 
   # // Expression Builder //
   set internalBuilder [StoryboardBuilder new -notation natural-language]

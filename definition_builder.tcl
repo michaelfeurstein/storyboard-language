@@ -1,3 +1,11 @@
+###
+#
+# DefinitionBuilder
+#
+# used for controlled-natural language syntax
+#
+###
+
 namespace eval StoryBoard {
 
   nx::Class create Interp {
@@ -21,10 +29,10 @@ namespace eval StoryBoard {
 
   nx::Class create DefinitionBuilder {
 
-    :variable result:object
+    #:variable result:object
 
     :property {sentences:substdefault {[dict create]}}
-	:property -accessor public {stackDict:substdefault {[dict create]}}
+    :property -accessor public {stackDict:substdefault {[dict create]}}
 
 
     :method getMatchVars {regExprStr} {
@@ -37,17 +45,19 @@ namespace eval StoryBoard {
       return $vars
     }
 
-    :method polish {script} {
-      # TODO: Here one can manipulate the passed script string before
-      # being processed as a Tcl script.
-	  puts "polish script:$script"
-      return $script
-    }
+    ### currently not in use
+    #
+    #:method polish {script} {
+    #  # TODO: Here one can manipulate the passed script string before
+    #  # being processed as a Tcl script.
+    #  puts "polish script:$script"
+    #  return $script
+    #}
 
     :public method get {storyboardScript} {
       set interp [Interp new]
       $interp register [list [self] handleUnknown] ::unknown
-      set storyboardScript [:polish $storyboardScript]
+      #set storyboardScript [:polish $storyboardScript]
       puts "--- Calling eval storyboardScript"
 	  $interp eval $storyboardScript
       # TODO: At this point, one can decide what the result or kind of

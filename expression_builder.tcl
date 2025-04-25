@@ -44,21 +44,31 @@ nx::Class create StoryboardBuilder {
 		next
 	}
 
+        ###
+        #
+        # creator
+        #
+        # SETUP COMMAND
+        # the creator method build up the command query
+        # e.g. Class -new -id video4 -url http://
+	#
+	# Key-Value Notation: generates className based on key
+	# Example: video4 URL http://www.video4.com
+	#
+	# CNL Notation: id is explicitly set for internal referencing
+	# Example: Create video with id video4
+	#
+	# pseudo:
+	# 1) look into :stack if an id set
+	# 2) if id is set, use it and remove from :stack; if not, use :className
+	#
+        # Pattern: EXPRESSION BUILDER
+        #   - a fluent interface for command query on language model (semantic model)
+        #
+        ###
+
 	:method creator {class} {
 		puts "---- creator method with class:$class stack:${:stack}"
-
-		# SETUP COMMAND
-		#
-		# Key-Value Notation: generates className based on key
-		# Example: video4 URL http://www.video4.com
-		#
-		# CNL Notation: id is explicitly set for internal referencing
-		# Example: Create video with id video4
-		#
-		# pseudo:
-		# 1) look into :stack if an id set
-		# 2) if id is set, use it and remove from :stack; if not, use :className
-		#
 
 		# -- BEGIN:NL-specific
 		if {${:natural-language}} {
@@ -457,6 +467,8 @@ nx::Class create StoryboardBuilder {
 
 		# step 2
 		# based on djdsl/tutorials/patterns.tcl:727 ComputerBuilder
+                # Pattern: METHOD CHAINING
+                #   note that answerBlock contains more method chains
 		set cmd [subst [list [QuestionBuilder new] question {
 			:setAttributes $id {$title} {$type} {$question} {$feedback}
 			$answerBlock
@@ -568,11 +580,18 @@ nx::Class create StoryboardBuilder {
         ###
 
         ###
-        # 
+        #
         # Method from
-        # 
-        # this is the main entry point 
+        #
+        # this is the main entry point
         # reading the storyboard given as variable
+        #
+        # Patterns used:
+        #  - CONTEXT VARIABLE - variable :stack
+        #  - DYNAMIC RECEPTION - using nx forward mechanism
+        #       Helpder matchClass returns a StoryBoard class (e.g. video)
+        #       which resolves to a call :video
+        #       :video is then forwarded and builder executes it with stack
         #
         ###
 	:public method from {storyboard} {
@@ -591,12 +610,17 @@ nx::Class create StoryboardBuilder {
 		foreach el [dict get ${:storyboardDict} $id] {
 		  # fill the stack with all elements (el) of key (id)
 		  #:$el ; # dynamic reception
+                  # CONTEXT VARIABLE stack
 		  lappend :stack $el
 		}
 		puts "\nNEW CALL calling:$id with stack:${:stack}"
 		set :className $id
+
+                # DYNAMIC RECEPTION
 		:[Helper matchClass $id ::StoryBoard::*]
 		#:creator $e
+
+                # CONTEXT VARIABLE stack
 		set :stack ""
 		set :className ""
 	  }
@@ -620,6 +644,12 @@ nx::Class create StoryboardBuilder {
 	}; # from end
 }; # StoryboardBuilder end
 
+###
+# QuestionBuilder
+#
+# Patterns used:
+#  - OBJECT SCOPING using NX/Tcl’s eval
+#  - METHOD CHAINING enabled through this builder
 # based on djdsl/tutorials/patterns.tcl:690 ComputerBuilder
 nx::Class create QuestionBuilder {
 	:property -accessor public result:object,type=Question

@@ -1,4 +1,5 @@
 #!/usr/bin/env tclsh
+puts "tcl: '$tcl_version'"
 package require Tcl 8.6
 package require nx
 package require tcltest
@@ -11,7 +12,7 @@ source error_handler.tcl
 source expression_builder.tcl
 
 namespace import StoryBoard::*
-namespace import ::tcltest::*
+#namespace import ::tcltest::*
 
 set ::argv [lassign $argv f]
 ::tcltest::configure {*}$::argv
@@ -125,15 +126,18 @@ puts "\n--- Direct instantiations from kv_tester.tcl\n"
 
 #[testVideo] destroy
 
-#// storyboardbuilder //
+# // Parser //
 puts "\n--- Instantiations from storyboard file:$storyboardFile\n"
 # Setup Parser
 set internalParser [StoryboardParser new -storyboard $sbdata]
-# Setup Expression Builder
+set storyboardDict [$internalParser storyboardDict get]
+puts "\n--- Result: storyboardDict from StoryboardParser:\n$storyboardDict\n--- "
+
+# // Expression Builder //
 set internalBuilder [StoryboardBuilder new -notation key-value]
-# Call method from with a storyboard
-set module [$internalBuilder from [$internalParser storyboardDict get]]
-#// end //
+# call method from with a storyboardDict
+set module [$internalBuilder from $storyboardDict]
+# // end //
 
 puts "\n info commands: [info commands ::StoryBoard::*]"
 
