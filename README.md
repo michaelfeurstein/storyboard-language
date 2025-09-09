@@ -12,7 +12,7 @@
 
 **Natural-Language Notation:**
 
-`tclsh nl_tester.tcl storyboards/natural-language/syntax_B_module`
+`tclsh cnl_tester.tcl storyboards/natural-language/syntax_B_module`
 
 **Call Structure**
 
