@@ -38,10 +38,7 @@ try {
 	catch {close $ch}
 }
 
-
-#puts storyboardFile:$storyboardFile
-
-puts "\n--- Direct instantiations from kv_tester.tcl\n"
+#puts "\n--- Direct instantiations from kv_tester.tcl\n"
 
 #set id "question1"
 #set title "Information Systems"
@@ -139,7 +136,7 @@ set internalBuilder [StoryboardBuilder new -notation key-value]
 set module [$internalBuilder from $storyboardDict]
 # // end //
 
-puts "\n info commands: [info commands ::StoryBoard::*]"
+#puts "\n info commands: [info commands ::StoryBoard::*]"
 
 #// visitor //
 puts "\n--- Visitor call on module object: $module"
@@ -148,7 +145,7 @@ set r [$visitor evaluate $module]
 puts "\n result from visitor:\n[$r asHTML]"
 #// end //
 
-puts "\n info commands: [info commands ::StoryBoard::*]"
+#puts "\n info commands: [info commands ::StoryBoard::*]"
 
 puts "\nQuestionBuilder: [llength [QuestionBuilder info instances -closure]]"
 
@@ -164,7 +161,7 @@ foreach x [Video info instances -closure] {
 		puts child:[$el id get]
 	}
 }
-puts "\nTimestamp:[llength [Timestamp info instances -closure]]"
+puts "\nTimestamps:[llength [Timestamp info instances -closure]]"
 foreach x [Timestamp info instances -closure] {
 	puts "found class $x with id:[$x id get]"
 	foreach el [$x info parent] {

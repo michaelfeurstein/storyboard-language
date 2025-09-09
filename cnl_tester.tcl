@@ -32,7 +32,7 @@ namespace eval ::seb::tests {
 
   if { $argc != 1 } {
     puts stderr "[info script] requires a storyboard as input"
-    puts stderr "For example, tclsh nl_tester.tcl storyboards/syntax_B_natural"
+    puts stderr "For example, tclsh cnl_tester.tcl storyboards/syntax_B_natural"
     exit 1
   } else {
     set storyboardFile $f
@@ -70,7 +70,7 @@ namespace eval ::seb::tests {
   #
   # Tests
   #
-  puts "\nnl_tester.tcl:  ContentFragments  [llength [ContentFragment info instances -closure]]    Elements  [llength [Element info instances -closure]]"
+  puts "\ncnl_tester.tcl:  ContentFragments  [llength [ContentFragment info instances -closure]]    Elements  [llength [Element info instances -closure]]"
 
   # TODO
   # - make these tests generic
