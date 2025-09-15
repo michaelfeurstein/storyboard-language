@@ -39,9 +39,8 @@ nx::Class create StoryboardParser {
 			set line [string map {\( "{" \) "}"} $line]
 			set line [string map {, " "} $line]; # replace comma with space
 			set line [string map {"  " " "} $line]; # replace double space - which is generated if ", " is present - with space
-
-			#puts line:$line
-			set line [:prepareLine $line]
+                        set line [string map {\' "\""} $line]; # replace single quotes with double quotes
+                        set line [:prepareLine $line]
 			lappend :storyboardLinesList $line
 		}
 

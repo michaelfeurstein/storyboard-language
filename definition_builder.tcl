@@ -33,7 +33,7 @@ namespace eval StoryBoard {
 
     :property {sentences:substdefault {[dict create]}}
     :property -accessor public {stackDict:substdefault {[dict create]}}
-
+    :property storyboardLinesList
 
     :method getMatchVars {regExprStr} {
       # Trick the regex to match the empty string, so we can count the
@@ -45,19 +45,23 @@ namespace eval StoryBoard {
       return $vars
     }
 
-    ### currently not in use
-    #
-    #:method polish {script} {
-    #  # TODO: Here one can manipulate the passed script string before
-    #  # being processed as a Tcl script.
-    #  puts "polish script:$script"
-    #  return $script
-    #}
+    :method polish {script} {
+      # Here one can manipulate the passed script string before
+      # being processed as a Tcl script.
+      puts "---polish script:$script"
+      set lines [split $script "\n"]
+      set :storyboardLinesList [list]
+      foreach line $lines {
+        set line [string map {\' "\""} $line]; # replace single quotes with double quotes
+        append :storyboardLinesList "$line\n"
+      }
+      return ${:storyboardLinesList}
+    }
 
     :public method get {storyboardScript} {
       set interp [Interp new]
       $interp register [list [self] handleUnknown] ::unknown
-      #set storyboardScript [:polish $storyboardScript]
+      set storyboardScript [:polish $storyboardScript]
       puts "--- Calling eval storyboardScript"
 	  $interp eval $storyboardScript
       # TODO: At this point, one can decide what the result or kind of
