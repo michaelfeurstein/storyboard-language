@@ -100,6 +100,18 @@ nx::Class create StoryboardBuilder {
 
 		# configInfo: provide clean variable names of class
 		set configInfo [lmap slot [$class info variables] {$slot info name}]
+                puts configInfo:$configInfo
+                puts stack${:stack}
+
+                # -- BEGIN:KV-specific
+                if {${:key-value}} {
+                    # check if timestamps plural is in there and make it singular to fit with Video class parameter timestamp,
+                    if { "timestamps" in [dict keys ${:stack}] } {
+                        # replace timestamps with timestamp in stack
+                        set :stack [string map {"timestamps" "timestamp"} ${:stack}]
+                    }
+                }
+                # -- END:KV-specific
 		set intersectLists [:intersectLists $configInfo ${:stack}]
 
 		# Setup of actual class new command
@@ -249,13 +261,16 @@ nx::Class create StoryboardBuilder {
 						set foundTS 0
 						set foundV 0
 
+                                                puts storyboardRevDict[dict keys ${:storyboardRevDict}]
 						# Find timestamp reference in storyboard
 						# works with single timestamp and timestamp list
 						# for cases where timestamp is created without video reference
 						foreach e [dict keys ${:storyboardRevDict}] {
-							set idxe [lsearch $e $key] ;# -> search for key timestamp
-							if {[lindex $e $idxe] eq $key} {
-								# if timestamp key found incr into next element
+                                                        set idxe [lsearch -all -regexp $e timestamps?]
+                                                        set ts [lsearch -inline -all -regexp $e timestamps?]
+
+                                                        if {[llength $ts] && [regexp timestamps? $ts]} {
+                                                                # if timestamp key found incr into next element
 								# this could be: "timestamp timestamp7" or "timestamp (ts1, ts2, ts3)"
 								set ne [incr idxe]
 								if {[lsearch [lindex $e $ne] [$caller id get]] ne "-1"} { ;# -> search for timestamp reference
@@ -264,7 +279,7 @@ nx::Class create StoryboardBuilder {
 									set foundTS 1
 									continue
 								}
-							}
+                                                        } 
 						}
 
 						# Find video in storyboard

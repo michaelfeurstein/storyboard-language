@@ -252,46 +252,31 @@ namespace eval StoryBoard {
 			};# -- end switch
 		};# -- end else
 	  }
-
-	  $seBuilder define Add {^timestamp ([^\s]*) to (.*)$} {
-		# Approach:
-		# When adding a timestamp to a video the following can happen:
-		# - the video has no timestamp therefore simply add it
-		# - the video already has 0 or * timestamps therefore append to this list
-		#
-		# pseudo:
-		# 1) get main key of video id you want to add to (main key of $1)
-		# 2) check if this mainkey has timestamps
-		# 3) if it has no timestamps set it and if it has timestamps append it
-
-		puts "---\nstep definition 03 ADD TIMESTAMP"
-		puts "0:$0 1:$1"
-
-		set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
-		if {$keyName eq ""} {
-			[::StoryBoard::ErrorHandler cannot_add $1]
-		} else {
-			if {[:checkTimestamp ${:stackDict} $keyName]} {
-				puts "appending timestamp $0 to timestamp of $keyName"
-				:appendValue :stackDict $keyName timestamp $0
-			} else {
-				puts "setting timestamp of $keyName to $0"
-				set ele "$keyName timestamp $0"
-				dict set :stackDict {*}$ele
-			}
-		}
-	  }
-
-	  $seBuilder define Add {^timestamps \((.+)\) to ([^\s]*)$} {
+            
+          #
+          # regex
+          # ? question mark --> makes the previous character optional. Character can be in
+          #                     brackets () or not. 
+          #                     Example:
+          #                         timestamps? --> matches singular and plural
+          #                         (\()?       --> matches ( if it's there
+          #                     Source: https://www.reddit.com/r/myautomod/wiki/regex/
+          #
+          # [^()\[\]]*?     --> matches zero or more chars other than (, ), [ and ] as few as possible
+          #                     Example:
+          #                         (ts1, ts2)  --> i want only the part inside bracket up until )
+          #                     Source: https://stackoverflow.com/a/68862249/693052
+          #
+	  $seBuilder define Add {^timestamps? (\()?([^()\[\]]*?)(\))? to ([^\s]*)$} {
 			puts "---\nstep definition 03.a ADD TIMESTAMP plural"
-			puts "0:$0 1:$1"
+			puts "0:$0 1:$1 2:$2 3:$3"
 
 			# polishing
-			set 0 [string map {, " "} $0]; # replace comma with space
-			set timestamps [string map {"  " " "} $0]; # replace double space - which is generated if ", " is present - with space
+			set temp_ts [string map {, " "} $1]; # replace comma with space
+			set timestamps [string map {"  " " "} $temp_ts]; # replace double space - which is generated if ", " is present - with space
 			puts timestamps:$timestamps
 
-			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $1]
+			set keyName [::StoryBoard::Helper getMainKey ${:stackDict} "id" $3]
 			set ele "$keyName timestamp {$timestamps}"
 			puts ele:$ele
 			dict set :stackDict {*}$ele
