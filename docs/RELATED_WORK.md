@@ -425,6 +425,8 @@ A general overview of domain specific languages (textual notation) in an educati
     {{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
     ```
 
+- **DSL for educational video games** (2019) Agile development of multiplatform educational video games using a Domain‐Specific Language https://doi.org/10.1007%2Fs10209-019-00681-y
+
 Others: [Aephea](https://micans.org/aephea/): a text-based authoring tool for HTML.
 
 The above examples (3 + 5 in total) are all focussed on educational content first. They use one of the following approaches:
@@ -493,8 +495,6 @@ The following come close to being a *language-based approach* and combine *educa
      ```
 
 - **LiaScript** (2019) A Domain-Specific-Language for Interactive Online Courses https://eric.ed.gov/?id=ED621589
-
-- **DSL for educational video games** (2019) Agile development of multiplatform educational video games using a Domain‐Specific Language https://doi.org/10.1007%2Fs10209-019-00681-y
 
 - **Tutorly** (2024) Turning Programming Videos Into Apprenticeship Learning Environments with LLMs https://doi.org/10.48550/arXiv.2405.12946
 
@@ -662,5 +662,6 @@ A generic example of the transformed instantiations with annotations describing 
 [terrastruct]: https://terrastruct.com/
 
 [Eraser.io Diagram-to-code]: https://www.eraser.io/
+
 
 
