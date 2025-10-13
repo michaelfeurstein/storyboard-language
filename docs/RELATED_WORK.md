@@ -410,7 +410,21 @@ A general overview of domain specific languages (textual notation) in an educati
      Hint ::= (#PCDATA) 
      Answer ::= (#PCDATA)
      ```
-     
+
+- **\<e-Game\>** a markup-based DSL in the context of video game development by Moreno-Ger et al. (2006) [11]
+    
+    Excerpt
+
+    ```
+    <conversation, Foreman,
+    <<speak-char, "Well José, did you measure the scaffold">,
+    <<response,
+    <<"No sir, not yet",
+    <<speak-char, "And what are you waiting for, boy?">, <<speak-player, "At once, sir">, <end-conversation,<>>>>>,
+    <<"Yes sir, it's ready", <<speak-char, "And...">, <<response, ... >,
+    {{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
+    ```
+
 Others: [Aephea](https://micans.org/aephea/): a text-based authoring tool for HTML.
 
 The above examples (3 + 5 in total) are all focussed on educational content first. They use one of the following approaches:
@@ -425,7 +439,15 @@ The above examples (3 + 5 in total) are all focussed on educational content firs
 
 The following come close to being a *language-based approach* and combine *education* with *video-based learning* (= *with video* focus):
 
-- **[VI-TWO]** a framework for authoring interactive videos for learning and **[VI-LAB]**, a CSCL-system for video-based CSCL-Scripts
+- **VCML** (2002) Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
+
+- **<e-Tutor>** (2010) Managing the Production and Evolution of e-learning Tools with Attribute Grammars https://doi.org/10.1109/ICALT.2010.124
+
+- **L.IVE** (2014) an integrated interactive video-based learning environment. Note it does not state being a DSL (possibly exclude) http://dx.doi.org/10.1145/2556288.2557368
+
+- **SceneSync** (2017) A Hypervideo Model for Learning Objects https://doi.org/10.1145/3078714.3078739
+
+- **[VI-TWO]** (2018) a framework for authoring interactive videos for learning and **[VI-LAB]**, a CSCL-system for video-based CSCL-Scripts
 
      In Seidel's work on authoring support for video-based cscl-script two tools were developed: [VI-TWO], a framework for authoring interactive videos and [VI-LAB]: a CSCL-system for video-based CSCL-Scripts. [VI-TWO] offers the three authoring approaches named above, one of which is a markup-based approach. This approach builds on using [Custom Elements] for HTML 5 documents and extending the MediaWiki [Wikitext] markup specification.
      
@@ -469,24 +491,12 @@ The following come close to being a *language-based approach* and combine *educa
     +[[Hyperlink: other page#b] #60 | 120]
     </hypervideo>
      ```
-     
-- **\<e-Game\>** a markup-based DSL in the context of video game development by Moreno-Ger et al. (2006) [11]
-    
-    Excerpt
 
-    ```
-    <conversation, Foreman,
-    <<speak-char, "Well José, did you measure the scaffold">,
-    <<response,
-    <<"No sir, not yet",
-    <<speak-char, "And what are you waiting for, boy?">, <<speak-player, "At once, sir">, <end-conversation,<>>>>>,
-    <<"Yes sir, it's ready", <<speak-char, "And...">, <<response, ... >,
-    {{SecondTaskInitiated, UsedMeasureTapeScaffold},∅}>
-    ``` 
+- **LiaScript** (2019) A Domain-Specific-Language for Interactive Online Courses https://eric.ed.gov/?id=ED621589
 
-- **VCML** Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
+- **DSL for educational video games** (2019) Agile development of multiplatform educational video games using a Domain‐Specific Language https://doi.org/10.1007%2Fs10209-019-00681-y
 
-- **L.IVE** an integrated interactive video-based learning environment: http://dx.doi.org/10.1145/2556288.2557368 
+- **Tutorly** (2024) Turning Programming Videos Into Apprenticeship Learning Environments with LLMs https://doi.org/10.48550/arXiv.2405.12946
 
 ### Syntax Proposal Variant A (Text-based:markup language approach)
 
@@ -652,3 +662,4 @@ A generic example of the transformed instantiations with annotations describing 
 [terrastruct]: https://terrastruct.com/
 
 [Eraser.io Diagram-to-code]: https://www.eraser.io/
+
