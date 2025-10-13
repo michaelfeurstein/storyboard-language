@@ -441,7 +441,7 @@ The following come close to being a *language-based approach* and combine *educa
 
 - **VCML** (2002) Video-based Correction Markup Language: https://doi.org/10.1076/call.15.4.387.8273
 
-- **<e-Tutor>** (2010) Managing the Production and Evolution of e-learning Tools with Attribute Grammars https://doi.org/10.1109/ICALT.2010.124
+- **\<e-Tutor\>** (2010) Managing the Production and Evolution of e-learning Tools with Attribute Grammars https://doi.org/10.1109/ICALT.2010.124
 
 - **L.IVE** (2014) an integrated interactive video-based learning environment. Note it does not state being a DSL (possibly exclude) http://dx.doi.org/10.1145/2556288.2557368
 
@@ -662,4 +662,5 @@ A generic example of the transformed instantiations with annotations describing 
 [terrastruct]: https://terrastruct.com/
 
 [Eraser.io Diagram-to-code]: https://www.eraser.io/
+
 
